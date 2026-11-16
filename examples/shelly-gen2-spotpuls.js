@@ -21,9 +21,16 @@ function updateRelay() {
 }
 
 function scheduleTopOfHour() {
-  let secPastHour = Math.floor(Date.now() / 1000) % 3600;
-  let msToNextHour = (3600 - secPastHour) * 1000 + 5000; // +5s after :00
+  let nowSec = Math.floor(Date.now() / 1000);
+  let jitterMs = 5000 + Math.floor(Math.random() * 20000); // 5–25s after :00 to avoid spikes
+  let msToNextHour = nowSec > 1700000000
+    ? (3600 - (nowSec % 3600)) * 1000 + jitterMs
+    : 60 * 1000; // retry in 60s if NTP clock not synced yet
   Timer.set(msToNextHour, false, function () {
+    if (Math.floor(Date.now() / 1000) <= 1700000000) {
+      scheduleTopOfHour();
+      return;
+    }
     updateRelay();
     Timer.set(60 * 60 * 1000, true, updateRelay);
   });
