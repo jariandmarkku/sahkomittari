@@ -21,19 +21,64 @@ from global_markets_config import (
     render_zone_options_html,
     render_open_api_section_html,
     build_market_schema_graph,
+    render_seo_ai_head_tags,
 )
 
 ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
 
 
 def build_country_page(cid: str, loc: dict) -> str:
-    full_schema = build_market_schema_graph(cid)
+    z_code = loc.get("defaultZone", "FI")
+    z_meta = BIDDING_ZONES.get(z_code, {})
+    exchange_name = z_meta.get("exchange", "Nord Pool / ENTSO-E")
+    pub_h = int(z_meta.get("pubHour", 13))
+    pub_m = int(z_meta.get("pubMin", 0))
+    tz_name = z_meta.get("tz", "Europe/Berlin")
+    zones_str = ", ".join(loc.get("zones", [z_code]))
+    vat_pct = f"{loc.get('vatRate', 0.25) * 100:.1f}".rstrip("0").rstrip(".")
+
+    faq_items = [
+        (
+            f"When are tomorrow's {loc['countryName']} ({z_code}) electricity spot prices published?",
+            f"Day-ahead hourly prices for {loc['countryName']} ({zones_str}) on {exchange_name} are published daily around {pub_h:02d}:{pub_m:02d} ({tz_name}). Spotpuls updates automatically with both VAT-inclusive ({vat_pct} %) and VAT-free prices in {loc['unit']}.",
+        ),
+        (
+            f"How does the Spotpuls 7-day electricity price forecast work for {z_code}?",
+            f"Spotpuls combines a dedicated {z_code} Log-Merit + Hist-GBDT model with 100 m wind speed, solar radiation, temperature, and self-learning NLMS residual correction to forecast 168 hourly prices (including negative price regimes and min-max probability bands).",
+        ),
+        (
+            f"Can I fetch {loc['countryName']} spot prices and 7-day forecasts via a free API?",
+            f"Yes. The open CORS-enabled endpoint https://spotpuls.app/api/v1/prices?zone={z_code}&vat=1 requires no API key and outputs JSON, Home Assistant, Shelly, EVCC, Victron, CSV, iCal, Prometheus, Markdown, and live SVG badges.",
+        ),
+    ]
+    faq_entity = {
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": q,
+                "acceptedAnswer": {"@type": "Answer", "text": a},
+            }
+            for q, a in faq_items
+        ],
+    }
+    faq_html_items = "\n".join(
+        f'''                    <details class="faq-item" open style="border-bottom:1px solid #d8d4c7; padding:10px 0;">
+                        <summary style="font-weight:700; cursor:pointer; font-size:14px;">{html.escape(q)}</summary>
+                        <p style="margin-top:6px; font-size:13.5px; color:#3a3e38; line-height:1.6;">{html.escape(a)}</p>
+                    </details>'''
+        for q, a in faq_items
+    )
+
+    full_schema = build_market_schema_graph(cid, extra_entities=[faq_entity])
     hreflang_html = render_hreflang_tags()
     zone_opts = render_zone_options_html(cid)
     lang_opts = render_language_options_html(cid)
     api_section_html = render_open_api_section_html(cid, prefix="/")
     loc_json = json.dumps({"countryId": cid, **loc}, ensure_ascii=False)
     canonical_url = f"{SITE_URL}{loc['path']}"
+    page_title = f"{loc['brandSubtitle']} — {loc['countryName']} | Spotpuls"
+    seo_ai_tags = render_seo_ai_head_tags(page_title, loc["transferLead"], canonical_url, loc["lang"], z_code)
 
     market_links = " ".join(
         f'<a href="{m["path"]}" style="margin-right:10px;">{html.escape(m["languageLabel"])}</a>'
@@ -45,7 +90,7 @@ def build_country_page(cid: str, loc: dict) -> str:
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spotpuls — {html.escape(loc['brandSubtitle'])} | spotpuls.app</title>
+    <title>{html.escape(page_title)}</title>
     <meta name="description" content="{html.escape(loc['transferLead'])}">
     <meta name="geo.region" content="{loc['geoRegion']}">
     <meta name="content-language" content="{loc['lang']}">
@@ -59,6 +104,7 @@ def build_country_page(cid: str, loc: dict) -> str:
     <script type="application/ld+json">
 {json.dumps(full_schema, ensure_ascii=False, indent=2)}
     </script>
+{seo_ai_tags}
     <script>
     window.ACTIVE_COUNTRY_LOCALE = {loc_json};
     </script>
@@ -237,6 +283,15 @@ def build_country_page(cid: str, loc: dict) -> str:
             </div>
 
 {api_section_html}
+
+            <section class="panel-box" id="faq">
+                <div class="panel-head">
+                    <h2>FAQ — {html.escape(loc['countryName'])} ({html.escape(z_code)})</h2>
+                </div>
+                <div class="panel-body">
+{faq_html_items}
+                </div>
+            </section>
         </div>
     </main>
 
@@ -322,7 +377,7 @@ def build_api_docs_page() -> str:
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spotpuls Open REST API — Day-Ahead Electricity Spot Prices, 7-Day Forecast &amp; Smart-Home Integrations (40 Zones) | spotpuls.app</title>
+    <title>Spotpuls Open REST API — Day-Ahead Electricity Spot Prices &amp; 7-Day Forecast (40 Zones) | Spotpuls</title>
     <meta name="description" content="Free, zero-key, CORS-enabled REST API for live European day-ahead electricity spot prices, 7-day Log-Merit + Hist-GBDT forecasts, and plug-and-play integrations for Home Assistant, Shelly, EVCC, ESPHome, Node-RED, Google Sheets, iCal, Prometheus, and iframe widgets.">
     <link rel="canonical" href="{SITE_URL}/api-docs/" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=37">
@@ -333,6 +388,7 @@ def build_api_docs_page() -> str:
     <script type="application/ld+json">
 {json.dumps(api_schema, ensure_ascii=False, indent=2)}
     </script>
+{render_seo_ai_head_tags("Spotpuls Open REST API — Day-Ahead Electricity Spot Prices & 7-Day Forecast (40 Zones) | Spotpuls", "Free, zero-key, CORS-enabled REST API for live European day-ahead electricity spot prices, 7-day Log-Merit + Hist-GBDT forecasts, and plug-and-play integrations for Home Assistant, Shelly, EVCC, ESPHome, Node-RED, Google Sheets, iCal, Prometheus, and iframe widgets.", f"{SITE_URL}/api-docs/", "en_US", "FI")}
 </head>
 <body>
     <header class="site-header">

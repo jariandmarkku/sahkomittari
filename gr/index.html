@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spotpuls — Χονδρεμπορική τιμή ρεύματος ανά ώρα (Χρηματιστήριο Ενέργειας HEnEx), πρόβλεψη 7 ημερών &amp; χρεώσεις ΔΕΔΔΗΕ | spotpuls.app</title>
-    <meta name="description" content="Τιμή ρεύματος τώρα, σήμερα και αύριο (HEnEx) και αυτοεκπαιδευόμενη πρόβλεψη 7 ημερών για την Ελλάδα. Υπολογιστής χρεώσεων δικτύου ανά Τ.Κ. και δωρεάν ανοιχτό API.">
+    <title>Χονδρεμπορική τιμή ρεύματος ανά ώρα (Χρηματιστήριο Ενέργειας HEnEx), πρόβλεψη 7 ημερών &amp; χρεώσεις ΔΕΔΔΗΕ — Ελλάδα | Spotpuls</title>
+    <meta name="description" content="Εισαγάγετε Τ.Κ. (π.χ. 10552 Αθήνα, 54624 Θεσσαλονίκη, 71202 Ηράκλειο) για υπολογισμό τελικής τιμής.">
     <meta name="geo.region" content="GR">
     <meta name="content-language" content="el-GR">
     <link rel="canonical" href="https://spotpuls.app/gr/" />
@@ -72,6 +72,33 @@
       "alternateName": "spotpuls.app",
       "publisher": {
         "@id": "https://spotpuls.app/#organization"
+      },
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://spotpuls.app/?zone={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://spotpuls.app/gr/#webpage",
+      "url": "https://spotpuls.app/gr/",
+      "name": "Χονδρεμπορική τιμή ρεύματος ανά ώρα (Χρηματιστήριο Ενέργειας HEnEx), πρόβλεψη 7 ημερών & χρεώσεις ΔΕΔΔΗΕ",
+      "description": "Εισαγάγετε Τ.Κ. (π.χ. 10552 Αθήνα, 54624 Θεσσαλονίκη, 71202 Ηράκλειο) για υπολογισμό τελικής τιμής.",
+      "inLanguage": "el-GR",
+      "isPartOf": {
+        "@id": "https://spotpuls.app/#website"
+      },
+      "about": {
+        "@id": "https://spotpuls.app/gr/#dataset"
+      },
+      "speakable": {
+        "@type": "SpeakableSpecification",
+        "cssSelector": [
+          "h1",
+          ".readout-card",
+          "#faq"
+        ]
       }
     },
     {
@@ -80,7 +107,7 @@
       "name": "Spotpuls",
       "alternateName": "spotpuls.app",
       "url": "https://spotpuls.app/gr/",
-      "description": "Τιμή ρεύματος τώρα, σήμερα και αύριο (HEnEx) και αυτοεκπαιδευόμενη πρόβλεψη 7 ημερών για την Ελλάδα. Υπολογιστής χρεώσεων δικτύου ανά Τ.Κ. και δωρεάν ανοιχτό API.",
+      "description": "Χονδρεμπορική τιμή ρεύματος ανά ώρα (Χρηματιστήριο Ενέργειας HEnEx), πρόβλεψη 7 ημερών & χρεώσεις ΔΕΔΔΗΕ",
       "applicationCategory": "UtilitiesApplication",
       "operatingSystem": "Web",
       "inLanguage": "el-GR",
@@ -99,17 +126,35 @@
     {
       "@type": "Dataset",
       "@id": "https://spotpuls.app/gr/#dataset",
-      "name": "Spotpuls — Χονδρεμπορική τιμή ρεύματος ανά ώρα (Χρηματιστήριο Ενέργειας HEnEx), πρόβλεψη 7 ημερών & χρεώσεις ΔΕΔΔΗΕ",
-      "description": "Τιμή ρεύματος τώρα, σήμερα και αύριο (HEnEx) και αυτοεκπαιδευόμενη πρόβλεψη 7 ημερών για την Ελλάδα. Υπολογιστής χρεώσεων δικτύου ανά Τ.Κ. και δωρεάν ανοιχτό API.",
+      "name": "Spotpuls Ελλάδα (GR) Day-Ahead Spot Electricity Prices & 7-Day Hourly Forecast",
+      "description": "Λάβετε ωριαίες τιμές HEnEx Ελλάδας και πρόβλεψη 7 ημερών σε JSON ή CSV για Home Assistant & έξυπνο σπίτι.",
       "url": "https://spotpuls.app/gr/",
       "inLanguage": "el-GR",
       "isAccessibleForFree": true,
       "license": "https://creativecommons.org/licenses/by/4.0/",
       "creator": {
-        "@type": "Organization",
-        "name": "Spotpuls",
-        "url": "https://spotpuls.app"
+        "@id": "https://spotpuls.app/#organization"
       },
+      "keywords": [
+        "electricity spot price",
+        "day-ahead electricity price",
+        "7-day electricity price forecast",
+        "GR",
+        "Ελλάδα",
+        "Nord Pool",
+        "ENTSO-E"
+      ],
+      "variableMeasured": [
+        "Hourly Day-Ahead Electricity Spot Price",
+        "7-Day Hourly Spot Price Forecast",
+        "Conformal Min-Max Price Prediction Interval",
+        "100m Wind Speed & Solar Radiation Impact"
+      ],
+      "isBasedOn": [
+        "https://transparency.entsoe.eu/",
+        "https://www.nordpoolgroup.com/",
+        "https://open-meteo.com/"
+      ],
       "temporalCoverage": "2024-01-01/..",
       "spatialCoverage": {
         "@type": "Place",
@@ -125,6 +170,11 @@
           "@type": "DataDownload",
           "encodingFormat": "text/csv",
           "contentUrl": "https://spotpuls.app/api/v1/prices?zone=GR&vat=1&format=csv"
+        },
+        {
+          "@type": "DataDownload",
+          "encodingFormat": "text/markdown",
+          "contentUrl": "https://spotpuls.app/api/v1/prices?zone=GR&vat=1&format=markdown"
         }
       ]
     },
@@ -132,44 +182,70 @@
       "@type": "WebAPI",
       "@id": "https://spotpuls.app/api/v1/prices#webapi",
       "name": "Spotpuls Open Electricity Spot & 7-Day Forecast API",
-      "description": "Τιμή ρεύματος τώρα, σήμερα και αύριο (HEnEx) και αυτοεκπαιδευόμενη πρόβλεψη 7 ημερών για την Ελλάδα. Υπολογιστής χρεώσεων δικτύου ανά Τ.Κ. και δωρεάν ανοιχτό API.",
+      "description": "Free CORS-enabled REST API for European day-ahead electricity spot prices and self-learning 7-day regional hourly forecasts across 40 bidding zones.",
       "url": "https://spotpuls.app/api/v1/prices",
       "documentation": "https://spotpuls.app/api-docs/",
       "termsOfService": "https://spotpuls.app/api-docs/",
       "provider": {
-        "@type": "Organization",
-        "name": "Spotpuls",
-        "url": "https://spotpuls.app"
-      },
-      "inLanguage": "en"
+        "@id": "https://spotpuls.app/#organization"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "When are tomorrow's Ελλάδα (GR) electricity spot prices published?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Day-ahead hourly prices for Ελλάδα (GR) on HEnEx are published daily around 13:45 (Europe/Athens). Spotpuls updates automatically with both VAT-inclusive (106 %) and VAT-free prices in λεπτά/kWh."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How does the Spotpuls 7-day electricity price forecast work for GR?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Spotpuls combines a dedicated GR Log-Merit + Hist-GBDT model with 100 m wind speed, solar radiation, temperature, and self-learning NLMS residual correction to forecast 168 hourly prices (including negative price regimes and min-max probability bands)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I fetch Ελλάδα spot prices and 7-day forecasts via a free API?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. The open CORS-enabled endpoint https://spotpuls.app/api/v1/prices?zone=GR&vat=1 requires no API key and outputs JSON, Home Assistant, Shelly, EVCC, Victron, CSV, iCal, Prometheus, Markdown, and live SVG badges."
+          }
+        }
+      ]
     }
   ]
 }
-    </script>
-    <script>
-    window.ACTIVE_COUNTRY_LOCALE = {"countryId": "gr", "lang": "el-GR", "hreflang": "el", "path": "/gr/", "languageLabel": "Ελληνικά (GR)", "geoRegion": "GR", "countryName": "Ελλάδα", "defaultZone": "GR", "zones": ["GR"], "unit": "λεπτά/kWh", "currencyMajor": "€", "subunitsPerMajor": 100, "fxFromEurCents": 1.0, "vatRate": 1.06, "vatPctText": "6 %", "defaultMargin": 1.3, "taxInclVat": 1.85, "defaultPostal": "10552", "defaultCity": "Αθήνα", "brandSubtitle": "Χονδρεμπορική τιμή ρεύματος ανά ώρα (Χρηματιστήριο Ενέργειας HEnEx), πρόβλεψη 7 ημερών & χρεώσεις ΔΕΔΔΗΕ", "navChart": "Γράφημα HEnEx", "navTable": "Ωριαίος πίνακας", "navTransfer": "Χρεώσεις ΔΕΔΔΗΕ", "navOptimizer": "Βελτιστοποίηση 36h", "navApi": "Ανοιχτό API", "zoneSelectLabel": "Ζώνη αγοράς", "langSelectLabel": "Χώρα / Γλώσσα", "chartTitle": "Ωριαία τιμή ηλεκτρικής ενέργειας (HEnEx GR) & πρόβλεψη 7 ημερών (λεπτά/kWh)", "hoverHint": "Περάστε τον δείκτη ή πατήστε σε μια μπάρα για την ωριαία τιμή και το εύρος πρόβλεψης.", "tierBasisIntro": "Επίπεδο τιμής (έναντι μέσου όρου 30 ημ.", "tierCheap": "Χαμηλή", "tierNorm": "Κανονική", "tierHigh": "Υψηλή", "legendRange": "Εύρος πρόβλεψης (ελάχ.–μέγ.)", "scrollDownText": "Κύλιση κάτω: ωριαίος πίνακας, ρυθμιζόμενες χρεώσεις ΔΕΔΔΗΕ/ΑΔΜΗΕ, φόρτιση EV & Open API", "approxPrefix": "περ. ", "rangePrefix": "Εύρος", "fixedText": "Επίσημη τιμή HEnEx", "probLabel": "Πιθανότητα", "predWasLabel": "Η πρόβλεψη ήταν", "predShortLabel": "Πρόβλεψη", "pubShortTpl": "Δημ. {date} {time}", "pubFullTpl": "Δημοσίευση τιμής HEnEx: {date} στις {time}", "weekdaysShort": ["Κυρ", "Δευ", "Τρί", "Τετ", "Πέμ", "Παρ", "Σάβ"], "todayWord": "Σήμερα", "tomorrowWord": "Αύριο", "atClockWord": "", "sumNowTitle": "ΤΡΕΧΟΥΣΑ ΩΡΙΑΙΑ ΤΙΜΗ", "sumMinTitle": "ΦΘΗΝΟΤΕΡΗ ΩΡΑ ΣΗΜΕΡΑ", "sumMaxTitle": "ΑΚΡΙΒΟΤΕΡΗ ΩΡΑ ΣΗΜΕΡΑ", "tableHeading": "Ωριαίες τιμές HEnEx Ελλάδας και πρόβλεψη 7 ημερών", "colTime": "Ώρα", "colSpot": "Τιμή HEnEx (λεπτά/kWh)", "colRange": "Πιθανό εύρος", "colTotal": "Τελική τιμή με δίκτυο & ΦΠΑ", "colWeather": "Άνεμος & θερμοκρασία", "transferHeading": "Υπολογιστής Δυναμικού Τιμολογίου (Πορτοκαλί) & Χρεώσεων Δικτύου ΔΕΔΔΗΕ", "transferLead": "Εισαγάγετε Τ.Κ. (π.χ. 10552 Αθήνα, 54624 Θεσσαλονίκη, 71202 Ηράκλειο) για υπολογισμό τελικής τιμής.", "postalLabel": "Τ.Κ. ή πόλη", "postalPlaceholder": "10552, 54624, 26221...", "setBtn": "Εφαρμογή", "tariffLabel": "Χρέωση δικτύου", "tariffGeneral": "Ενιαία χρέωση", "tariffTime": "Ημερήσια / Νυχτερινή", "marginLabel": "Περιθώριο προμηθευτή (λεπτά/kWh)", "vatLabel": "ΦΠΑ Ενέργειας", "vatIncl": "Με ΦΠΑ 6 %", "vatZero": "Χωρίς ΦΠΑ (0 %)", "dsoNetworkKicker": "ΔΙΑΧΕΙΡΙΣΤΗΣ ΔΙΚΤΥΟΥ", "receiptNowTitle": "ΤΕΛΙΚΗ ΤΙΜΗ ΤΩΡΑ", "receiptSpotRow": "Τιμή DAM HEnEx GR", "receiptMarginRow": "Περιθώριο προμηθευτή", "receiptTaxRow": "ΥΚΩ, ΕΤΜΕΑΡ & ΕΦΚ", "receiptTotalRow": "ΣΥΝΟΛΟ ΜΕ ΦΠΑ", "receiptCheapestToday": "Φθηνότερη ώρα σήμερα", "receiptAvgToday": "Μέσος όρος σήμερα", "receiptAvgTomorrow": "Μέσος όρος αύριο", "expectWord": "αναμενόμενη", "optBestWindowTpl": "ΦΘΗΝΟΤΕΡΟ {h}ΩΡΟ ΠΑΡΑΘΥΡΟ (ΕΠΟΜΕΝΕΣ 36 ΩΡΕΣ)", "optDurationLabel": "Διάρκεια", "optKwLabel": "Ισχύς (kW)", "optProbTotalLabel": "Πιθανή τελική τιμή", "optAvgTotalLabel": "Μέση τελική τιμή", "optTransferTaxLabel": "Δίκτυο & τέλη", "optConsumptionLabel": "Κατανάλωση", "optSavedLabel": "Εξοικονόμηση έναντι αιχμής", "apiHeading": "Ανοιχτό API Τιμών Ρεύματος HEnEx & Πρόβλεψης 7 Ημερών (Spotpuls API)", "apiLead": "Λάβετε ωριαίες τιμές HEnEx Ελλάδας και πρόβλεψη 7 ημερών σε JSON ή CSV για Home Assistant & έξυπνο σπίτι.", "apiCopyBtn": "Αντιγραφή URL", "apiCopiedBtn": "Αντιγράφηκε!", "apiDocsBtn": "Τεκμηρίωση API", "apiEmbedLabel": "Ζωντανό σήμα τιμής για την ιστοσελίδα σας", "dsos": [{"id": "deddie_gr", "name": "ΔΕΔΔΗΕ / ΑΔΜΗΕ (Ελληνικό Δίκτυο Διανομής — GR)", "gen": 3.4, "day": 3.9, "night": 2.2, "zone": "GR", "postals": ["1", "2", "3", "4", "5", "6", "7", "8"]}]};
     </script>
     <!-- SPOTPULS_SEO_AI_START -->
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Spotpuls">
-    <meta property="og:title" content="Spotpuls — Χονδρεμπορική τιμή ρεύματος ανά ώρα (Χρηματιστήριο Ενέργειας HEnEx), πρόβλεψη 7 ημερών &amp; χρεώσεις ΔΕΔΔΗΕ | spotpuls.app">
-    <meta property="og:description" content="Τιμή ρεύματος τώρα, σήμερα και αύριο (HEnEx) και αυτοεκπαιδευόμενη πρόβλεψη 7 ημερών για την Ελλάδα. Υπολογιστής χρεώσεων δικτύου ανά Τ.Κ. και δωρεάν ανοιχτό API.">
+    <meta property="og:title" content="Χονδρεμπορική τιμή ρεύματος ανά ώρα (Χρηματιστήριο Ενέργειας HEnEx), πρόβλεψη 7 ημερών &amp; χρεώσεις ΔΕΔΔΗΕ — Ελλάδα | Spotpuls">
+    <meta property="og:description" content="Εισαγάγετε Τ.Κ. (π.χ. 10552 Αθήνα, 54624 Θεσσαλονίκη, 71202 Ηράκλειο) για υπολογισμό τελικής τιμής.">
     <meta property="og:url" content="https://spotpuls.app/gr/">
     <meta property="og:image" content="https://spotpuls.app/og-image.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="Spotpuls — Χονδρεμπορική τιμή ρεύματος ανά ώρα (Χρηματιστήριο Ενέργειας HEnEx), πρόβλεψη 7 ημερών &amp; χρεώσεις ΔΕΔΔΗΕ | spotpuls.app">
+    <meta property="og:image:alt" content="Χονδρεμπορική τιμή ρεύματος ανά ώρα (Χρηματιστήριο Ενέργειας HEnEx), πρόβλεψη 7 ημερών &amp; χρεώσεις ΔΕΔΔΗΕ — Ελλάδα | Spotpuls">
     <meta property="og:locale" content="el_GR">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Spotpuls — Χονδρεμπορική τιμή ρεύματος ανά ώρα (Χρηματιστήριο Ενέργειας HEnEx), πρόβλεψη 7 ημερών &amp; χρεώσεις ΔΕΔΔΗΕ | spotpuls.app">
-    <meta name="twitter:description" content="Τιμή ρεύματος τώρα, σήμερα και αύριο (HEnEx) και αυτοεκπαιδευόμενη πρόβλεψη 7 ημερών για την Ελλάδα. Υπολογιστής χρεώσεων δικτύου ανά Τ.Κ. και δωρεάν ανοιχτό API.">
+    <meta name="twitter:title" content="Χονδρεμπορική τιμή ρεύματος ανά ώρα (Χρηματιστήριο Ενέργειας HEnEx), πρόβλεψη 7 ημερών &amp; χρεώσεις ΔΕΔΔΗΕ — Ελλάδα | Spotpuls">
+    <meta name="twitter:description" content="Εισαγάγετε Τ.Κ. (π.χ. 10552 Αθήνα, 54624 Θεσσαλονίκη, 71202 Ηράκλειο) για υπολογισμό τελικής τιμής.">
     <meta name="twitter:image" content="https://spotpuls.app/og-image.png">
     <link rel="alternate" type="text/markdown" href="https://spotpuls.app/llms.txt" title="Spotpuls LLM &amp; AI Agent Reference">
     <link rel="alternate" type="text/plain" href="https://spotpuls.app/llms-full.txt" title="Spotpuls Full Machine-Readable Knowledge Base">
     <link rel="alternate" type="application/json" href="https://spotpuls.app/api/v1/prices?zone=GR&amp;vat=1" title="Spotpuls GR Live Spot &amp; 7-Day Forecast JSON API">
     <link rel="service-desc" type="application/vnd.oai.openapi+json" href="https://spotpuls.app/openapi.json">
     <!-- SPOTPULS_SEO_AI_END -->
+    <script>
+    window.ACTIVE_COUNTRY_LOCALE = {"countryId": "gr", "lang": "el-GR", "hreflang": "el", "path": "/gr/", "languageLabel": "Ελληνικά (GR)", "geoRegion": "GR", "countryName": "Ελλάδα", "defaultZone": "GR", "zones": ["GR"], "unit": "λεπτά/kWh", "currencyMajor": "€", "subunitsPerMajor": 100, "fxFromEurCents": 1.0, "vatRate": 1.06, "vatPctText": "6 %", "defaultMargin": 1.3, "taxInclVat": 1.85, "defaultPostal": "10552", "defaultCity": "Αθήνα", "brandSubtitle": "Χονδρεμπορική τιμή ρεύματος ανά ώρα (Χρηματιστήριο Ενέργειας HEnEx), πρόβλεψη 7 ημερών & χρεώσεις ΔΕΔΔΗΕ", "navChart": "Γράφημα HEnEx", "navTable": "Ωριαίος πίνακας", "navTransfer": "Χρεώσεις ΔΕΔΔΗΕ", "navOptimizer": "Βελτιστοποίηση 36h", "navApi": "Ανοιχτό API", "zoneSelectLabel": "Ζώνη αγοράς", "langSelectLabel": "Χώρα / Γλώσσα", "chartTitle": "Ωριαία τιμή ηλεκτρικής ενέργειας (HEnEx GR) & πρόβλεψη 7 ημερών (λεπτά/kWh)", "hoverHint": "Περάστε τον δείκτη ή πατήστε σε μια μπάρα για την ωριαία τιμή και το εύρος πρόβλεψης.", "tierBasisIntro": "Επίπεδο τιμής (έναντι μέσου όρου 30 ημ.", "tierCheap": "Χαμηλή", "tierNorm": "Κανονική", "tierHigh": "Υψηλή", "legendRange": "Εύρος πρόβλεψης (ελάχ.–μέγ.)", "scrollDownText": "Κύλιση κάτω: ωριαίος πίνακας, ρυθμιζόμενες χρεώσεις ΔΕΔΔΗΕ/ΑΔΜΗΕ, φόρτιση EV & Open API", "approxPrefix": "περ. ", "rangePrefix": "Εύρος", "fixedText": "Επίσημη τιμή HEnEx", "probLabel": "Πιθανότητα", "predWasLabel": "Η πρόβλεψη ήταν", "predShortLabel": "Πρόβλεψη", "pubShortTpl": "Δημ. {date} {time}", "pubFullTpl": "Δημοσίευση τιμής HEnEx: {date} στις {time}", "weekdaysShort": ["Κυρ", "Δευ", "Τρί", "Τετ", "Πέμ", "Παρ", "Σάβ"], "todayWord": "Σήμερα", "tomorrowWord": "Αύριο", "atClockWord": "", "sumNowTitle": "ΤΡΕΧΟΥΣΑ ΩΡΙΑΙΑ ΤΙΜΗ", "sumMinTitle": "ΦΘΗΝΟΤΕΡΗ ΩΡΑ ΣΗΜΕΡΑ", "sumMaxTitle": "ΑΚΡΙΒΟΤΕΡΗ ΩΡΑ ΣΗΜΕΡΑ", "tableHeading": "Ωριαίες τιμές HEnEx Ελλάδας και πρόβλεψη 7 ημερών", "colTime": "Ώρα", "colSpot": "Τιμή HEnEx (λεπτά/kWh)", "colRange": "Πιθανό εύρος", "colTotal": "Τελική τιμή με δίκτυο & ΦΠΑ", "colWeather": "Άνεμος & θερμοκρασία", "transferHeading": "Υπολογιστής Δυναμικού Τιμολογίου (Πορτοκαλί) & Χρεώσεων Δικτύου ΔΕΔΔΗΕ", "transferLead": "Εισαγάγετε Τ.Κ. (π.χ. 10552 Αθήνα, 54624 Θεσσαλονίκη, 71202 Ηράκλειο) για υπολογισμό τελικής τιμής.", "postalLabel": "Τ.Κ. ή πόλη", "postalPlaceholder": "10552, 54624, 26221...", "setBtn": "Εφαρμογή", "tariffLabel": "Χρέωση δικτύου", "tariffGeneral": "Ενιαία χρέωση", "tariffTime": "Ημερήσια / Νυχτερινή", "marginLabel": "Περιθώριο προμηθευτή (λεπτά/kWh)", "vatLabel": "ΦΠΑ Ενέργειας", "vatIncl": "Με ΦΠΑ 6 %", "vatZero": "Χωρίς ΦΠΑ (0 %)", "dsoNetworkKicker": "ΔΙΑΧΕΙΡΙΣΤΗΣ ΔΙΚΤΥΟΥ", "receiptNowTitle": "ΤΕΛΙΚΗ ΤΙΜΗ ΤΩΡΑ", "receiptSpotRow": "Τιμή DAM HEnEx GR", "receiptMarginRow": "Περιθώριο προμηθευτή", "receiptTaxRow": "ΥΚΩ, ΕΤΜΕΑΡ & ΕΦΚ", "receiptTotalRow": "ΣΥΝΟΛΟ ΜΕ ΦΠΑ", "receiptCheapestToday": "Φθηνότερη ώρα σήμερα", "receiptAvgToday": "Μέσος όρος σήμερα", "receiptAvgTomorrow": "Μέσος όρος αύριο", "expectWord": "αναμενόμενη", "optBestWindowTpl": "ΦΘΗΝΟΤΕΡΟ {h}ΩΡΟ ΠΑΡΑΘΥΡΟ (ΕΠΟΜΕΝΕΣ 36 ΩΡΕΣ)", "optDurationLabel": "Διάρκεια", "optKwLabel": "Ισχύς (kW)", "optProbTotalLabel": "Πιθανή τελική τιμή", "optAvgTotalLabel": "Μέση τελική τιμή", "optTransferTaxLabel": "Δίκτυο & τέλη", "optConsumptionLabel": "Κατανάλωση", "optSavedLabel": "Εξοικονόμηση έναντι αιχμής", "apiHeading": "Ανοιχτό API Τιμών Ρεύματος HEnEx & Πρόβλεψης 7 Ημερών (Spotpuls API)", "apiLead": "Λάβετε ωριαίες τιμές HEnEx Ελλάδας και πρόβλεψη 7 ημερών σε JSON ή CSV για Home Assistant & έξυπνο σπίτι.", "apiCopyBtn": "Αντιγραφή URL", "apiCopiedBtn": "Αντιγράφηκε!", "apiDocsBtn": "Τεκμηρίωση API", "apiEmbedLabel": "Ζωντανό σήμα τιμής για την ιστοσελίδα σας", "dsos": [{"id": "deddie_gr", "name": "ΔΕΔΔΗΕ / ΑΔΜΗΕ (Ελληνικό Δίκτυο Διανομής — GR)", "gen": 3.4, "day": 3.9, "night": 2.2, "zone": "GR", "postals": ["1", "2", "3", "4", "5", "6", "7", "8"]}]};
+    </script>
 </head>
 <body>
     <header class="site-header">
@@ -395,6 +471,26 @@
           - rolling30dAvg</pre>
                         </div>
                     </div>
+                </div>
+            </section>
+
+            <section class="panel-box" id="faq">
+                <div class="panel-head">
+                    <h2>FAQ — Ελλάδα (GR)</h2>
+                </div>
+                <div class="panel-body">
+                    <details class="faq-item" open style="border-bottom:1px solid #d8d4c7; padding:10px 0;">
+                        <summary style="font-weight:700; cursor:pointer; font-size:14px;">When are tomorrow&#x27;s Ελλάδα (GR) electricity spot prices published?</summary>
+                        <p style="margin-top:6px; font-size:13.5px; color:#3a3e38; line-height:1.6;">Day-ahead hourly prices for Ελλάδα (GR) on HEnEx are published daily around 13:45 (Europe/Athens). Spotpuls updates automatically with both VAT-inclusive (106 %) and VAT-free prices in λεπτά/kWh.</p>
+                    </details>
+                    <details class="faq-item" open style="border-bottom:1px solid #d8d4c7; padding:10px 0;">
+                        <summary style="font-weight:700; cursor:pointer; font-size:14px;">How does the Spotpuls 7-day electricity price forecast work for GR?</summary>
+                        <p style="margin-top:6px; font-size:13.5px; color:#3a3e38; line-height:1.6;">Spotpuls combines a dedicated GR Log-Merit + Hist-GBDT model with 100 m wind speed, solar radiation, temperature, and self-learning NLMS residual correction to forecast 168 hourly prices (including negative price regimes and min-max probability bands).</p>
+                    </details>
+                    <details class="faq-item" open style="border-bottom:1px solid #d8d4c7; padding:10px 0;">
+                        <summary style="font-weight:700; cursor:pointer; font-size:14px;">Can I fetch Ελλάδα spot prices and 7-day forecasts via a free API?</summary>
+                        <p style="margin-top:6px; font-size:13.5px; color:#3a3e38; line-height:1.6;">Yes. The open CORS-enabled endpoint https://spotpuls.app/api/v1/prices?zone=GR&amp;vat=1 requires no API key and outputs JSON, Home Assistant, Shelly, EVCC, Victron, CSV, iCal, Prometheus, Markdown, and live SVG badges.</p>
+                    </details>
                 </div>
             </section>
         </div>

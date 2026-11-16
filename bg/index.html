@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spotpuls — Борсови цени на тока по часове (IBEX Ден напред), 7-дневна прогноза и калкулатор за мрежови такси | spotpuls.app</title>
-    <meta name="description" content="Борсова цена на тока сега, днес и утре (IBEX) и самообучаваща се 7-дневна прогноза за България. Калкулатор за мрежови такси по пощенски код и безплатно отворено API.">
+    <title>Борсови цени на тока по часове (IBEX Ден напред), 7-дневна прогноза и калкулатор за мрежови такси — България | Spotpuls</title>
+    <meta name="description" content="Въведете пощенски код (напр. 1000 София, 4000 Пловдив, 9000 Варна), за да изчислите крайната цена.">
     <meta name="geo.region" content="BG">
     <meta name="content-language" content="bg-BG">
     <link rel="canonical" href="https://spotpuls.app/bg/" />
@@ -72,6 +72,33 @@
       "alternateName": "spotpuls.app",
       "publisher": {
         "@id": "https://spotpuls.app/#organization"
+      },
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://spotpuls.app/?zone={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://spotpuls.app/bg/#webpage",
+      "url": "https://spotpuls.app/bg/",
+      "name": "Борсови цени на тока по часове (IBEX Ден напред), 7-дневна прогноза и калкулатор за мрежови такси",
+      "description": "Въведете пощенски код (напр. 1000 София, 4000 Пловдив, 9000 Варна), за да изчислите крайната цена.",
+      "inLanguage": "bg-BG",
+      "isPartOf": {
+        "@id": "https://spotpuls.app/#website"
+      },
+      "about": {
+        "@id": "https://spotpuls.app/bg/#dataset"
+      },
+      "speakable": {
+        "@type": "SpeakableSpecification",
+        "cssSelector": [
+          "h1",
+          ".readout-card",
+          "#faq"
+        ]
       }
     },
     {
@@ -80,7 +107,7 @@
       "name": "Spotpuls",
       "alternateName": "spotpuls.app",
       "url": "https://spotpuls.app/bg/",
-      "description": "Борсова цена на тока сега, днес и утре (IBEX) и самообучаваща се 7-дневна прогноза за България. Калкулатор за мрежови такси по пощенски код и безплатно отворено API.",
+      "description": "Борсови цени на тока по часове (IBEX Ден напред), 7-дневна прогноза и калкулатор за мрежови такси",
       "applicationCategory": "UtilitiesApplication",
       "operatingSystem": "Web",
       "inLanguage": "bg-BG",
@@ -99,17 +126,35 @@
     {
       "@type": "Dataset",
       "@id": "https://spotpuls.app/bg/#dataset",
-      "name": "Spotpuls — Борсови цени на тока по часове (IBEX Ден напред), 7-дневна прогноза и калкулатор за мрежови такси",
-      "description": "Борсова цена на тока сега, днес и утре (IBEX) и самообучаваща се 7-дневна прогноза за България. Калкулатор за мрежови такси по пощенски код и безплатно отворено API.",
+      "name": "Spotpuls България (BG) Day-Ahead Spot Electricity Prices & 7-Day Hourly Forecast",
+      "description": "Вземете почасовите цени от БНЕБ (IBEX) и 7-дневната прогноза в JSON или CSV формат за умен дом.",
       "url": "https://spotpuls.app/bg/",
       "inLanguage": "bg-BG",
       "isAccessibleForFree": true,
       "license": "https://creativecommons.org/licenses/by/4.0/",
       "creator": {
-        "@type": "Organization",
-        "name": "Spotpuls",
-        "url": "https://spotpuls.app"
+        "@id": "https://spotpuls.app/#organization"
       },
+      "keywords": [
+        "electricity spot price",
+        "day-ahead electricity price",
+        "7-day electricity price forecast",
+        "BG",
+        "България",
+        "Nord Pool",
+        "ENTSO-E"
+      ],
+      "variableMeasured": [
+        "Hourly Day-Ahead Electricity Spot Price",
+        "7-Day Hourly Spot Price Forecast",
+        "Conformal Min-Max Price Prediction Interval",
+        "100m Wind Speed & Solar Radiation Impact"
+      ],
+      "isBasedOn": [
+        "https://transparency.entsoe.eu/",
+        "https://www.nordpoolgroup.com/",
+        "https://open-meteo.com/"
+      ],
       "temporalCoverage": "2024-01-01/..",
       "spatialCoverage": {
         "@type": "Place",
@@ -125,6 +170,11 @@
           "@type": "DataDownload",
           "encodingFormat": "text/csv",
           "contentUrl": "https://spotpuls.app/api/v1/prices?zone=BG&vat=1&format=csv"
+        },
+        {
+          "@type": "DataDownload",
+          "encodingFormat": "text/markdown",
+          "contentUrl": "https://spotpuls.app/api/v1/prices?zone=BG&vat=1&format=markdown"
         }
       ]
     },
@@ -132,44 +182,70 @@
       "@type": "WebAPI",
       "@id": "https://spotpuls.app/api/v1/prices#webapi",
       "name": "Spotpuls Open Electricity Spot & 7-Day Forecast API",
-      "description": "Борсова цена на тока сега, днес и утре (IBEX) и самообучаваща се 7-дневна прогноза за България. Калкулатор за мрежови такси по пощенски код и безплатно отворено API.",
+      "description": "Free CORS-enabled REST API for European day-ahead electricity spot prices and self-learning 7-day regional hourly forecasts across 40 bidding zones.",
       "url": "https://spotpuls.app/api/v1/prices",
       "documentation": "https://spotpuls.app/api-docs/",
       "termsOfService": "https://spotpuls.app/api-docs/",
       "provider": {
-        "@type": "Organization",
-        "name": "Spotpuls",
-        "url": "https://spotpuls.app"
-      },
-      "inLanguage": "en"
+        "@id": "https://spotpuls.app/#organization"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "When are tomorrow's България (BG) electricity spot prices published?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Day-ahead hourly prices for България (BG) on IBEX are published daily around 13:45 (Europe/Sofia). Spotpuls updates automatically with both VAT-inclusive (120 %) and VAT-free prices in ст./kWh."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How does the Spotpuls 7-day electricity price forecast work for BG?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Spotpuls combines a dedicated BG Log-Merit + Hist-GBDT model with 100 m wind speed, solar radiation, temperature, and self-learning NLMS residual correction to forecast 168 hourly prices (including negative price regimes and min-max probability bands)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I fetch България spot prices and 7-day forecasts via a free API?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. The open CORS-enabled endpoint https://spotpuls.app/api/v1/prices?zone=BG&vat=1 requires no API key and outputs JSON, Home Assistant, Shelly, EVCC, Victron, CSV, iCal, Prometheus, Markdown, and live SVG badges."
+          }
+        }
+      ]
     }
   ]
 }
-    </script>
-    <script>
-    window.ACTIVE_COUNTRY_LOCALE = {"countryId": "bg", "lang": "bg-BG", "hreflang": "bg", "path": "/bg/", "languageLabel": "Български (BG)", "geoRegion": "BG", "countryName": "България", "defaultZone": "BG", "zones": ["BG"], "unit": "ст./kWh", "currencyMajor": "лв.", "subunitsPerMajor": 100, "fxFromEurCents": 1.9558, "vatRate": 1.2, "vatPctText": "20 %", "defaultMargin": 1.8, "taxInclVat": 0.4, "defaultPostal": "1000", "defaultCity": "София", "brandSubtitle": "Борсови цени на тока по часове (IBEX Ден напред), 7-дневна прогноза и калкулатор за мрежови такси", "navChart": "Графика IBEX", "navTable": "Часова таблица", "navTransfer": "Мрежови такси", "navOptimizer": "Оптимизатор 36 ч", "navApi": "Отворено API", "zoneSelectLabel": "Ценова зона", "langSelectLabel": "Държава / Език", "chartTitle": "Почасова борсова цена на тока (IBEX BG) и 7-дневна прогноза (ст./kWh)", "hoverHint": "Задръжте курсора или докоснете стълб за почасова цена и вероятен диапазон.", "tierBasisIntro": "Ценово ниво (спрямо 30-дневна средна", "tierCheap": "Ниска", "tierNorm": "Нормална", "tierHigh": "Висока", "legendRange": "Прогнозен диапазон (мин–макс)", "scrollDownText": "Превъртете надолу: почасова таблица, мрежови тарифи (ЕРМ Запад, EVN, ЕРП Север), EV и API", "approxPrefix": "около ", "rangePrefix": "Диапазон", "fixedText": "Потвърдена цена IBEX", "probLabel": "Вероятност", "predWasLabel": "Прогнозата беше", "predShortLabel": "Прогноза", "pubShortTpl": "Публ. {date} {time}", "pubFullTpl": "Цената се публикува: {date} в {time} ч.", "weekdaysShort": ["Нед", "Пон", "Вт", "Ср", "Чет", "Пет", "Съб"], "todayWord": "Днес", "tomorrowWord": "Утре", "atClockWord": "в", "sumNowTitle": "ЦЕНА НА ТОКА В МОМЕНТА", "sumMinTitle": "НАЙ-ЕВТИН ЧАС ДНЕС", "sumMaxTitle": "НАЙ-СКЪП ЧАС ДНЕС", "tableHeading": "Почасови борсови цени IBEX и 7-дневна прогноза", "colTime": "Час", "colSpot": "Борсова цена (ст./kWh)", "colRange": "Вероятен диапазон", "colTotal": "Крайна цена с пренос и ДДС", "colWeather": "Вятър и температура", "transferHeading": "Калкулатор за крайна цена на електроенергията и мрежови такси в България", "transferLead": "Въведете пощенски код (напр. 1000 София, 4000 Пловдив, 9000 Варна), за да изчислите крайната цена.", "postalLabel": "Пощенски код или град", "postalPlaceholder": "1000, 4000, 9000...", "setBtn": "Избери", "tariffLabel": "Мрежова тарифа", "tariffGeneral": "Еднотарифна", "tariffTime": "Дневна / Нощна", "marginLabel": "Надценка доставчик (ст./kWh)", "vatLabel": "ДДС", "vatIncl": "С ДДС 20 %", "vatZero": "Без ДДС (0 %)", "dsoNetworkKicker": "ЕРП ДРУЖЕСТВО", "receiptNowTitle": "КРАЙНА ЦЕНА СЕГА", "receiptSpotRow": "Борсова цена IBEX BG", "receiptMarginRow": "Търговска надценка", "receiptTaxRow": "Акциз и задължения към обществото", "receiptTotalRow": "ОБЩО С ДДС", "receiptCheapestToday": "Най-евтин час днес", "receiptAvgToday": "Средна цена днес", "receiptAvgTomorrow": "Средна цена утре", "expectWord": "очаквана", "optBestWindowTpl": "НАЙ-ИЗГОДЕН {h}-ЧАСОВ ПРОЗОРЕЦ (СЛЕДВАЩИ 36 Ч)", "optDurationLabel": "Продължителност", "optKwLabel": "Мощност (kW)", "optProbTotalLabel": "Вероятна крайна цена", "optAvgTotalLabel": "Средна крайна цена", "optTransferTaxLabel": "Мрежа и такси", "optConsumptionLabel": "Консумация", "optSavedLabel": "Спестяване спрямо пика", "apiHeading": "Отворено API за Цени на IBEX и 7-Дневна Прогноза (Spotpuls API)", "apiLead": "Вземете почасовите цени от БНЕБ (IBEX) и 7-дневната прогноза в JSON или CSV формат за умен дом.", "apiCopyBtn": "Копирай URL", "apiCopiedBtn": "Копирано!", "apiDocsBtn": "API документация", "apiEmbedLabel": "Жива значка с цената за вашия сайт", "dsos": [{"id": "erm_evn_erp", "name": "ЕРМ Запад / Електроразпределение Юг (EVN) / ЕРП Север (BG)", "gen": 6.8, "day": 7.6, "night": 3.9, "zone": "BG", "postals": ["1", "2", "3", "4", "5", "6", "7", "8", "9"]}]};
     </script>
     <!-- SPOTPULS_SEO_AI_START -->
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Spotpuls">
-    <meta property="og:title" content="Spotpuls — Борсови цени на тока по часове (IBEX Ден напред), 7-дневна прогноза и калкулатор за мрежови такси | spotpuls.app">
-    <meta property="og:description" content="Борсова цена на тока сега, днес и утре (IBEX) и самообучаваща се 7-дневна прогноза за България. Калкулатор за мрежови такси по пощенски код и безплатно отворено API.">
+    <meta property="og:title" content="Борсови цени на тока по часове (IBEX Ден напред), 7-дневна прогноза и калкулатор за мрежови такси — България | Spotpuls">
+    <meta property="og:description" content="Въведете пощенски код (напр. 1000 София, 4000 Пловдив, 9000 Варна), за да изчислите крайната цена.">
     <meta property="og:url" content="https://spotpuls.app/bg/">
     <meta property="og:image" content="https://spotpuls.app/og-image.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="Spotpuls — Борсови цени на тока по часове (IBEX Ден напред), 7-дневна прогноза и калкулатор за мрежови такси | spotpuls.app">
+    <meta property="og:image:alt" content="Борсови цени на тока по часове (IBEX Ден напред), 7-дневна прогноза и калкулатор за мрежови такси — България | Spotpuls">
     <meta property="og:locale" content="bg_BG">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Spotpuls — Борсови цени на тока по часове (IBEX Ден напред), 7-дневна прогноза и калкулатор за мрежови такси | spotpuls.app">
-    <meta name="twitter:description" content="Борсова цена на тока сега, днес и утре (IBEX) и самообучаваща се 7-дневна прогноза за България. Калкулатор за мрежови такси по пощенски код и безплатно отворено API.">
+    <meta name="twitter:title" content="Борсови цени на тока по часове (IBEX Ден напред), 7-дневна прогноза и калкулатор за мрежови такси — България | Spotpuls">
+    <meta name="twitter:description" content="Въведете пощенски код (напр. 1000 София, 4000 Пловдив, 9000 Варна), за да изчислите крайната цена.">
     <meta name="twitter:image" content="https://spotpuls.app/og-image.png">
     <link rel="alternate" type="text/markdown" href="https://spotpuls.app/llms.txt" title="Spotpuls LLM &amp; AI Agent Reference">
     <link rel="alternate" type="text/plain" href="https://spotpuls.app/llms-full.txt" title="Spotpuls Full Machine-Readable Knowledge Base">
     <link rel="alternate" type="application/json" href="https://spotpuls.app/api/v1/prices?zone=BG&amp;vat=1" title="Spotpuls BG Live Spot &amp; 7-Day Forecast JSON API">
     <link rel="service-desc" type="application/vnd.oai.openapi+json" href="https://spotpuls.app/openapi.json">
     <!-- SPOTPULS_SEO_AI_END -->
+    <script>
+    window.ACTIVE_COUNTRY_LOCALE = {"countryId": "bg", "lang": "bg-BG", "hreflang": "bg", "path": "/bg/", "languageLabel": "Български (BG)", "geoRegion": "BG", "countryName": "България", "defaultZone": "BG", "zones": ["BG"], "unit": "ст./kWh", "currencyMajor": "лв.", "subunitsPerMajor": 100, "fxFromEurCents": 1.9558, "vatRate": 1.2, "vatPctText": "20 %", "defaultMargin": 1.8, "taxInclVat": 0.4, "defaultPostal": "1000", "defaultCity": "София", "brandSubtitle": "Борсови цени на тока по часове (IBEX Ден напред), 7-дневна прогноза и калкулатор за мрежови такси", "navChart": "Графика IBEX", "navTable": "Часова таблица", "navTransfer": "Мрежови такси", "navOptimizer": "Оптимизатор 36 ч", "navApi": "Отворено API", "zoneSelectLabel": "Ценова зона", "langSelectLabel": "Държава / Език", "chartTitle": "Почасова борсова цена на тока (IBEX BG) и 7-дневна прогноза (ст./kWh)", "hoverHint": "Задръжте курсора или докоснете стълб за почасова цена и вероятен диапазон.", "tierBasisIntro": "Ценово ниво (спрямо 30-дневна средна", "tierCheap": "Ниска", "tierNorm": "Нормална", "tierHigh": "Висока", "legendRange": "Прогнозен диапазон (мин–макс)", "scrollDownText": "Превъртете надолу: почасова таблица, мрежови тарифи (ЕРМ Запад, EVN, ЕРП Север), EV и API", "approxPrefix": "около ", "rangePrefix": "Диапазон", "fixedText": "Потвърдена цена IBEX", "probLabel": "Вероятност", "predWasLabel": "Прогнозата беше", "predShortLabel": "Прогноза", "pubShortTpl": "Публ. {date} {time}", "pubFullTpl": "Цената се публикува: {date} в {time} ч.", "weekdaysShort": ["Нед", "Пон", "Вт", "Ср", "Чет", "Пет", "Съб"], "todayWord": "Днес", "tomorrowWord": "Утре", "atClockWord": "в", "sumNowTitle": "ЦЕНА НА ТОКА В МОМЕНТА", "sumMinTitle": "НАЙ-ЕВТИН ЧАС ДНЕС", "sumMaxTitle": "НАЙ-СКЪП ЧАС ДНЕС", "tableHeading": "Почасови борсови цени IBEX и 7-дневна прогноза", "colTime": "Час", "colSpot": "Борсова цена (ст./kWh)", "colRange": "Вероятен диапазон", "colTotal": "Крайна цена с пренос и ДДС", "colWeather": "Вятър и температура", "transferHeading": "Калкулатор за крайна цена на електроенергията и мрежови такси в България", "transferLead": "Въведете пощенски код (напр. 1000 София, 4000 Пловдив, 9000 Варна), за да изчислите крайната цена.", "postalLabel": "Пощенски код или град", "postalPlaceholder": "1000, 4000, 9000...", "setBtn": "Избери", "tariffLabel": "Мрежова тарифа", "tariffGeneral": "Еднотарифна", "tariffTime": "Дневна / Нощна", "marginLabel": "Надценка доставчик (ст./kWh)", "vatLabel": "ДДС", "vatIncl": "С ДДС 20 %", "vatZero": "Без ДДС (0 %)", "dsoNetworkKicker": "ЕРП ДРУЖЕСТВО", "receiptNowTitle": "КРАЙНА ЦЕНА СЕГА", "receiptSpotRow": "Борсова цена IBEX BG", "receiptMarginRow": "Търговска надценка", "receiptTaxRow": "Акциз и задължения към обществото", "receiptTotalRow": "ОБЩО С ДДС", "receiptCheapestToday": "Най-евтин час днес", "receiptAvgToday": "Средна цена днес", "receiptAvgTomorrow": "Средна цена утре", "expectWord": "очаквана", "optBestWindowTpl": "НАЙ-ИЗГОДЕН {h}-ЧАСОВ ПРОЗОРЕЦ (СЛЕДВАЩИ 36 Ч)", "optDurationLabel": "Продължителност", "optKwLabel": "Мощност (kW)", "optProbTotalLabel": "Вероятна крайна цена", "optAvgTotalLabel": "Средна крайна цена", "optTransferTaxLabel": "Мрежа и такси", "optConsumptionLabel": "Консумация", "optSavedLabel": "Спестяване спрямо пика", "apiHeading": "Отворено API за Цени на IBEX и 7-Дневна Прогноза (Spotpuls API)", "apiLead": "Вземете почасовите цени от БНЕБ (IBEX) и 7-дневната прогноза в JSON или CSV формат за умен дом.", "apiCopyBtn": "Копирай URL", "apiCopiedBtn": "Копирано!", "apiDocsBtn": "API документация", "apiEmbedLabel": "Жива значка с цената за вашия сайт", "dsos": [{"id": "erm_evn_erp", "name": "ЕРМ Запад / Електроразпределение Юг (EVN) / ЕРП Север (BG)", "gen": 6.8, "day": 7.6, "night": 3.9, "zone": "BG", "postals": ["1", "2", "3", "4", "5", "6", "7", "8", "9"]}]};
+    </script>
 </head>
 <body>
     <header class="site-header">
@@ -395,6 +471,26 @@
           - rolling30dAvg</pre>
                         </div>
                     </div>
+                </div>
+            </section>
+
+            <section class="panel-box" id="faq">
+                <div class="panel-head">
+                    <h2>FAQ — България (BG)</h2>
+                </div>
+                <div class="panel-body">
+                    <details class="faq-item" open style="border-bottom:1px solid #d8d4c7; padding:10px 0;">
+                        <summary style="font-weight:700; cursor:pointer; font-size:14px;">When are tomorrow&#x27;s България (BG) electricity spot prices published?</summary>
+                        <p style="margin-top:6px; font-size:13.5px; color:#3a3e38; line-height:1.6;">Day-ahead hourly prices for България (BG) on IBEX are published daily around 13:45 (Europe/Sofia). Spotpuls updates automatically with both VAT-inclusive (120 %) and VAT-free prices in ст./kWh.</p>
+                    </details>
+                    <details class="faq-item" open style="border-bottom:1px solid #d8d4c7; padding:10px 0;">
+                        <summary style="font-weight:700; cursor:pointer; font-size:14px;">How does the Spotpuls 7-day electricity price forecast work for BG?</summary>
+                        <p style="margin-top:6px; font-size:13.5px; color:#3a3e38; line-height:1.6;">Spotpuls combines a dedicated BG Log-Merit + Hist-GBDT model with 100 m wind speed, solar radiation, temperature, and self-learning NLMS residual correction to forecast 168 hourly prices (including negative price regimes and min-max probability bands).</p>
+                    </details>
+                    <details class="faq-item" open style="border-bottom:1px solid #d8d4c7; padding:10px 0;">
+                        <summary style="font-weight:700; cursor:pointer; font-size:14px;">Can I fetch България spot prices and 7-day forecasts via a free API?</summary>
+                        <p style="margin-top:6px; font-size:13.5px; color:#3a3e38; line-height:1.6;">Yes. The open CORS-enabled endpoint https://spotpuls.app/api/v1/prices?zone=BG&amp;vat=1 requires no API key and outputs JSON, Home Assistant, Shelly, EVCC, Victron, CSV, iCal, Prometheus, Markdown, and live SVG badges.</p>
+                    </details>
                 </div>
             </section>
         </div>

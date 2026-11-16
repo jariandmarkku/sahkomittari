@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spotpuls — Elpris time for time i DK1 &amp; DK2, 7-døgns prognose og nettarifberegner med postnummer | spotpuls.app</title>
-    <meta name="description" content="Elpris lige nu, i dag og i morgen samt selvlærende 7-døgns prognose for DK1 og DK2. Nettarifberegner med postnummer og gratis åbent API.">
+    <title>Elpris time for time i DK1 &amp; DK2, 7-døgns prognose og nettarifberegner med postnummer — Danmark | Spotpuls</title>
+    <meta name="description" content="Indtast dit 4-cifrede postnummer (f.eks. 1050 København, 8000 Aarhus, 5000 Odense, 9000 Aalborg) for automatisk at finde prisområde (DK1/DK2) og netselskab.">
     <meta name="geo.region" content="DK">
     <meta name="content-language" content="da-DK">
     <link rel="canonical" href="https://spotpuls.app/dk/" />
@@ -72,6 +72,33 @@
       "alternateName": "spotpuls.app",
       "publisher": {
         "@id": "https://spotpuls.app/#organization"
+      },
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://spotpuls.app/?zone={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://spotpuls.app/dk/#webpage",
+      "url": "https://spotpuls.app/dk/",
+      "name": "Elpris time for time i DK1 & DK2, 7-døgns prognose og nettarifberegner med postnummer",
+      "description": "Indtast dit 4-cifrede postnummer (f.eks. 1050 København, 8000 Aarhus, 5000 Odense, 9000 Aalborg) for automatisk at finde prisområde (DK1/DK2) og netselskab.",
+      "inLanguage": "da-DK",
+      "isPartOf": {
+        "@id": "https://spotpuls.app/#website"
+      },
+      "about": {
+        "@id": "https://spotpuls.app/dk/#dataset"
+      },
+      "speakable": {
+        "@type": "SpeakableSpecification",
+        "cssSelector": [
+          "h1",
+          ".readout-card",
+          "#faq"
+        ]
       }
     },
     {
@@ -80,7 +107,7 @@
       "name": "Spotpuls",
       "alternateName": "spotpuls.app",
       "url": "https://spotpuls.app/dk/",
-      "description": "Elpris lige nu, i dag og i morgen samt selvlærende 7-døgns prognose for DK1 og DK2. Nettarifberegner med postnummer og gratis åbent API.",
+      "description": "Elpris time for time i DK1 & DK2, 7-døgns prognose og nettarifberegner med postnummer",
       "applicationCategory": "UtilitiesApplication",
       "operatingSystem": "Web",
       "inLanguage": "da-DK",
@@ -99,17 +126,35 @@
     {
       "@type": "Dataset",
       "@id": "https://spotpuls.app/dk/#dataset",
-      "name": "Spotpuls — Elpris time for time i DK1 & DK2, 7-døgns prognose og nettarifberegner med postnummer",
-      "description": "Elpris lige nu, i dag og i morgen samt selvlærende 7-døgns prognose for DK1 og DK2. Nettarifberegner med postnummer og gratis åbent API.",
+      "name": "Spotpuls Danmark (DK2) Day-Ahead Spot Electricity Prices & 7-Day Hourly Forecast",
+      "description": "Hent timepriser og 7-døgns prognoser for DK1 (Vest) og DK2 (Øst) direkte i Home Assistant, apps eller regneark.",
       "url": "https://spotpuls.app/dk/",
       "inLanguage": "da-DK",
       "isAccessibleForFree": true,
       "license": "https://creativecommons.org/licenses/by/4.0/",
       "creator": {
-        "@type": "Organization",
-        "name": "Spotpuls",
-        "url": "https://spotpuls.app"
+        "@id": "https://spotpuls.app/#organization"
       },
+      "keywords": [
+        "electricity spot price",
+        "day-ahead electricity price",
+        "7-day electricity price forecast",
+        "DK2",
+        "Danmark",
+        "Nord Pool",
+        "ENTSO-E"
+      ],
+      "variableMeasured": [
+        "Hourly Day-Ahead Electricity Spot Price",
+        "7-Day Hourly Spot Price Forecast",
+        "Conformal Min-Max Price Prediction Interval",
+        "100m Wind Speed & Solar Radiation Impact"
+      ],
+      "isBasedOn": [
+        "https://transparency.entsoe.eu/",
+        "https://www.nordpoolgroup.com/",
+        "https://open-meteo.com/"
+      ],
       "temporalCoverage": "2024-01-01/..",
       "spatialCoverage": {
         "@type": "Place",
@@ -125,6 +170,11 @@
           "@type": "DataDownload",
           "encodingFormat": "text/csv",
           "contentUrl": "https://spotpuls.app/api/v1/prices?zone=DK2&vat=1&format=csv"
+        },
+        {
+          "@type": "DataDownload",
+          "encodingFormat": "text/markdown",
+          "contentUrl": "https://spotpuls.app/api/v1/prices?zone=DK2&vat=1&format=markdown"
         }
       ]
     },
@@ -132,44 +182,70 @@
       "@type": "WebAPI",
       "@id": "https://spotpuls.app/api/v1/prices#webapi",
       "name": "Spotpuls Open Electricity Spot & 7-Day Forecast API",
-      "description": "Elpris lige nu, i dag og i morgen samt selvlærende 7-døgns prognose for DK1 og DK2. Nettarifberegner med postnummer og gratis åbent API.",
+      "description": "Free CORS-enabled REST API for European day-ahead electricity spot prices and self-learning 7-day regional hourly forecasts across 40 bidding zones.",
       "url": "https://spotpuls.app/api/v1/prices",
       "documentation": "https://spotpuls.app/api-docs/",
       "termsOfService": "https://spotpuls.app/api-docs/",
       "provider": {
-        "@type": "Organization",
-        "name": "Spotpuls",
-        "url": "https://spotpuls.app"
-      },
-      "inLanguage": "en"
+        "@id": "https://spotpuls.app/#organization"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "When are tomorrow's Danmark (DK2) electricity spot prices published?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Day-ahead hourly prices for Danmark (DK1, DK2) on Nord Pool are published daily around 12:45 (Europe/Copenhagen). Spotpuls updates automatically with both VAT-inclusive (125 %) and VAT-free prices in øre/kWh."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How does the Spotpuls 7-day electricity price forecast work for DK2?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Spotpuls combines a dedicated DK2 Log-Merit + Hist-GBDT model with 100 m wind speed, solar radiation, temperature, and self-learning NLMS residual correction to forecast 168 hourly prices (including negative price regimes and min-max probability bands)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I fetch Danmark spot prices and 7-day forecasts via a free API?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. The open CORS-enabled endpoint https://spotpuls.app/api/v1/prices?zone=DK2&vat=1 requires no API key and outputs JSON, Home Assistant, Shelly, EVCC, Victron, CSV, iCal, Prometheus, Markdown, and live SVG badges."
+          }
+        }
+      ]
     }
   ]
 }
-    </script>
-    <script>
-    window.ACTIVE_COUNTRY_LOCALE = {"countryId": "dk", "lang": "da-DK", "hreflang": "da", "path": "/dk/", "languageLabel": "Dansk (DK)", "geoRegion": "DK", "countryName": "Danmark", "defaultZone": "DK2", "zones": ["DK1", "DK2"], "unit": "øre/kWh", "currencyMajor": "kr.", "subunitsPerMajor": 100, "fxFromEurCents": 7.46, "vatRate": 1.25, "vatPctText": "25 %", "defaultMargin": 4.0, "taxInclVat": 95.13, "defaultPostal": "1050", "defaultCity": "København (DK2)", "brandSubtitle": "Elpris time for time i DK1 & DK2, 7-døgns prognose og nettarifberegner med postnummer", "navChart": "Elprisgraf", "navTable": "Timetabel", "navTransfer": "Nettarifberegner", "navOptimizer": "Forbrugsstyring", "navApi": "Åbent API", "zoneSelectLabel": "Prisområde", "langSelectLabel": "Land / Sprog", "chartTitle": "Spotpris på el og 7-døgns prognose (øre/kWh)", "hoverHint": "Hold musen over eller tryk på en søjle for at se pris og sandsynligt prisinterval.", "tierBasisIntro": "Prisniveau (baseret på 30 d. snitpris", "tierCheap": "Lav pris", "tierNorm": "Normal", "tierHigh": "Høj pris", "legendRange": "Prognosens prisinterval (min–maks)", "scrollDownText": "Rul ned for timetabel, nettarifberegner (Tarifmodel 3.0), forbrugsstyring og åbent API", "approxPrefix": "ca. ", "rangePrefix": "Prisinterval", "fixedText": "Offentliggjort fast pris", "probLabel": "Sandsynlighed", "predWasLabel": "Programmets prognose var", "predShortLabel": "Prognose var", "pubShortTpl": "Offentl. {date} kl. {time}", "pubFullTpl": "Pris offentliggøres: {date} kl. {time}", "weekdaysShort": ["Søn", "Man", "Tir", "Ons", "Tor", "Fre", "Lør"], "todayWord": "I dag", "tomorrowWord": "I morgen", "atClockWord": "kl.", "sumNowTitle": "ELPRIS LIGE NU (AKTUEL TIME)", "sumMinTitle": "DAGENS LAVESTE PRIS", "sumMaxTitle": "DAGENS HØJESTE PRIS", "tableHeading": "Timevis prisestimat og sandsynligt prisinterval (DK1 & DK2)", "colTime": "Klokkeslæt", "colSpot": "Spotpris (estimat / fast)", "colRange": "Sandsynligt prisinterval", "colTotal": "Samlet pris inkl. transport & elafgift", "colWeather": "Vindkraft og temperatur", "transferHeading": "Nettarifberegner (Tarifmodel 3.0) og samlet elpris via postnummer i Danmark", "transferLead": "Indtast dit 4-cifrede postnummer (f.eks. 1050 København, 8000 Aarhus, 5000 Odense, 9000 Aalborg) for automatisk at finde prisområde (DK1/DK2) og netselskab.", "postalLabel": "Postnummer eller by", "postalPlaceholder": "1050, 8000, 5000, 9000...", "setBtn": "Vælg", "tariffLabel": "Nettarif (Tarifmodel 3.0)", "tariffGeneral": "Gennemsnitstarif", "tariffTime": "Tidsdifferentieret (Dag / Nat)", "marginLabel": "Elselskabets tillæg (øre/kWh)", "vatLabel": "Momssats", "vatIncl": "Inkl. moms 25 %", "vatZero": "Ekskl. moms (0 %)", "dsoNetworkKicker": "NETSELSKAB", "receiptNowTitle": "SAMLET ELPRIS NU", "receiptSpotRow": "Spotpris (Nord Pool)", "receiptMarginRow": "Elhandelstillæg", "receiptTaxRow": "Elafgift", "receiptTotalRow": "SAMLET PRIS I ALT", "receiptCheapestToday": "Dagens billigste time", "receiptAvgToday": "Dagens gennemsnit (samlet)", "receiptAvgTomorrow": "Morgendagens gennemsnit (samlet)", "expectWord": "forventet", "optBestWindowTpl": "BILLIGSTE {h}-TIMERS PERIODE (NÆSTE 36 T)", "optDurationLabel": "Varighed", "optKwLabel": "Effekt (kW)", "optProbTotalLabel": "Sandsynlig totalpris", "optAvgTotalLabel": "Gennemsnitlig totalpris", "optTransferTaxLabel": "Nettarif & afgift", "optConsumptionLabel": "Forbrug", "optSavedLabel": "Besparelse ift. dyreste periode", "apiHeading": "Åbent Elpris- og Prognose-API (Spotpuls API)", "apiLead": "Hent timepriser og 7-døgns prognoser for DK1 (Vest) og DK2 (Øst) direkte i Home Assistant, apps eller regneark.", "apiCopyBtn": "Kopiér URL", "apiCopiedBtn": "Kopieret!", "apiDocsBtn": "API-dokumentation", "apiEmbedLabel": "Indlejret live elprismærke til hjemmeside", "dsos": [{"id": "radius", "name": "Radius Elnet (København & Nordsjælland — DK2)", "gen": 42.0, "day": 58.0, "night": 19.5, "zone": "DK2", "postals": ["1", "2", "3"]}, {"id": "cerius", "name": "Cerius (Sjælland & Øerne — DK2)", "gen": 39.5, "day": 54.0, "night": 18.0, "zone": "DK2", "postals": ["4"]}, {"id": "vores_fyn", "name": "Vores Elnet / Energi Fyn (Fyn — DK1)", "gen": 37.5, "day": 51.0, "night": 17.0, "zone": "DK1", "postals": ["5"]}, {"id": "n1", "name": "N1 / Konstant Net / TREFOR (Jylland — DK1)", "gen": 36.0, "day": 49.0, "night": 16.5, "zone": "DK1", "postals": ["6", "7", "8", "9"]}]};
     </script>
     <!-- SPOTPULS_SEO_AI_START -->
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Spotpuls">
-    <meta property="og:title" content="Spotpuls — Elpris time for time i DK1 &amp; DK2, 7-døgns prognose og nettarifberegner med postnummer | spotpuls.app">
-    <meta property="og:description" content="Elpris lige nu, i dag og i morgen samt selvlærende 7-døgns prognose for DK1 og DK2. Nettarifberegner med postnummer og gratis åbent API.">
+    <meta property="og:title" content="Elpris time for time i DK1 &amp; DK2, 7-døgns prognose og nettarifberegner med postnummer — Danmark | Spotpuls">
+    <meta property="og:description" content="Indtast dit 4-cifrede postnummer (f.eks. 1050 København, 8000 Aarhus, 5000 Odense, 9000 Aalborg) for automatisk at finde prisområde (DK1/DK2) og netselskab.">
     <meta property="og:url" content="https://spotpuls.app/dk/">
     <meta property="og:image" content="https://spotpuls.app/og-image.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="Spotpuls — Elpris time for time i DK1 &amp; DK2, 7-døgns prognose og nettarifberegner med postnummer | spotpuls.app">
+    <meta property="og:image:alt" content="Elpris time for time i DK1 &amp; DK2, 7-døgns prognose og nettarifberegner med postnummer — Danmark | Spotpuls">
     <meta property="og:locale" content="da_DK">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Spotpuls — Elpris time for time i DK1 &amp; DK2, 7-døgns prognose og nettarifberegner med postnummer | spotpuls.app">
-    <meta name="twitter:description" content="Elpris lige nu, i dag og i morgen samt selvlærende 7-døgns prognose for DK1 og DK2. Nettarifberegner med postnummer og gratis åbent API.">
+    <meta name="twitter:title" content="Elpris time for time i DK1 &amp; DK2, 7-døgns prognose og nettarifberegner med postnummer — Danmark | Spotpuls">
+    <meta name="twitter:description" content="Indtast dit 4-cifrede postnummer (f.eks. 1050 København, 8000 Aarhus, 5000 Odense, 9000 Aalborg) for automatisk at finde prisområde (DK1/DK2) og netselskab.">
     <meta name="twitter:image" content="https://spotpuls.app/og-image.png">
     <link rel="alternate" type="text/markdown" href="https://spotpuls.app/llms.txt" title="Spotpuls LLM &amp; AI Agent Reference">
     <link rel="alternate" type="text/plain" href="https://spotpuls.app/llms-full.txt" title="Spotpuls Full Machine-Readable Knowledge Base">
     <link rel="alternate" type="application/json" href="https://spotpuls.app/api/v1/prices?zone=DK2&amp;vat=1" title="Spotpuls DK2 Live Spot &amp; 7-Day Forecast JSON API">
     <link rel="service-desc" type="application/vnd.oai.openapi+json" href="https://spotpuls.app/openapi.json">
     <!-- SPOTPULS_SEO_AI_END -->
+    <script>
+    window.ACTIVE_COUNTRY_LOCALE = {"countryId": "dk", "lang": "da-DK", "hreflang": "da", "path": "/dk/", "languageLabel": "Dansk (DK)", "geoRegion": "DK", "countryName": "Danmark", "defaultZone": "DK2", "zones": ["DK1", "DK2"], "unit": "øre/kWh", "currencyMajor": "kr.", "subunitsPerMajor": 100, "fxFromEurCents": 7.46, "vatRate": 1.25, "vatPctText": "25 %", "defaultMargin": 4.0, "taxInclVat": 95.13, "defaultPostal": "1050", "defaultCity": "København (DK2)", "brandSubtitle": "Elpris time for time i DK1 & DK2, 7-døgns prognose og nettarifberegner med postnummer", "navChart": "Elprisgraf", "navTable": "Timetabel", "navTransfer": "Nettarifberegner", "navOptimizer": "Forbrugsstyring", "navApi": "Åbent API", "zoneSelectLabel": "Prisområde", "langSelectLabel": "Land / Sprog", "chartTitle": "Spotpris på el og 7-døgns prognose (øre/kWh)", "hoverHint": "Hold musen over eller tryk på en søjle for at se pris og sandsynligt prisinterval.", "tierBasisIntro": "Prisniveau (baseret på 30 d. snitpris", "tierCheap": "Lav pris", "tierNorm": "Normal", "tierHigh": "Høj pris", "legendRange": "Prognosens prisinterval (min–maks)", "scrollDownText": "Rul ned for timetabel, nettarifberegner (Tarifmodel 3.0), forbrugsstyring og åbent API", "approxPrefix": "ca. ", "rangePrefix": "Prisinterval", "fixedText": "Offentliggjort fast pris", "probLabel": "Sandsynlighed", "predWasLabel": "Programmets prognose var", "predShortLabel": "Prognose var", "pubShortTpl": "Offentl. {date} kl. {time}", "pubFullTpl": "Pris offentliggøres: {date} kl. {time}", "weekdaysShort": ["Søn", "Man", "Tir", "Ons", "Tor", "Fre", "Lør"], "todayWord": "I dag", "tomorrowWord": "I morgen", "atClockWord": "kl.", "sumNowTitle": "ELPRIS LIGE NU (AKTUEL TIME)", "sumMinTitle": "DAGENS LAVESTE PRIS", "sumMaxTitle": "DAGENS HØJESTE PRIS", "tableHeading": "Timevis prisestimat og sandsynligt prisinterval (DK1 & DK2)", "colTime": "Klokkeslæt", "colSpot": "Spotpris (estimat / fast)", "colRange": "Sandsynligt prisinterval", "colTotal": "Samlet pris inkl. transport & elafgift", "colWeather": "Vindkraft og temperatur", "transferHeading": "Nettarifberegner (Tarifmodel 3.0) og samlet elpris via postnummer i Danmark", "transferLead": "Indtast dit 4-cifrede postnummer (f.eks. 1050 København, 8000 Aarhus, 5000 Odense, 9000 Aalborg) for automatisk at finde prisområde (DK1/DK2) og netselskab.", "postalLabel": "Postnummer eller by", "postalPlaceholder": "1050, 8000, 5000, 9000...", "setBtn": "Vælg", "tariffLabel": "Nettarif (Tarifmodel 3.0)", "tariffGeneral": "Gennemsnitstarif", "tariffTime": "Tidsdifferentieret (Dag / Nat)", "marginLabel": "Elselskabets tillæg (øre/kWh)", "vatLabel": "Momssats", "vatIncl": "Inkl. moms 25 %", "vatZero": "Ekskl. moms (0 %)", "dsoNetworkKicker": "NETSELSKAB", "receiptNowTitle": "SAMLET ELPRIS NU", "receiptSpotRow": "Spotpris (Nord Pool)", "receiptMarginRow": "Elhandelstillæg", "receiptTaxRow": "Elafgift", "receiptTotalRow": "SAMLET PRIS I ALT", "receiptCheapestToday": "Dagens billigste time", "receiptAvgToday": "Dagens gennemsnit (samlet)", "receiptAvgTomorrow": "Morgendagens gennemsnit (samlet)", "expectWord": "forventet", "optBestWindowTpl": "BILLIGSTE {h}-TIMERS PERIODE (NÆSTE 36 T)", "optDurationLabel": "Varighed", "optKwLabel": "Effekt (kW)", "optProbTotalLabel": "Sandsynlig totalpris", "optAvgTotalLabel": "Gennemsnitlig totalpris", "optTransferTaxLabel": "Nettarif & afgift", "optConsumptionLabel": "Forbrug", "optSavedLabel": "Besparelse ift. dyreste periode", "apiHeading": "Åbent Elpris- og Prognose-API (Spotpuls API)", "apiLead": "Hent timepriser og 7-døgns prognoser for DK1 (Vest) og DK2 (Øst) direkte i Home Assistant, apps eller regneark.", "apiCopyBtn": "Kopiér URL", "apiCopiedBtn": "Kopieret!", "apiDocsBtn": "API-dokumentation", "apiEmbedLabel": "Indlejret live elprismærke til hjemmeside", "dsos": [{"id": "radius", "name": "Radius Elnet (København & Nordsjælland — DK2)", "gen": 42.0, "day": 58.0, "night": 19.5, "zone": "DK2", "postals": ["1", "2", "3"]}, {"id": "cerius", "name": "Cerius (Sjælland & Øerne — DK2)", "gen": 39.5, "day": 54.0, "night": 18.0, "zone": "DK2", "postals": ["4"]}, {"id": "vores_fyn", "name": "Vores Elnet / Energi Fyn (Fyn — DK1)", "gen": 37.5, "day": 51.0, "night": 17.0, "zone": "DK1", "postals": ["5"]}, {"id": "n1", "name": "N1 / Konstant Net / TREFOR (Jylland — DK1)", "gen": 36.0, "day": 49.0, "night": 16.5, "zone": "DK1", "postals": ["6", "7", "8", "9"]}]};
+    </script>
 </head>
 <body>
     <header class="site-header">
@@ -395,6 +471,26 @@
           - rolling30dAvg</pre>
                         </div>
                     </div>
+                </div>
+            </section>
+
+            <section class="panel-box" id="faq">
+                <div class="panel-head">
+                    <h2>FAQ — Danmark (DK2)</h2>
+                </div>
+                <div class="panel-body">
+                    <details class="faq-item" open style="border-bottom:1px solid #d8d4c7; padding:10px 0;">
+                        <summary style="font-weight:700; cursor:pointer; font-size:14px;">When are tomorrow&#x27;s Danmark (DK2) electricity spot prices published?</summary>
+                        <p style="margin-top:6px; font-size:13.5px; color:#3a3e38; line-height:1.6;">Day-ahead hourly prices for Danmark (DK1, DK2) on Nord Pool are published daily around 12:45 (Europe/Copenhagen). Spotpuls updates automatically with both VAT-inclusive (125 %) and VAT-free prices in øre/kWh.</p>
+                    </details>
+                    <details class="faq-item" open style="border-bottom:1px solid #d8d4c7; padding:10px 0;">
+                        <summary style="font-weight:700; cursor:pointer; font-size:14px;">How does the Spotpuls 7-day electricity price forecast work for DK2?</summary>
+                        <p style="margin-top:6px; font-size:13.5px; color:#3a3e38; line-height:1.6;">Spotpuls combines a dedicated DK2 Log-Merit + Hist-GBDT model with 100 m wind speed, solar radiation, temperature, and self-learning NLMS residual correction to forecast 168 hourly prices (including negative price regimes and min-max probability bands).</p>
+                    </details>
+                    <details class="faq-item" open style="border-bottom:1px solid #d8d4c7; padding:10px 0;">
+                        <summary style="font-weight:700; cursor:pointer; font-size:14px;">Can I fetch Danmark spot prices and 7-day forecasts via a free API?</summary>
+                        <p style="margin-top:6px; font-size:13.5px; color:#3a3e38; line-height:1.6;">Yes. The open CORS-enabled endpoint https://spotpuls.app/api/v1/prices?zone=DK2&amp;vat=1 requires no API key and outputs JSON, Home Assistant, Shelly, EVCC, Victron, CSV, iCal, Prometheus, Markdown, and live SVG badges.</p>
+                    </details>
                 </div>
             </section>
         </div>

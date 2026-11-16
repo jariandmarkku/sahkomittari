@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spotpuls — Spotové ceny elektriny po hodinách (OKTE SK), 7-dňová predpoveď a kalkulačka distribúcie (ZSD, SSD, VSD) | spotpuls.app</title>
-    <meta name="description" content="Spotové ceny elektriny teraz, dnes a zajtra a samoučiaca sa 7-dňová predpoveď pre Slovensko (OKTE). Kalkulačka distribúcie podľa PSČ a bezplatné otvorené API.">
+    <title>Spotové ceny elektriny po hodinách (OKTE SK), 7-dňová predpoveď a kalkulačka distribúcie (ZSD, SSD, VSD) — Slovensko | Spotpuls</title>
+    <meta name="description" content="Zadajte PSČ (napr. 81101 Bratislava, 01001 Žilina, 04001 Košice) pre výber distribučnej spoločnosti.">
     <meta name="geo.region" content="SK">
     <meta name="content-language" content="sk-SK">
     <link rel="canonical" href="https://spotpuls.app/sk/" />
@@ -72,6 +72,33 @@
       "alternateName": "spotpuls.app",
       "publisher": {
         "@id": "https://spotpuls.app/#organization"
+      },
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://spotpuls.app/?zone={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://spotpuls.app/sk/#webpage",
+      "url": "https://spotpuls.app/sk/",
+      "name": "Spotové ceny elektriny po hodinách (OKTE SK), 7-dňová predpoveď a kalkulačka distribúcie (ZSD, SSD, VSD)",
+      "description": "Zadajte PSČ (napr. 81101 Bratislava, 01001 Žilina, 04001 Košice) pre výber distribučnej spoločnosti.",
+      "inLanguage": "sk-SK",
+      "isPartOf": {
+        "@id": "https://spotpuls.app/#website"
+      },
+      "about": {
+        "@id": "https://spotpuls.app/sk/#dataset"
+      },
+      "speakable": {
+        "@type": "SpeakableSpecification",
+        "cssSelector": [
+          "h1",
+          ".readout-card",
+          "#faq"
+        ]
       }
     },
     {
@@ -80,7 +107,7 @@
       "name": "Spotpuls",
       "alternateName": "spotpuls.app",
       "url": "https://spotpuls.app/sk/",
-      "description": "Spotové ceny elektriny teraz, dnes a zajtra a samoučiaca sa 7-dňová predpoveď pre Slovensko (OKTE). Kalkulačka distribúcie podľa PSČ a bezplatné otvorené API.",
+      "description": "Spotové ceny elektriny po hodinách (OKTE SK), 7-dňová predpoveď a kalkulačka distribúcie (ZSD, SSD, VSD)",
       "applicationCategory": "UtilitiesApplication",
       "operatingSystem": "Web",
       "inLanguage": "sk-SK",
@@ -99,17 +126,35 @@
     {
       "@type": "Dataset",
       "@id": "https://spotpuls.app/sk/#dataset",
-      "name": "Spotpuls — Spotové ceny elektriny po hodinách (OKTE SK), 7-dňová predpoveď a kalkulačka distribúcie (ZSD, SSD, VSD)",
-      "description": "Spotové ceny elektriny teraz, dnes a zajtra a samoučiaca sa 7-dňová predpoveď pre Slovensko (OKTE). Kalkulačka distribúcie podľa PSČ a bezplatné otvorené API.",
+      "name": "Spotpuls Slovensko (SK) Day-Ahead Spot Electricity Prices & 7-Day Hourly Forecast",
+      "description": "Hodinové ceny OKTE SK a 7-dňová predpoveď vo formáte JSON alebo CSV pre inteligentnú domácnosť.",
       "url": "https://spotpuls.app/sk/",
       "inLanguage": "sk-SK",
       "isAccessibleForFree": true,
       "license": "https://creativecommons.org/licenses/by/4.0/",
       "creator": {
-        "@type": "Organization",
-        "name": "Spotpuls",
-        "url": "https://spotpuls.app"
+        "@id": "https://spotpuls.app/#organization"
       },
+      "keywords": [
+        "electricity spot price",
+        "day-ahead electricity price",
+        "7-day electricity price forecast",
+        "SK",
+        "Slovensko",
+        "Nord Pool",
+        "ENTSO-E"
+      ],
+      "variableMeasured": [
+        "Hourly Day-Ahead Electricity Spot Price",
+        "7-Day Hourly Spot Price Forecast",
+        "Conformal Min-Max Price Prediction Interval",
+        "100m Wind Speed & Solar Radiation Impact"
+      ],
+      "isBasedOn": [
+        "https://transparency.entsoe.eu/",
+        "https://www.nordpoolgroup.com/",
+        "https://open-meteo.com/"
+      ],
       "temporalCoverage": "2024-01-01/..",
       "spatialCoverage": {
         "@type": "Place",
@@ -125,6 +170,11 @@
           "@type": "DataDownload",
           "encodingFormat": "text/csv",
           "contentUrl": "https://spotpuls.app/api/v1/prices?zone=SK&vat=1&format=csv"
+        },
+        {
+          "@type": "DataDownload",
+          "encodingFormat": "text/markdown",
+          "contentUrl": "https://spotpuls.app/api/v1/prices?zone=SK&vat=1&format=markdown"
         }
       ]
     },
@@ -132,44 +182,70 @@
       "@type": "WebAPI",
       "@id": "https://spotpuls.app/api/v1/prices#webapi",
       "name": "Spotpuls Open Electricity Spot & 7-Day Forecast API",
-      "description": "Spotové ceny elektriny teraz, dnes a zajtra a samoučiaca sa 7-dňová predpoveď pre Slovensko (OKTE). Kalkulačka distribúcie podľa PSČ a bezplatné otvorené API.",
+      "description": "Free CORS-enabled REST API for European day-ahead electricity spot prices and self-learning 7-day regional hourly forecasts across 40 bidding zones.",
       "url": "https://spotpuls.app/api/v1/prices",
       "documentation": "https://spotpuls.app/api-docs/",
       "termsOfService": "https://spotpuls.app/api-docs/",
       "provider": {
-        "@type": "Organization",
-        "name": "Spotpuls",
-        "url": "https://spotpuls.app"
-      },
-      "inLanguage": "en"
+        "@id": "https://spotpuls.app/#organization"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "When are tomorrow's Slovensko (SK) electricity spot prices published?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Day-ahead hourly prices for Slovensko (SK) on OKTE are published daily around 12:45 (Europe/Bratislava). Spotpuls updates automatically with both VAT-inclusive (120 %) and VAT-free prices in ct/kWh."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How does the Spotpuls 7-day electricity price forecast work for SK?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Spotpuls combines a dedicated SK Log-Merit + Hist-GBDT model with 100 m wind speed, solar radiation, temperature, and self-learning NLMS residual correction to forecast 168 hourly prices (including negative price regimes and min-max probability bands)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I fetch Slovensko spot prices and 7-day forecasts via a free API?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. The open CORS-enabled endpoint https://spotpuls.app/api/v1/prices?zone=SK&vat=1 requires no API key and outputs JSON, Home Assistant, Shelly, EVCC, Victron, CSV, iCal, Prometheus, Markdown, and live SVG badges."
+          }
+        }
+      ]
     }
   ]
 }
-    </script>
-    <script>
-    window.ACTIVE_COUNTRY_LOCALE = {"countryId": "sk", "lang": "sk-SK", "hreflang": "sk", "path": "/sk/", "languageLabel": "Slovenčina (SK)", "geoRegion": "SK", "countryName": "Slovensko", "defaultZone": "SK", "zones": ["SK"], "unit": "ct/kWh", "currencyMajor": "€", "subunitsPerMajor": 100, "fxFromEurCents": 1.0, "vatRate": 1.2, "vatPctText": "20 %", "defaultMargin": 0.9, "taxInclVat": 0.16, "defaultPostal": "81101", "defaultCity": "Bratislava", "brandSubtitle": "Spotové ceny elektriny po hodinách (OKTE SK), 7-dňová predpoveď a kalkulačka distribúcie (ZSD, SSD, VSD)", "navChart": "Spotový graf", "navTable": "Hodinová tabuľka", "navTransfer": "Distribúcia", "navOptimizer": "Optimalizátor", "navApi": "Otvorené API", "zoneSelectLabel": "Trhová oblasť", "langSelectLabel": "Krajina / Jazyk", "chartTitle": "Spotová cena elektriny (OKTE SK) a 7-dňová predpoveď (ct/kWh)", "hoverHint": "Prejdite myšou alebo ťuknite na stĺpec pre hodinovú cenu a interval predpovede.", "tierBasisIntro": "Cenová úroveň (voči 30-dňovému priemeru", "tierCheap": "Nízka", "tierNorm": "Bežná", "tierHigh": "Vysoká", "legendRange": "Interval predpovede (min–max)", "scrollDownText": "Posuňte nižšie: hodinová tabuľka, distribučné sadzby ZSD/SSD/VSD, nabíjanie EV a API", "approxPrefix": "cca ", "rangePrefix": "Rozpätie", "fixedText": "Potvrdená cena OKTE", "probLabel": "Pravdepodobnosť", "predWasLabel": "Predpoveď bola", "predShortLabel": "Predpoveď", "pubShortTpl": "Zver. {date} {time}", "pubFullTpl": "Cena zverejnená: {date} o {time}", "weekdaysShort": ["Ne", "Po", "Ut", "St", "Št", "Pi", "So"], "todayWord": "Dnes", "tomorrowWord": "Zajtra", "atClockWord": "o", "sumNowTitle": "SPOTOVÁ CENA TERAZ", "sumMinTitle": "NAJLACNEJŠIA HODINA DNES", "sumMaxTitle": "NAJDRAHŠIA HODINA DNES", "tableHeading": "Hodinové ceny OKTE Slovensko a 7-dňová predpoveď", "colTime": "Hodina", "colSpot": "Spotová cena (ct/kWh)", "colRange": "Pravdepodobné rozpätie", "colTotal": "Celková cena s distribúciou", "colWeather": "Vietor a teplota", "transferHeading": "Kalkulačka koncovej ceny elektriny a distribúcie podľa PSČ na Slovensku", "transferLead": "Zadajte PSČ (napr. 81101 Bratislava, 01001 Žilina, 04001 Košice) pre výber distribučnej spoločnosti.", "postalLabel": "PSČ alebo mesto", "postalPlaceholder": "81101, 01001, 04001...", "setBtn": "Nastaviť", "tariffLabel": "Sadzba distribúcie", "tariffGeneral": "Jednotarifná (DD2)", "tariffTime": "Dvojtarifná VT / NT", "marginLabel": "Marža dodávateľa (ct/kWh)", "vatLabel": "DPH", "vatIncl": "Vrátane DPH 20 %", "vatZero": "Bez DPH (0 %)", "dsoNetworkKicker": "DISTRIBÚCIA", "receiptNowTitle": "KONCOVÁ CENA TERAZ", "receiptSpotRow": "Spot OKTE SK", "receiptMarginRow": "Marža dodávateľa", "receiptTaxRow": "Spotrebná daň & TPS", "receiptTotalRow": "SPOLU S DPH", "receiptCheapestToday": "Najlacnejšia hodina dnes", "receiptAvgToday": "Priemer dnes (spolu)", "receiptAvgTomorrow": "Priemer zajtra (spolu)", "expectWord": "očakávané", "optBestWindowTpl": "NAJLACNEJŠIE {h}H OKNO (NAJBLIŽŠÍCH 36 H)", "optDurationLabel": "Trvanie", "optKwLabel": "Príkon (kW)", "optProbTotalLabel": "Pravdepodobná koncová cena", "optAvgTotalLabel": "Priemerná koncová cena", "optTransferTaxLabel": "Distribúcia a poplatky", "optConsumptionLabel": "Spotreba", "optSavedLabel": "Úspora oproti špičke", "apiHeading": "Otvorené API Spotových Cien OKTE a 7-dňovej Predpovede (Spotpuls API)", "apiLead": "Hodinové ceny OKTE SK a 7-dňová predpoveď vo formáte JSON alebo CSV pre inteligentnú domácnosť.", "apiCopyBtn": "Kopírovať URL", "apiCopiedBtn": "Skopírované!", "apiDocsBtn": "Dokumentácia API", "apiEmbedLabel": "Živý cenový odznak na web", "dsos": [{"id": "zsd", "name": "Západoslovenská distribučná (ZSD — Západ SK)", "gen": 6.2, "day": 7.4, "night": 4.5, "zone": "SK", "postals": ["8", "9"]}, {"id": "ssd", "name": "Stredoslovenská distribučná (SSD — Stred SK)", "gen": 6.5, "day": 7.7, "night": 4.7, "zone": "SK", "postals": ["01", "02", "03", "96", "97", "98"]}, {"id": "vsd", "name": "Východoslovenská distribučná (VSD — Východ SK)", "gen": 6.6, "day": 7.9, "night": 4.8, "zone": "SK", "postals": ["04", "05", "06", "07", "08"]}]};
     </script>
     <!-- SPOTPULS_SEO_AI_START -->
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Spotpuls">
-    <meta property="og:title" content="Spotpuls — Spotové ceny elektriny po hodinách (OKTE SK), 7-dňová predpoveď a kalkulačka distribúcie (ZSD, SSD, VSD) | spotpuls.app">
-    <meta property="og:description" content="Spotové ceny elektriny teraz, dnes a zajtra a samoučiaca sa 7-dňová predpoveď pre Slovensko (OKTE). Kalkulačka distribúcie podľa PSČ a bezplatné otvorené API.">
+    <meta property="og:title" content="Spotové ceny elektriny po hodinách (OKTE SK), 7-dňová predpoveď a kalkulačka distribúcie (ZSD, SSD, VSD) — Slovensko | Spotpuls">
+    <meta property="og:description" content="Zadajte PSČ (napr. 81101 Bratislava, 01001 Žilina, 04001 Košice) pre výber distribučnej spoločnosti.">
     <meta property="og:url" content="https://spotpuls.app/sk/">
     <meta property="og:image" content="https://spotpuls.app/og-image.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="Spotpuls — Spotové ceny elektriny po hodinách (OKTE SK), 7-dňová predpoveď a kalkulačka distribúcie (ZSD, SSD, VSD) | spotpuls.app">
+    <meta property="og:image:alt" content="Spotové ceny elektriny po hodinách (OKTE SK), 7-dňová predpoveď a kalkulačka distribúcie (ZSD, SSD, VSD) — Slovensko | Spotpuls">
     <meta property="og:locale" content="sk_SK">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Spotpuls — Spotové ceny elektriny po hodinách (OKTE SK), 7-dňová predpoveď a kalkulačka distribúcie (ZSD, SSD, VSD) | spotpuls.app">
-    <meta name="twitter:description" content="Spotové ceny elektriny teraz, dnes a zajtra a samoučiaca sa 7-dňová predpoveď pre Slovensko (OKTE). Kalkulačka distribúcie podľa PSČ a bezplatné otvorené API.">
+    <meta name="twitter:title" content="Spotové ceny elektriny po hodinách (OKTE SK), 7-dňová predpoveď a kalkulačka distribúcie (ZSD, SSD, VSD) — Slovensko | Spotpuls">
+    <meta name="twitter:description" content="Zadajte PSČ (napr. 81101 Bratislava, 01001 Žilina, 04001 Košice) pre výber distribučnej spoločnosti.">
     <meta name="twitter:image" content="https://spotpuls.app/og-image.png">
     <link rel="alternate" type="text/markdown" href="https://spotpuls.app/llms.txt" title="Spotpuls LLM &amp; AI Agent Reference">
     <link rel="alternate" type="text/plain" href="https://spotpuls.app/llms-full.txt" title="Spotpuls Full Machine-Readable Knowledge Base">
     <link rel="alternate" type="application/json" href="https://spotpuls.app/api/v1/prices?zone=SK&amp;vat=1" title="Spotpuls SK Live Spot &amp; 7-Day Forecast JSON API">
     <link rel="service-desc" type="application/vnd.oai.openapi+json" href="https://spotpuls.app/openapi.json">
     <!-- SPOTPULS_SEO_AI_END -->
+    <script>
+    window.ACTIVE_COUNTRY_LOCALE = {"countryId": "sk", "lang": "sk-SK", "hreflang": "sk", "path": "/sk/", "languageLabel": "Slovenčina (SK)", "geoRegion": "SK", "countryName": "Slovensko", "defaultZone": "SK", "zones": ["SK"], "unit": "ct/kWh", "currencyMajor": "€", "subunitsPerMajor": 100, "fxFromEurCents": 1.0, "vatRate": 1.2, "vatPctText": "20 %", "defaultMargin": 0.9, "taxInclVat": 0.16, "defaultPostal": "81101", "defaultCity": "Bratislava", "brandSubtitle": "Spotové ceny elektriny po hodinách (OKTE SK), 7-dňová predpoveď a kalkulačka distribúcie (ZSD, SSD, VSD)", "navChart": "Spotový graf", "navTable": "Hodinová tabuľka", "navTransfer": "Distribúcia", "navOptimizer": "Optimalizátor", "navApi": "Otvorené API", "zoneSelectLabel": "Trhová oblasť", "langSelectLabel": "Krajina / Jazyk", "chartTitle": "Spotová cena elektriny (OKTE SK) a 7-dňová predpoveď (ct/kWh)", "hoverHint": "Prejdite myšou alebo ťuknite na stĺpec pre hodinovú cenu a interval predpovede.", "tierBasisIntro": "Cenová úroveň (voči 30-dňovému priemeru", "tierCheap": "Nízka", "tierNorm": "Bežná", "tierHigh": "Vysoká", "legendRange": "Interval predpovede (min–max)", "scrollDownText": "Posuňte nižšie: hodinová tabuľka, distribučné sadzby ZSD/SSD/VSD, nabíjanie EV a API", "approxPrefix": "cca ", "rangePrefix": "Rozpätie", "fixedText": "Potvrdená cena OKTE", "probLabel": "Pravdepodobnosť", "predWasLabel": "Predpoveď bola", "predShortLabel": "Predpoveď", "pubShortTpl": "Zver. {date} {time}", "pubFullTpl": "Cena zverejnená: {date} o {time}", "weekdaysShort": ["Ne", "Po", "Ut", "St", "Št", "Pi", "So"], "todayWord": "Dnes", "tomorrowWord": "Zajtra", "atClockWord": "o", "sumNowTitle": "SPOTOVÁ CENA TERAZ", "sumMinTitle": "NAJLACNEJŠIA HODINA DNES", "sumMaxTitle": "NAJDRAHŠIA HODINA DNES", "tableHeading": "Hodinové ceny OKTE Slovensko a 7-dňová predpoveď", "colTime": "Hodina", "colSpot": "Spotová cena (ct/kWh)", "colRange": "Pravdepodobné rozpätie", "colTotal": "Celková cena s distribúciou", "colWeather": "Vietor a teplota", "transferHeading": "Kalkulačka koncovej ceny elektriny a distribúcie podľa PSČ na Slovensku", "transferLead": "Zadajte PSČ (napr. 81101 Bratislava, 01001 Žilina, 04001 Košice) pre výber distribučnej spoločnosti.", "postalLabel": "PSČ alebo mesto", "postalPlaceholder": "81101, 01001, 04001...", "setBtn": "Nastaviť", "tariffLabel": "Sadzba distribúcie", "tariffGeneral": "Jednotarifná (DD2)", "tariffTime": "Dvojtarifná VT / NT", "marginLabel": "Marža dodávateľa (ct/kWh)", "vatLabel": "DPH", "vatIncl": "Vrátane DPH 20 %", "vatZero": "Bez DPH (0 %)", "dsoNetworkKicker": "DISTRIBÚCIA", "receiptNowTitle": "KONCOVÁ CENA TERAZ", "receiptSpotRow": "Spot OKTE SK", "receiptMarginRow": "Marža dodávateľa", "receiptTaxRow": "Spotrebná daň & TPS", "receiptTotalRow": "SPOLU S DPH", "receiptCheapestToday": "Najlacnejšia hodina dnes", "receiptAvgToday": "Priemer dnes (spolu)", "receiptAvgTomorrow": "Priemer zajtra (spolu)", "expectWord": "očakávané", "optBestWindowTpl": "NAJLACNEJŠIE {h}H OKNO (NAJBLIŽŠÍCH 36 H)", "optDurationLabel": "Trvanie", "optKwLabel": "Príkon (kW)", "optProbTotalLabel": "Pravdepodobná koncová cena", "optAvgTotalLabel": "Priemerná koncová cena", "optTransferTaxLabel": "Distribúcia a poplatky", "optConsumptionLabel": "Spotreba", "optSavedLabel": "Úspora oproti špičke", "apiHeading": "Otvorené API Spotových Cien OKTE a 7-dňovej Predpovede (Spotpuls API)", "apiLead": "Hodinové ceny OKTE SK a 7-dňová predpoveď vo formáte JSON alebo CSV pre inteligentnú domácnosť.", "apiCopyBtn": "Kopírovať URL", "apiCopiedBtn": "Skopírované!", "apiDocsBtn": "Dokumentácia API", "apiEmbedLabel": "Živý cenový odznak na web", "dsos": [{"id": "zsd", "name": "Západoslovenská distribučná (ZSD — Západ SK)", "gen": 6.2, "day": 7.4, "night": 4.5, "zone": "SK", "postals": ["8", "9"]}, {"id": "ssd", "name": "Stredoslovenská distribučná (SSD — Stred SK)", "gen": 6.5, "day": 7.7, "night": 4.7, "zone": "SK", "postals": ["01", "02", "03", "96", "97", "98"]}, {"id": "vsd", "name": "Východoslovenská distribučná (VSD — Východ SK)", "gen": 6.6, "day": 7.9, "night": 4.8, "zone": "SK", "postals": ["04", "05", "06", "07", "08"]}]};
+    </script>
 </head>
 <body>
     <header class="site-header">
@@ -395,6 +471,26 @@
           - rolling30dAvg</pre>
                         </div>
                     </div>
+                </div>
+            </section>
+
+            <section class="panel-box" id="faq">
+                <div class="panel-head">
+                    <h2>FAQ — Slovensko (SK)</h2>
+                </div>
+                <div class="panel-body">
+                    <details class="faq-item" open style="border-bottom:1px solid #d8d4c7; padding:10px 0;">
+                        <summary style="font-weight:700; cursor:pointer; font-size:14px;">When are tomorrow&#x27;s Slovensko (SK) electricity spot prices published?</summary>
+                        <p style="margin-top:6px; font-size:13.5px; color:#3a3e38; line-height:1.6;">Day-ahead hourly prices for Slovensko (SK) on OKTE are published daily around 12:45 (Europe/Bratislava). Spotpuls updates automatically with both VAT-inclusive (120 %) and VAT-free prices in ct/kWh.</p>
+                    </details>
+                    <details class="faq-item" open style="border-bottom:1px solid #d8d4c7; padding:10px 0;">
+                        <summary style="font-weight:700; cursor:pointer; font-size:14px;">How does the Spotpuls 7-day electricity price forecast work for SK?</summary>
+                        <p style="margin-top:6px; font-size:13.5px; color:#3a3e38; line-height:1.6;">Spotpuls combines a dedicated SK Log-Merit + Hist-GBDT model with 100 m wind speed, solar radiation, temperature, and self-learning NLMS residual correction to forecast 168 hourly prices (including negative price regimes and min-max probability bands).</p>
+                    </details>
+                    <details class="faq-item" open style="border-bottom:1px solid #d8d4c7; padding:10px 0;">
+                        <summary style="font-weight:700; cursor:pointer; font-size:14px;">Can I fetch Slovensko spot prices and 7-day forecasts via a free API?</summary>
+                        <p style="margin-top:6px; font-size:13.5px; color:#3a3e38; line-height:1.6;">Yes. The open CORS-enabled endpoint https://spotpuls.app/api/v1/prices?zone=SK&amp;vat=1 requires no API key and outputs JSON, Home Assistant, Shelly, EVCC, Victron, CSV, iCal, Prometheus, Markdown, and live SVG badges.</p>
+                    </details>
                 </div>
             </section>
         </div>

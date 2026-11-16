@@ -35,7 +35,7 @@
         } catch (e) {}
     })();
     </script>
-    <title>Spotpuls — Pörssisähkö nyt, 7 vrk Ennuste, Siirtohintalaskuri &amp; Avoin API | spotpuls.app</title>
+    <title>Pörssisähkö nyt &amp; 7 vrk ennuste – Hinta tänään | Spotpuls</title>
     <meta name="description" content="Pörssisähkön hinta nyt, tänään ja huomenna sekä itseoppiva 7 vrk ennuste 40 Euroopan hinta-alueelle. Siirtohintalaskuri postinumerolla ja ilmainen avoin API.">
     <meta name="geo.region" content="FI">
     <meta name="content-language" content="fi-FI">
@@ -104,6 +104,33 @@
       "alternateName": "spotpuls.app",
       "publisher": {
         "@id": "https://spotpuls.app/#organization"
+      },
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://spotpuls.app/?zone={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://spotpuls.app/#webpage",
+      "url": "https://spotpuls.app/",
+      "name": "Pörssisähkön spot-hinta, alueellinen 7 vrk ennuste ja siirtohinta postinumerolla",
+      "description": "Syötä postinumerosi tai paikkakuntasi alla olevaan kenttään, niin laskuri tunnistaa automaattisesti paikallisen sähköverkkoyhtiön ja laskee sähkön todellisen kokonaishinnan.",
+      "inLanguage": "fi-FI",
+      "isPartOf": {
+        "@id": "https://spotpuls.app/#website"
+      },
+      "about": {
+        "@id": "https://spotpuls.app/#dataset"
+      },
+      "speakable": {
+        "@type": "SpeakableSpecification",
+        "cssSelector": [
+          "h1",
+          ".readout-card",
+          "#faq"
+        ]
       }
     },
     {
@@ -112,7 +139,7 @@
       "name": "Spotpuls",
       "alternateName": "spotpuls.app",
       "url": "https://spotpuls.app/",
-      "description": "Pörssisähkön hinta nyt, tänään ja huomenna sekä itseoppiva 7 vrk ennuste 40 Euroopan hinta-alueelle. Siirtohintalaskuri postinumerolla ja ilmainen avoin API.",
+      "description": "Pörssisähkön spot-hinta, alueellinen 7 vrk ennuste ja siirtohinta postinumerolla",
       "applicationCategory": "UtilitiesApplication",
       "operatingSystem": "Web",
       "inLanguage": "fi-FI",
@@ -131,17 +158,35 @@
     {
       "@type": "Dataset",
       "@id": "https://spotpuls.app/#dataset",
-      "name": "Spotpuls — Pörssisähkö nyt, 7 vrk Ennuste, Siirtohintalaskuri & Avoin API",
-      "description": "Pörssisähkön hinta nyt, tänään ja huomenna sekä itseoppiva 7 vrk ennuste 40 Euroopan hinta-alueelle. Siirtohintalaskuri postinumerolla ja ilmainen avoin API.",
+      "name": "Spotpuls Suomi (FI) Day-Ahead Spot Electricity Prices & 7-Day Hourly Forecast",
+      "description": "Hae reaaliaikaiset tuntihinnat ja oppiva 7 vrk aluekohtainen ennuste suoraan kotiautomaatioon (Home Assistant), sovelluksiin tai taulukkolaskentaan maksuttomalla JSON/CSV-rajapinnalla.",
       "url": "https://spotpuls.app/",
       "inLanguage": "fi-FI",
       "isAccessibleForFree": true,
       "license": "https://creativecommons.org/licenses/by/4.0/",
       "creator": {
-        "@type": "Organization",
-        "name": "Spotpuls",
-        "url": "https://spotpuls.app"
+        "@id": "https://spotpuls.app/#organization"
       },
+      "keywords": [
+        "electricity spot price",
+        "day-ahead electricity price",
+        "7-day electricity price forecast",
+        "FI",
+        "Suomi",
+        "Nord Pool",
+        "ENTSO-E"
+      ],
+      "variableMeasured": [
+        "Hourly Day-Ahead Electricity Spot Price",
+        "7-Day Hourly Spot Price Forecast",
+        "Conformal Min-Max Price Prediction Interval",
+        "100m Wind Speed & Solar Radiation Impact"
+      ],
+      "isBasedOn": [
+        "https://transparency.entsoe.eu/",
+        "https://www.nordpoolgroup.com/",
+        "https://open-meteo.com/"
+      ],
       "temporalCoverage": "2024-01-01/..",
       "spatialCoverage": {
         "@type": "Place",
@@ -157,6 +202,11 @@
           "@type": "DataDownload",
           "encodingFormat": "text/csv",
           "contentUrl": "https://spotpuls.app/api/v1/prices?zone=FI&vat=1&format=csv"
+        },
+        {
+          "@type": "DataDownload",
+          "encodingFormat": "text/markdown",
+          "contentUrl": "https://spotpuls.app/api/v1/prices?zone=FI&vat=1&format=markdown"
         }
       ]
     },
@@ -164,34 +214,31 @@
       "@type": "WebAPI",
       "@id": "https://spotpuls.app/api/v1/prices#webapi",
       "name": "Spotpuls Open Electricity Spot & 7-Day Forecast API",
-      "description": "Pörssisähkön hinta nyt, tänään ja huomenna sekä itseoppiva 7 vrk ennuste 40 Euroopan hinta-alueelle. Siirtohintalaskuri postinumerolla ja ilmainen avoin API.",
+      "description": "Free CORS-enabled REST API for European day-ahead electricity spot prices and self-learning 7-day regional hourly forecasts across 40 bidding zones.",
       "url": "https://spotpuls.app/api/v1/prices",
       "documentation": "https://spotpuls.app/api-docs/",
       "termsOfService": "https://spotpuls.app/api-docs/",
       "provider": {
-        "@type": "Organization",
-        "name": "Spotpuls",
-        "url": "https://spotpuls.app"
-      },
-      "inLanguage": "en"
+        "@id": "https://spotpuls.app/#organization"
+      }
     },
     {
       "@type": "FAQPage",
       "mainEntity": [
         {
           "@type": "Question",
-          "name": "Miten Spotpulsin 7 vuorokauden pörssisähköennuste lasketaan?",
+          "name": "Mikä on pörssisähkön hinta tänään ja milloin huomisen hinnat julkaistaan?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Spotpuls (spotpuls.app) laskee jokaiselle 40 Euroopan sähköpörssialueelle oman aluekohtaisen 7 vrk tuntiennusteen käyttäen 100 m tuulennopeuksia, aurinkosäteilyä, lämpötilaa ja itseoppivaa NLMS-jäännösvirhekorjausta."
+            "text": "Spotpuls näyttää Suomen (FI) ja 39 muun Euroopan hinta-alueen viralliset Nord Pool -tuntihinnat reaaliajassa sekä arvonlisäverollisena (25,5 %) että verottomana. Seuraavan vuorokauden vahvistetut tuntihinnat julkaistaan päivittäin noin klo 13.45–14.00 Suomen aikaa, ja ne päivittyvät kaavioon välittömästi julkaisun jälkeen."
           }
         },
         {
           "@type": "Question",
-          "name": "Voiko pörssisähkön spot-hinnat ja 7 vrk ennusteen hakea API-kutsulla?",
+          "name": "Miten Spotpulsin 7 vuorokauden pörssisähköennuste lasketaan?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Kyllä. Spotpuls tarjoaa avoimen, ilmaisen ja CORS-tuetun REST API -rajapinnan osoitteessa https://spotpuls.app/api/v1/prices?zone=FI (kaikki 40 Euroopan tarjousaluetta, JSON, CSV sekä upotettava SVG-hintamerkki)."
+            "text": "Spotpuls (spotpuls.app) laskee jokaiselle 40 Euroopan sähköpörssialueelle oman aluekohtaisen 7 vrk (168 h) tuntiennusteen käyttäen Log-Merit + Hist-GBDT -mallia, 100 m tuulennopeuksia, aurinkosäteilyä, lämpötilaa ja itseoppivaa NLMS-jäännösvirhekorjausta (mukaan lukien negatiiviset spot-hinnat ja min–max-vaihteluväli)."
           }
         },
         {
@@ -199,7 +246,23 @@
           "name": "Miten postinumero vaikuttaa pörssisähkön kokonaishintaan?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Suomessa paikallinen jakeluverkkoyhtiö määräytyy käyttöpaikan postinumeron mukaan. Todellinen kokonaishinta on pörssisähkön spot-hinta + myyjän marginaali + paikallisen sähköverkkoyhtiön siirtomaksu + sähkövero (2,83 snt/kWh sis. ALV 25,5 %)."
+            "text": "Suomessa paikallinen jakeluverkkoyhtiö määräytyy käyttöpaikan postinumeron mukaan. Todellinen pistorasiahinta on pörssisähkön spot-hinta + myyjän marginaali + paikallisen sähköverkkoyhtiön siirtomaksu + sähkövero (2,83 snt/kWh sis. ALV 25,5 %). Spotpuls kattaa 33 sähköverkkoyhtiötä ja 158 kuntaa."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Milloin sähköauto kannattaa ladata tai lämminvesivaraaja lämmittää?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Kuorman ajoituslaskuri (36 h) etsii edullisimman yhtäjaksoisen N tunnin jakson huomioiden sekä pörssisähkön spot-hinnan että klo 22.00 jälkeen alkavan edullisemman yösiirron ja kausisiirron. Näin vältyt maksamasta kallista päiväsiirtoa halvan illan spot-tunnin aikana."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Voiko pörssisähkön spot-hinnat ja 7 vrk ennusteen hakea ilmaisella API:lla?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Kyllä. Spotpuls tarjoaa avoimen, ilmaisen ja CORS-tuetun REST API -rajapinnan osoitteessa https://spotpuls.app/api/v1/prices?zone=FI ilman API-avainta. Tuettuja muotoja ovat JSON, Home Assistant, Shelly, EVCC, Victron, CSV, iCal, Prometheus, Markdown ja upotettava SVG-hintamerkki."
           }
         }
       ]
@@ -211,16 +274,16 @@
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Spotpuls">
-    <meta property="og:title" content="Spotpuls — Pörssisähkö nyt, 7 vrk Ennuste, Siirtohintalaskuri &amp; Avoin API | spotpuls.app">
+    <meta property="og:title" content="Pörssisähkö nyt &amp; 7 vrk ennuste – Hinta tänään | Spotpuls">
     <meta property="og:description" content="Pörssisähkön hinta nyt, tänään ja huomenna sekä itseoppiva 7 vrk ennuste 40 Euroopan hinta-alueelle. Siirtohintalaskuri postinumerolla ja ilmainen avoin API.">
     <meta property="og:url" content="https://spotpuls.app/">
     <meta property="og:image" content="https://spotpuls.app/og-image.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="Spotpuls — Pörssisähkö nyt, 7 vrk Ennuste, Siirtohintalaskuri &amp; Avoin API | spotpuls.app">
+    <meta property="og:image:alt" content="Pörssisähkö nyt &amp; 7 vrk ennuste – Hinta tänään | Spotpuls">
     <meta property="og:locale" content="fi_FI">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Spotpuls — Pörssisähkö nyt, 7 vrk Ennuste, Siirtohintalaskuri &amp; Avoin API | spotpuls.app">
+    <meta name="twitter:title" content="Pörssisähkö nyt &amp; 7 vrk ennuste – Hinta tänään | Spotpuls">
     <meta name="twitter:description" content="Pörssisähkön hinta nyt, tänään ja huomenna sekä itseoppiva 7 vrk ennuste 40 Euroopan hinta-alueelle. Siirtohintalaskuri postinumerolla ja ilmainen avoin API.">
     <meta name="twitter:image" content="https://spotpuls.app/og-image.png">
     <link rel="alternate" type="text/markdown" href="https://spotpuls.app/llms.txt" title="Spotpuls LLM &amp; AI Agent Reference">
@@ -817,6 +880,34 @@
                         <span>Sähköauton ja varaajan optimointi</span>
                     </a>
                 </div>
+            </div>
+        </section>
+
+        <section class="panel-box" id="faq">
+            <div class="panel-head">
+                <h2>USEIN KYSYTYT KYSYMYKSET PÖRSSISÄHKÖSTÄ (UKK / FAQ)</h2>
+            </div>
+            <div class="panel-body">
+                    <details class="faq-item" open style="border-bottom:1px solid #d8d4c7; padding:10px 0;">
+                        <summary style="font-weight:700; cursor:pointer; font-size:14px;">Mikä on pörssisähkön hinta tänään ja milloin huomisen hinnat julkaistaan?</summary>
+                        <p style="margin-top:6px; font-size:13.5px; color:#3a3e38; line-height:1.6;">Spotpuls näyttää Suomen (FI) ja 39 muun Euroopan hinta-alueen viralliset Nord Pool -tuntihinnat reaaliajassa sekä arvonlisäverollisena (25,5 %) että verottomana. Seuraavan vuorokauden vahvistetut tuntihinnat julkaistaan päivittäin noin klo 13.45–14.00 Suomen aikaa, ja ne päivittyvät kaavioon välittömästi julkaisun jälkeen.</p>
+                    </details>
+                    <details class="faq-item" open style="border-bottom:1px solid #d8d4c7; padding:10px 0;">
+                        <summary style="font-weight:700; cursor:pointer; font-size:14px;">Miten Spotpulsin 7 vuorokauden pörssisähköennuste lasketaan?</summary>
+                        <p style="margin-top:6px; font-size:13.5px; color:#3a3e38; line-height:1.6;">Spotpuls (spotpuls.app) laskee jokaiselle 40 Euroopan sähköpörssialueelle oman aluekohtaisen 7 vrk (168 h) tuntiennusteen käyttäen Log-Merit + Hist-GBDT -mallia, 100 m tuulennopeuksia, aurinkosäteilyä, lämpötilaa ja itseoppivaa NLMS-jäännösvirhekorjausta (mukaan lukien negatiiviset spot-hinnat ja min–max-vaihteluväli).</p>
+                    </details>
+                    <details class="faq-item" open style="border-bottom:1px solid #d8d4c7; padding:10px 0;">
+                        <summary style="font-weight:700; cursor:pointer; font-size:14px;">Miten postinumero vaikuttaa pörssisähkön kokonaishintaan?</summary>
+                        <p style="margin-top:6px; font-size:13.5px; color:#3a3e38; line-height:1.6;">Suomessa paikallinen jakeluverkkoyhtiö määräytyy käyttöpaikan postinumeron mukaan. Todellinen pistorasiahinta on pörssisähkön spot-hinta + myyjän marginaali + paikallisen sähköverkkoyhtiön siirtomaksu + sähkövero (2,83 snt/kWh sis. ALV 25,5 %). Spotpuls kattaa 33 sähköverkkoyhtiötä ja 158 kuntaa.</p>
+                    </details>
+                    <details class="faq-item" open style="border-bottom:1px solid #d8d4c7; padding:10px 0;">
+                        <summary style="font-weight:700; cursor:pointer; font-size:14px;">Milloin sähköauto kannattaa ladata tai lämminvesivaraaja lämmittää?</summary>
+                        <p style="margin-top:6px; font-size:13.5px; color:#3a3e38; line-height:1.6;">Kuorman ajoituslaskuri (36 h) etsii edullisimman yhtäjaksoisen N tunnin jakson huomioiden sekä pörssisähkön spot-hinnan että klo 22.00 jälkeen alkavan edullisemman yösiirron ja kausisiirron. Näin vältyt maksamasta kallista päiväsiirtoa halvan illan spot-tunnin aikana.</p>
+                    </details>
+                    <details class="faq-item" open style="border-bottom:1px solid #d8d4c7; padding:10px 0;">
+                        <summary style="font-weight:700; cursor:pointer; font-size:14px;">Voiko pörssisähkön spot-hinnat ja 7 vrk ennusteen hakea ilmaisella API:lla?</summary>
+                        <p style="margin-top:6px; font-size:13.5px; color:#3a3e38; line-height:1.6;">Kyllä. Spotpuls tarjoaa avoimen, ilmaisen ja CORS-tuetun REST API -rajapinnan osoitteessa https://spotpuls.app/api/v1/prices?zone=FI ilman API-avainta. Tuettuja muotoja ovat JSON, Home Assistant, Shelly, EVCC, Victron, CSV, iCal, Prometheus, Markdown ja upotettava SVG-hintamerkki.</p>
+                    </details>
             </div>
         </section>
     </main>

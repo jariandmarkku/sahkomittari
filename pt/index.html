@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spotpuls — Preço indexado da eletricidade hora a hora (OMIE PT), previsão a 7 dias e calculadora TAR E-REDES | spotpuls.app</title>
-    <meta name="description" content="Preço da eletricidade agora, hoje e amanhã (OMIE PT) com previsão autoaprendente a 7 dias. Calculadora de tarifas de acesso por código postal e API aberta gratuita.">
+    <title>Preço indexado da eletricidade hora a hora (OMIE PT), previsão a 7 dias e calculadora TAR E-REDES — Portugal | Spotpuls</title>
+    <meta name="description" content="Introduza o seu código postal (ex. 1100 Lisboa, 4000 Porto, 3000 Coimbra, 8000 Faro) para calcular o tarifário indexado completo.">
     <meta name="geo.region" content="PT">
     <meta name="content-language" content="pt-PT">
     <link rel="canonical" href="https://spotpuls.app/pt/" />
@@ -72,6 +72,33 @@
       "alternateName": "spotpuls.app",
       "publisher": {
         "@id": "https://spotpuls.app/#organization"
+      },
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://spotpuls.app/?zone={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://spotpuls.app/pt/#webpage",
+      "url": "https://spotpuls.app/pt/",
+      "name": "Preço indexado da eletricidade hora a hora (OMIE PT), previsão a 7 dias e calculadora TAR E-REDES",
+      "description": "Introduza o seu código postal (ex. 1100 Lisboa, 4000 Porto, 3000 Coimbra, 8000 Faro) para calcular o tarifário indexado completo.",
+      "inLanguage": "pt-PT",
+      "isPartOf": {
+        "@id": "https://spotpuls.app/#website"
+      },
+      "about": {
+        "@id": "https://spotpuls.app/pt/#dataset"
+      },
+      "speakable": {
+        "@type": "SpeakableSpecification",
+        "cssSelector": [
+          "h1",
+          ".readout-card",
+          "#faq"
+        ]
       }
     },
     {
@@ -80,7 +107,7 @@
       "name": "Spotpuls",
       "alternateName": "spotpuls.app",
       "url": "https://spotpuls.app/pt/",
-      "description": "Preço da eletricidade agora, hoje e amanhã (OMIE PT) com previsão autoaprendente a 7 dias. Calculadora de tarifas de acesso por código postal e API aberta gratuita.",
+      "description": "Preço indexado da eletricidade hora a hora (OMIE PT), previsão a 7 dias e calculadora TAR E-REDES",
       "applicationCategory": "UtilitiesApplication",
       "operatingSystem": "Web",
       "inLanguage": "pt-PT",
@@ -99,17 +126,35 @@
     {
       "@type": "Dataset",
       "@id": "https://spotpuls.app/pt/#dataset",
-      "name": "Spotpuls — Preço indexado da eletricidade hora a hora (OMIE PT), previsão a 7 dias e calculadora TAR E-REDES",
-      "description": "Preço da eletricidade agora, hoje e amanhã (OMIE PT) com previsão autoaprendente a 7 dias. Calculadora de tarifas de acesso por código postal e API aberta gratuita.",
+      "name": "Spotpuls Portugal (PT) Day-Ahead Spot Electricity Prices & 7-Day Hourly Forecast",
+      "description": "Obtenha os preços horários OMIE PT e a previsão a 7 dias em JSON ou CSV para Home Assistant e automação.",
       "url": "https://spotpuls.app/pt/",
       "inLanguage": "pt-PT",
       "isAccessibleForFree": true,
       "license": "https://creativecommons.org/licenses/by/4.0/",
       "creator": {
-        "@type": "Organization",
-        "name": "Spotpuls",
-        "url": "https://spotpuls.app"
+        "@id": "https://spotpuls.app/#organization"
       },
+      "keywords": [
+        "electricity spot price",
+        "day-ahead electricity price",
+        "7-day electricity price forecast",
+        "PT",
+        "Portugal",
+        "Nord Pool",
+        "ENTSO-E"
+      ],
+      "variableMeasured": [
+        "Hourly Day-Ahead Electricity Spot Price",
+        "7-Day Hourly Spot Price Forecast",
+        "Conformal Min-Max Price Prediction Interval",
+        "100m Wind Speed & Solar Radiation Impact"
+      ],
+      "isBasedOn": [
+        "https://transparency.entsoe.eu/",
+        "https://www.nordpoolgroup.com/",
+        "https://open-meteo.com/"
+      ],
       "temporalCoverage": "2024-01-01/..",
       "spatialCoverage": {
         "@type": "Place",
@@ -125,6 +170,11 @@
           "@type": "DataDownload",
           "encodingFormat": "text/csv",
           "contentUrl": "https://spotpuls.app/api/v1/prices?zone=PT&vat=1&format=csv"
+        },
+        {
+          "@type": "DataDownload",
+          "encodingFormat": "text/markdown",
+          "contentUrl": "https://spotpuls.app/api/v1/prices?zone=PT&vat=1&format=markdown"
         }
       ]
     },
@@ -132,44 +182,70 @@
       "@type": "WebAPI",
       "@id": "https://spotpuls.app/api/v1/prices#webapi",
       "name": "Spotpuls Open Electricity Spot & 7-Day Forecast API",
-      "description": "Preço da eletricidade agora, hoje e amanhã (OMIE PT) com previsão autoaprendente a 7 dias. Calculadora de tarifas de acesso por código postal e API aberta gratuita.",
+      "description": "Free CORS-enabled REST API for European day-ahead electricity spot prices and self-learning 7-day regional hourly forecasts across 40 bidding zones.",
       "url": "https://spotpuls.app/api/v1/prices",
       "documentation": "https://spotpuls.app/api-docs/",
       "termsOfService": "https://spotpuls.app/api-docs/",
       "provider": {
-        "@type": "Organization",
-        "name": "Spotpuls",
-        "url": "https://spotpuls.app"
-      },
-      "inLanguage": "en"
+        "@id": "https://spotpuls.app/#organization"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "When are tomorrow's Portugal (PT) electricity spot prices published?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Day-ahead hourly prices for Portugal (PT) on OMIE are published daily around 11:45 (Europe/Lisbon). Spotpuls updates automatically with both VAT-inclusive (123 %) and VAT-free prices in cênt./kWh."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How does the Spotpuls 7-day electricity price forecast work for PT?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Spotpuls combines a dedicated PT Log-Merit + Hist-GBDT model with 100 m wind speed, solar radiation, temperature, and self-learning NLMS residual correction to forecast 168 hourly prices (including negative price regimes and min-max probability bands)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I fetch Portugal spot prices and 7-day forecasts via a free API?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. The open CORS-enabled endpoint https://spotpuls.app/api/v1/prices?zone=PT&vat=1 requires no API key and outputs JSON, Home Assistant, Shelly, EVCC, Victron, CSV, iCal, Prometheus, Markdown, and live SVG badges."
+          }
+        }
+      ]
     }
   ]
 }
-    </script>
-    <script>
-    window.ACTIVE_COUNTRY_LOCALE = {"countryId": "pt", "lang": "pt-PT", "hreflang": "pt", "path": "/pt/", "languageLabel": "Português (PT)", "geoRegion": "PT", "countryName": "Portugal", "defaultZone": "PT", "zones": ["PT"], "unit": "cênt./kWh", "currencyMajor": "€", "subunitsPerMajor": 100, "fxFromEurCents": 1.0, "vatRate": 1.23, "vatPctText": "23 %", "defaultMargin": 1.0, "taxInclVat": 0.45, "defaultPostal": "1100", "defaultCity": "Lisboa", "brandSubtitle": "Preço indexado da eletricidade hora a hora (OMIE PT), previsão a 7 dias e calculadora TAR E-REDES", "navChart": "Gráfico OMIE", "navTable": "Tabela horária", "navTransfer": "Tarifas de Acesso", "navOptimizer": "Otimizador 36 h", "navApi": "API Aberta", "zoneSelectLabel": "Zona MIBEL", "langSelectLabel": "País / Idioma", "chartTitle": "Preço spot da eletricidade em Portugal (OMIE) e previsão a 7 dias (cênt./kWh)", "hoverHint": "Passe o rato ou toque numa barra para ver o preço horário e o intervalo provável.", "tierBasisIntro": "Nível de preço (média 30 dias", "tierCheap": "Baixo", "tierNorm": "Normal", "tierHigh": "Elevado", "legendRange": "Intervalo de previsão (mín–máx)", "scrollDownText": "Deslize para baixo: tabela horária, calculadora TAR E-REDES, carregamento VE e API REST", "approxPrefix": "aprox. ", "rangePrefix": "Intervalo", "fixedText": "Preço OMIE confirmado", "probLabel": "Probabilidade", "predWasLabel": "A previsão era", "predShortLabel": "Previsão", "pubShortTpl": "Publ. {date} {time}", "pubFullTpl": "Preço publicado: {date} às {time}", "weekdaysShort": ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"], "todayWord": "Hoje", "tomorrowWord": "Amanhã", "atClockWord": "às", "sumNowTitle": "PREÇO DA ELETRICIDADE AGORA", "sumMinTitle": "HORA MAIS BARATA HOJE", "sumMaxTitle": "HORA MAIS CARA HOJE", "tableHeading": "Preço horário OMIE Portugal e previsão a 7 dias", "colTime": "Hora", "colSpot": "Preço Spot (previsão / OMIE)", "colRange": "Intervalo provável", "colTotal": "Preço total c/ TAR e IVA", "colWeather": "Vento e temperatura", "transferHeading": "Calculadora de Tarifas de Acesso às Redes (TAR — E-REDES) em Portugal", "transferLead": "Introduza o seu código postal (ex. 1100 Lisboa, 4000 Porto, 3000 Coimbra, 8000 Faro) para calcular o tarifário indexado completo.", "postalLabel": "Código postal ou cidade", "postalPlaceholder": "1100, 4000, 3000...", "setBtn": "Aplicar", "tariffLabel": "Opção Horária TAR", "tariffGeneral": "Tarifa Simples", "tariffTime": "Bi-Horária (Fora de Vazio / Vazio)", "marginLabel": "Margem comercializador (cênt./kWh)", "vatLabel": "IVA", "vatIncl": "Com IVA 23 %", "vatZero": "Sem IVA (0 %)", "dsoNetworkKicker": "OPERADOR DE REDE", "receiptNowTitle": "PREÇO TOTAL AGORA", "receiptSpotRow": "Spot OMIE PT", "receiptMarginRow": "Margem comercializador", "receiptTaxRow": "IEC e taxas", "receiptTotalRow": "TOTAL COM IVA", "receiptCheapestToday": "Hora mais barata hoje", "receiptAvgToday": "Média de hoje (total)", "receiptAvgTomorrow": "Média de amanhã (total)", "expectWord": "esperado", "optBestWindowTpl": "JANELA DE {h} H MAIS BARATA (PRÓXIMAS 36 H)", "optDurationLabel": "Duração", "optKwLabel": "Potência (kW)", "optProbTotalLabel": "Preço total provável", "optAvgTotalLabel": "Preço médio total", "optTransferTaxLabel": "TAR e impostos", "optConsumptionLabel": "Consumo", "optSavedLabel": "Poupança face ao período mais caro", "apiHeading": "API Aberta Preço OMIE Portugal e Previsão 7 Dias (Spotpuls API)", "apiLead": "Obtenha os preços horários OMIE PT e a previsão a 7 dias em JSON ou CSV para Home Assistant e automação.", "apiCopyBtn": "Copiar URL", "apiCopiedBtn": "Copiado!", "apiDocsBtn": "Documentação API", "apiEmbedLabel": "Selo de preço em tempo real para websites", "dsos": [{"id": "eredes", "name": "E-REDES — Distribuição de Eletricidade (Portugal Continental)", "gen": 3.65, "day": 5.1, "night": 1.45, "zone": "PT", "postals": ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]}]};
     </script>
     <!-- SPOTPULS_SEO_AI_START -->
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Spotpuls">
-    <meta property="og:title" content="Spotpuls — Preço indexado da eletricidade hora a hora (OMIE PT), previsão a 7 dias e calculadora TAR E-REDES | spotpuls.app">
-    <meta property="og:description" content="Preço da eletricidade agora, hoje e amanhã (OMIE PT) com previsão autoaprendente a 7 dias. Calculadora de tarifas de acesso por código postal e API aberta gratuita.">
+    <meta property="og:title" content="Preço indexado da eletricidade hora a hora (OMIE PT), previsão a 7 dias e calculadora TAR E-REDES — Portugal | Spotpuls">
+    <meta property="og:description" content="Introduza o seu código postal (ex. 1100 Lisboa, 4000 Porto, 3000 Coimbra, 8000 Faro) para calcular o tarifário indexado completo.">
     <meta property="og:url" content="https://spotpuls.app/pt/">
     <meta property="og:image" content="https://spotpuls.app/og-image.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="Spotpuls — Preço indexado da eletricidade hora a hora (OMIE PT), previsão a 7 dias e calculadora TAR E-REDES | spotpuls.app">
+    <meta property="og:image:alt" content="Preço indexado da eletricidade hora a hora (OMIE PT), previsão a 7 dias e calculadora TAR E-REDES — Portugal | Spotpuls">
     <meta property="og:locale" content="pt_PT">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Spotpuls — Preço indexado da eletricidade hora a hora (OMIE PT), previsão a 7 dias e calculadora TAR E-REDES | spotpuls.app">
-    <meta name="twitter:description" content="Preço da eletricidade agora, hoje e amanhã (OMIE PT) com previsão autoaprendente a 7 dias. Calculadora de tarifas de acesso por código postal e API aberta gratuita.">
+    <meta name="twitter:title" content="Preço indexado da eletricidade hora a hora (OMIE PT), previsão a 7 dias e calculadora TAR E-REDES — Portugal | Spotpuls">
+    <meta name="twitter:description" content="Introduza o seu código postal (ex. 1100 Lisboa, 4000 Porto, 3000 Coimbra, 8000 Faro) para calcular o tarifário indexado completo.">
     <meta name="twitter:image" content="https://spotpuls.app/og-image.png">
     <link rel="alternate" type="text/markdown" href="https://spotpuls.app/llms.txt" title="Spotpuls LLM &amp; AI Agent Reference">
     <link rel="alternate" type="text/plain" href="https://spotpuls.app/llms-full.txt" title="Spotpuls Full Machine-Readable Knowledge Base">
     <link rel="alternate" type="application/json" href="https://spotpuls.app/api/v1/prices?zone=PT&amp;vat=1" title="Spotpuls PT Live Spot &amp; 7-Day Forecast JSON API">
     <link rel="service-desc" type="application/vnd.oai.openapi+json" href="https://spotpuls.app/openapi.json">
     <!-- SPOTPULS_SEO_AI_END -->
+    <script>
+    window.ACTIVE_COUNTRY_LOCALE = {"countryId": "pt", "lang": "pt-PT", "hreflang": "pt", "path": "/pt/", "languageLabel": "Português (PT)", "geoRegion": "PT", "countryName": "Portugal", "defaultZone": "PT", "zones": ["PT"], "unit": "cênt./kWh", "currencyMajor": "€", "subunitsPerMajor": 100, "fxFromEurCents": 1.0, "vatRate": 1.23, "vatPctText": "23 %", "defaultMargin": 1.0, "taxInclVat": 0.45, "defaultPostal": "1100", "defaultCity": "Lisboa", "brandSubtitle": "Preço indexado da eletricidade hora a hora (OMIE PT), previsão a 7 dias e calculadora TAR E-REDES", "navChart": "Gráfico OMIE", "navTable": "Tabela horária", "navTransfer": "Tarifas de Acesso", "navOptimizer": "Otimizador 36 h", "navApi": "API Aberta", "zoneSelectLabel": "Zona MIBEL", "langSelectLabel": "País / Idioma", "chartTitle": "Preço spot da eletricidade em Portugal (OMIE) e previsão a 7 dias (cênt./kWh)", "hoverHint": "Passe o rato ou toque numa barra para ver o preço horário e o intervalo provável.", "tierBasisIntro": "Nível de preço (média 30 dias", "tierCheap": "Baixo", "tierNorm": "Normal", "tierHigh": "Elevado", "legendRange": "Intervalo de previsão (mín–máx)", "scrollDownText": "Deslize para baixo: tabela horária, calculadora TAR E-REDES, carregamento VE e API REST", "approxPrefix": "aprox. ", "rangePrefix": "Intervalo", "fixedText": "Preço OMIE confirmado", "probLabel": "Probabilidade", "predWasLabel": "A previsão era", "predShortLabel": "Previsão", "pubShortTpl": "Publ. {date} {time}", "pubFullTpl": "Preço publicado: {date} às {time}", "weekdaysShort": ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"], "todayWord": "Hoje", "tomorrowWord": "Amanhã", "atClockWord": "às", "sumNowTitle": "PREÇO DA ELETRICIDADE AGORA", "sumMinTitle": "HORA MAIS BARATA HOJE", "sumMaxTitle": "HORA MAIS CARA HOJE", "tableHeading": "Preço horário OMIE Portugal e previsão a 7 dias", "colTime": "Hora", "colSpot": "Preço Spot (previsão / OMIE)", "colRange": "Intervalo provável", "colTotal": "Preço total c/ TAR e IVA", "colWeather": "Vento e temperatura", "transferHeading": "Calculadora de Tarifas de Acesso às Redes (TAR — E-REDES) em Portugal", "transferLead": "Introduza o seu código postal (ex. 1100 Lisboa, 4000 Porto, 3000 Coimbra, 8000 Faro) para calcular o tarifário indexado completo.", "postalLabel": "Código postal ou cidade", "postalPlaceholder": "1100, 4000, 3000...", "setBtn": "Aplicar", "tariffLabel": "Opção Horária TAR", "tariffGeneral": "Tarifa Simples", "tariffTime": "Bi-Horária (Fora de Vazio / Vazio)", "marginLabel": "Margem comercializador (cênt./kWh)", "vatLabel": "IVA", "vatIncl": "Com IVA 23 %", "vatZero": "Sem IVA (0 %)", "dsoNetworkKicker": "OPERADOR DE REDE", "receiptNowTitle": "PREÇO TOTAL AGORA", "receiptSpotRow": "Spot OMIE PT", "receiptMarginRow": "Margem comercializador", "receiptTaxRow": "IEC e taxas", "receiptTotalRow": "TOTAL COM IVA", "receiptCheapestToday": "Hora mais barata hoje", "receiptAvgToday": "Média de hoje (total)", "receiptAvgTomorrow": "Média de amanhã (total)", "expectWord": "esperado", "optBestWindowTpl": "JANELA DE {h} H MAIS BARATA (PRÓXIMAS 36 H)", "optDurationLabel": "Duração", "optKwLabel": "Potência (kW)", "optProbTotalLabel": "Preço total provável", "optAvgTotalLabel": "Preço médio total", "optTransferTaxLabel": "TAR e impostos", "optConsumptionLabel": "Consumo", "optSavedLabel": "Poupança face ao período mais caro", "apiHeading": "API Aberta Preço OMIE Portugal e Previsão 7 Dias (Spotpuls API)", "apiLead": "Obtenha os preços horários OMIE PT e a previsão a 7 dias em JSON ou CSV para Home Assistant e automação.", "apiCopyBtn": "Copiar URL", "apiCopiedBtn": "Copiado!", "apiDocsBtn": "Documentação API", "apiEmbedLabel": "Selo de preço em tempo real para websites", "dsos": [{"id": "eredes", "name": "E-REDES — Distribuição de Eletricidade (Portugal Continental)", "gen": 3.65, "day": 5.1, "night": 1.45, "zone": "PT", "postals": ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]}]};
+    </script>
 </head>
 <body>
     <header class="site-header">
@@ -395,6 +471,26 @@
           - rolling30dAvg</pre>
                         </div>
                     </div>
+                </div>
+            </section>
+
+            <section class="panel-box" id="faq">
+                <div class="panel-head">
+                    <h2>FAQ — Portugal (PT)</h2>
+                </div>
+                <div class="panel-body">
+                    <details class="faq-item" open style="border-bottom:1px solid #d8d4c7; padding:10px 0;">
+                        <summary style="font-weight:700; cursor:pointer; font-size:14px;">When are tomorrow&#x27;s Portugal (PT) electricity spot prices published?</summary>
+                        <p style="margin-top:6px; font-size:13.5px; color:#3a3e38; line-height:1.6;">Day-ahead hourly prices for Portugal (PT) on OMIE are published daily around 11:45 (Europe/Lisbon). Spotpuls updates automatically with both VAT-inclusive (123 %) and VAT-free prices in cênt./kWh.</p>
+                    </details>
+                    <details class="faq-item" open style="border-bottom:1px solid #d8d4c7; padding:10px 0;">
+                        <summary style="font-weight:700; cursor:pointer; font-size:14px;">How does the Spotpuls 7-day electricity price forecast work for PT?</summary>
+                        <p style="margin-top:6px; font-size:13.5px; color:#3a3e38; line-height:1.6;">Spotpuls combines a dedicated PT Log-Merit + Hist-GBDT model with 100 m wind speed, solar radiation, temperature, and self-learning NLMS residual correction to forecast 168 hourly prices (including negative price regimes and min-max probability bands).</p>
+                    </details>
+                    <details class="faq-item" open style="border-bottom:1px solid #d8d4c7; padding:10px 0;">
+                        <summary style="font-weight:700; cursor:pointer; font-size:14px;">Can I fetch Portugal spot prices and 7-day forecasts via a free API?</summary>
+                        <p style="margin-top:6px; font-size:13.5px; color:#3a3e38; line-height:1.6;">Yes. The open CORS-enabled endpoint https://spotpuls.app/api/v1/prices?zone=PT&amp;vat=1 requires no API key and outputs JSON, Home Assistant, Shelly, EVCC, Victron, CSV, iCal, Prometheus, Markdown, and live SVG badges.</p>
+                    </details>
                 </div>
             </section>
         </div>

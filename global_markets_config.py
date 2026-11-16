@@ -10,6 +10,8 @@ Authoritative configuration for Spotpuls (https://spotpuls.app):
    spot-electricity country/language editions.
 """
 
+import html as _html
+
 SITE_URL = "https://spotpuls.app"
 BRAND_NAME = "Spotpuls"
 
@@ -1188,11 +1190,92 @@ def render_open_api_section_html(active_cid: str, prefix: str = "/") -> str:
             </section>"""
 
 
+def render_seo_ai_head_tags(
+    title: str,
+    description: str,
+    canonical_url: str,
+    og_locale: str = "fi_FI",
+    zone_code: str = "FI",
+    og_type: str = "website",
+) -> str:
+    t = _html.escape(title)
+    d = _html.escape(description)
+    c = _html.escape(canonical_url)
+    loc = _html.escape((og_locale or "fi_FI").replace("-", "_"))
+    z = _html.escape(zone_code or "FI")
+    return f"""    <!-- SPOTPULS_SEO_AI_START -->
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    <meta property="og:type" content="{_html.escape(og_type)}">
+    <meta property="og:site_name" content="Spotpuls">
+    <meta property="og:title" content="{t}">
+    <meta property="og:description" content="{d}">
+    <meta property="og:url" content="{c}">
+    <meta property="og:image" content="{SITE_URL}/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="{t}">
+    <meta property="og:locale" content="{loc}">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{t}">
+    <meta name="twitter:description" content="{d}">
+    <meta name="twitter:image" content="{SITE_URL}/og-image.png">
+    <link rel="alternate" type="text/markdown" href="{SITE_URL}/llms.txt" title="Spotpuls LLM &amp; AI Agent Reference">
+    <link rel="alternate" type="text/plain" href="{SITE_URL}/llms-full.txt" title="Spotpuls Full Machine-Readable Knowledge Base">
+    <link rel="alternate" type="application/json" href="{SITE_URL}/api/v1/prices?zone={z}&amp;vat=1" title="Spotpuls {z} Live Spot &amp; 7-Day Forecast JSON API">
+    <link rel="service-desc" type="application/vnd.oai.openapi+json" href="{SITE_URL}/openapi.json">
+    <!-- SPOTPULS_SEO_AI_END -->"""
+
+
 def build_market_schema_graph(active_cid: str, extra_entities: list | None = None) -> dict:
     loc = MARKET_LOCALES.get(active_cid, MARKET_LOCALES["fi"])
     z = loc.get("defaultZone", "FI")
     canonical = f"{SITE_URL}{loc['path']}"
     graph = [
+        {
+            "@type": "Organization",
+            "@id": f"{SITE_URL}/#organization",
+            "name": "Spotpuls",
+            "alternateName": "spotpuls.app",
+            "url": SITE_URL,
+            "logo": {
+                "@type": "ImageObject",
+                "url": f"{SITE_URL}/apple-touch-icon.png",
+                "width": 180,
+                "height": 180,
+            },
+            "sameAs": [
+                f"{SITE_URL}/api-docs/",
+                f"{SITE_URL}/openapi.json",
+                f"{SITE_URL}/llms.txt",
+            ],
+        },
+        {
+            "@type": "WebSite",
+            "@id": f"{SITE_URL}/#website",
+            "url": f"{SITE_URL}/",
+            "name": "Spotpuls",
+            "alternateName": "spotpuls.app",
+            "publisher": {"@id": f"{SITE_URL}/#organization"},
+            "potentialAction": {
+                "@type": "SearchAction",
+                "target": f"{SITE_URL}/?zone={{search_term_string}}",
+                "query-input": "required name=search_term_string",
+            },
+        },
+        {
+            "@type": "WebPage",
+            "@id": f"{canonical}#webpage",
+            "url": canonical,
+            "name": loc["brandSubtitle"],
+            "description": loc["transferLead"],
+            "inLanguage": loc["lang"],
+            "isPartOf": {"@id": f"{SITE_URL}/#website"},
+            "about": {"@id": f"{canonical}#dataset"},
+            "speakable": {
+                "@type": "SpeakableSpecification",
+                "cssSelector": ["h1", ".readout-card", "#faq"],
+            },
+        },
         {
             "@type": "WebApplication",
             "@id": f"{canonical}#app",
@@ -1220,7 +1303,27 @@ def build_market_schema_graph(active_cid: str, extra_entities: list | None = Non
             "inLanguage": loc["lang"],
             "isAccessibleForFree": True,
             "license": "https://creativecommons.org/licenses/by/4.0/",
-            "creator": {"@type": "Organization", "name": "Spotpuls", "url": SITE_URL},
+            "creator": {"@id": f"{SITE_URL}/#organization"},
+            "keywords": [
+                "electricity spot price",
+                "day-ahead electricity price",
+                "7-day electricity price forecast",
+                z,
+                loc["countryName"],
+                "Nord Pool",
+                "ENTSO-E",
+            ],
+            "variableMeasured": [
+                "Hourly Day-Ahead Electricity Spot Price",
+                "7-Day Hourly Spot Price Forecast",
+                "Conformal Min-Max Price Prediction Interval",
+                "100m Wind Speed & Solar Radiation Impact",
+            ],
+            "isBasedOn": [
+                "https://transparency.entsoe.eu/",
+                "https://www.nordpoolgroup.com/",
+                "https://open-meteo.com/",
+            ],
             "temporalCoverage": "2024-01-01/..",
             "spatialCoverage": {"@type": "Place", "name": f"{loc['countryName']} ({', '.join(loc['zones'])})"},
             "distribution": [
@@ -1234,6 +1337,11 @@ def build_market_schema_graph(active_cid: str, extra_entities: list | None = Non
                     "encodingFormat": "text/csv",
                     "contentUrl": f"{SITE_URL}/api/v1/prices?zone={z}&vat=1&format=csv",
                 },
+                {
+                    "@type": "DataDownload",
+                    "encodingFormat": "text/markdown",
+                    "contentUrl": f"{SITE_URL}/api/v1/prices?zone={z}&vat=1&format=markdown",
+                },
             ],
         },
         {
@@ -1244,7 +1352,7 @@ def build_market_schema_graph(active_cid: str, extra_entities: list | None = Non
             "url": f"{SITE_URL}/api/v1/prices",
             "documentation": f"{SITE_URL}/api-docs/",
             "termsOfService": f"{SITE_URL}/api-docs/",
-            "provider": {"@type": "Organization", "name": "Spotpuls", "url": SITE_URL},
+            "provider": {"@id": f"{SITE_URL}/#organization"},
         },
     ]
     if extra_entities:

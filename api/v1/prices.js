@@ -1652,6 +1652,37 @@ export default async function handler(req, res) {
             return res.status(200).send(lines.join('\n'));
         }
 
+        // 5b. Clean Markdown briefing for AI agents, LLMs, and RAG pipelines
+        if (fmt === 'markdown' || fmt === 'md') {
+            res.setHeader('Content-Type', 'text/markdown; charset=utf-8');
+            const cur = result.currentSlot;
+            const win = result.automation?.cheapestContiguousWindow;
+            const dailyRows = new Map();
+            for (const s of result.series) {
+                if (!dailyRows.has(s.dateKey)) dailyRows.set(s.dateKey, []);
+                dailyRows.get(s.dateKey).push(s.spotPrice);
+            }
+            const md = [
+                `# Spotpuls Live Electricity Spot & 7-Day Forecast — ${result.zoneCode} (${result.zoneName})`,
+                `- **Source**: ${SITE_URL} (Attribution: Spotpuls / spotpuls.app)`,
+                `- **Unit**: ${result.unitLabel} (VAT ${result.vatRatePercent}%) | **Timezone**: ${result.timezone}`,
+                `- **Current Price**: ${cur ? `${cur.spotPrice} ${result.unitLabel} (${cur.dateKey} ${String(cur.hour).padStart(2, '0')}:00)` : 'N/A'}`,
+                `- **Today Min / Avg / Max**: ${result.summary.todayMin ?? '—'} / ${result.summary.todayAvg ?? '—'} / ${result.summary.todayMax ?? '—'} ${result.unitLabel}`,
+                `- **Next 24h Cheapest ${result.automation?.windowHours || 3}h Window**: ${win ? `${win.startLocal} to ${win.endLocal} (avg ${win.avgSpot} ${result.unitLabel})` : 'N/A'}`,
+                '',
+                '## Daily Summary (Actual + 7-Day Forecast)',
+                '| Date | Min | Avg | Max | Unit |',
+                '|---|---:|---:|---:|---|',
+            ];
+            for (const [dk, vals] of dailyRows.entries()) {
+                const minV = Math.min(...vals).toFixed(2);
+                const maxV = Math.max(...vals).toFixed(2);
+                const avgV = (vals.reduce((a, b) => a + b, 0) / vals.length).toFixed(2);
+                md.push(`| ${dk} | ${minV} | ${avgV} | ${maxV} | ${result.unitLabel} |`);
+            }
+            return res.status(200).send(md.join('\n'));
+        }
+
         // 6. iCalendar (.ics) live calendar subscription for Apple/Google/Outlook Calendar
         if (fmt === 'ical' || fmt === 'ics') {
             res.setHeader('Content-Type', 'text/calendar; charset=utf-8');

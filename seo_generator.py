@@ -27,6 +27,7 @@ from global_markets_config import (
     render_zone_options_html,
     render_open_api_section_html,
     build_market_schema_graph,
+    render_seo_ai_head_tags,
 )
 
 SITE_NAME = "Spotpuls — Pörssisähkö, 7 vrk Ennuste & Siirtohintalaskuri"
@@ -333,37 +334,51 @@ def build_index_page() -> str:
                         </tr>"""
         )
 
+    faq_items = [
+        (
+            "Mikä on pörssisähkön hinta tänään ja milloin huomisen hinnat julkaistaan?",
+            "Spotpuls näyttää Suomen (FI) ja 39 muun Euroopan hinta-alueen viralliset Nord Pool -tuntihinnat reaaliajassa sekä arvonlisäverollisena (25,5 %) että verottomana. Seuraavan vuorokauden vahvistetut tuntihinnat julkaistaan päivittäin noin klo 13.45–14.00 Suomen aikaa, ja ne päivittyvät kaavioon välittömästi julkaisun jälkeen.",
+        ),
+        (
+            "Miten Spotpulsin 7 vuorokauden pörssisähköennuste lasketaan?",
+            "Spotpuls (spotpuls.app) laskee jokaiselle 40 Euroopan sähköpörssialueelle oman aluekohtaisen 7 vrk (168 h) tuntiennusteen käyttäen Log-Merit + Hist-GBDT -mallia, 100 m tuulennopeuksia, aurinkosäteilyä, lämpötilaa ja itseoppivaa NLMS-jäännösvirhekorjausta (mukaan lukien negatiiviset spot-hinnat ja min–max-vaihteluväli).",
+        ),
+        (
+            "Miten postinumero vaikuttaa pörssisähkön kokonaishintaan?",
+            "Suomessa paikallinen jakeluverkkoyhtiö määräytyy käyttöpaikan postinumeron mukaan. Todellinen pistorasiahinta on pörssisähkön spot-hinta + myyjän marginaali + paikallisen sähköverkkoyhtiön siirtomaksu + sähkövero (2,83 snt/kWh sis. ALV 25,5 %). Spotpuls kattaa 33 sähköverkkoyhtiötä ja 158 kuntaa.",
+        ),
+        (
+            "Milloin sähköauto kannattaa ladata tai lämminvesivaraaja lämmittää?",
+            "Kuorman ajoituslaskuri (36 h) etsii edullisimman yhtäjaksoisen N tunnin jakson huomioiden sekä pörssisähkön spot-hinnan että klo 22.00 jälkeen alkavan edullisemman yösiirron ja kausisiirron. Näin vältyt maksamasta kallista päiväsiirtoa halvan illan spot-tunnin aikana.",
+        ),
+        (
+            "Voiko pörssisähkön spot-hinnat ja 7 vrk ennusteen hakea ilmaisella API:lla?",
+            "Kyllä. Spotpuls tarjoaa avoimen, ilmaisen ja CORS-tuetun REST API -rajapinnan osoitteessa https://spotpuls.app/api/v1/prices?zone=FI ilman API-avainta. Tuettuja muotoja ovat JSON, Home Assistant, Shelly, EVCC, Victron, CSV, iCal, Prometheus, Markdown ja upotettava SVG-hintamerkki.",
+        ),
+    ]
     faq_entity = {
         "@type": "FAQPage",
         "mainEntity": [
             {
                 "@type": "Question",
-                "name": "Miten Spotpulsin 7 vuorokauden pörssisähköennuste lasketaan?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Spotpuls (spotpuls.app) laskee jokaiselle 40 Euroopan sähköpörssialueelle oman aluekohtaisen 7 vrk tuntiennusteen käyttäen 100 m tuulennopeuksia, aurinkosäteilyä, lämpötilaa ja itseoppivaa NLMS-jäännösvirhekorjausta.",
-                },
-            },
-            {
-                "@type": "Question",
-                "name": "Voiko pörssisähkön spot-hinnat ja 7 vrk ennusteen hakea API-kutsulla?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Kyllä. Spotpuls tarjoaa avoimen, ilmaisen ja CORS-tuetun REST API -rajapinnan osoitteessa https://spotpuls.app/api/v1/prices?zone=FI (kaikki 40 Euroopan tarjousaluetta, JSON, CSV sekä upotettava SVG-hintamerkki).",
-                },
-            },
-            {
-                "@type": "Question",
-                "name": "Miten postinumero vaikuttaa pörssisähkön kokonaishintaan?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Suomessa paikallinen jakeluverkkoyhtiö määräytyy käyttöpaikan postinumeron mukaan. Todellinen kokonaishinta on pörssisähkön spot-hinta + myyjän marginaali + paikallisen sähköverkkoyhtiön siirtomaksu + sähkövero (2,83 snt/kWh sis. ALV 25,5 %).",
-                },
-            },
+                "name": q,
+                "acceptedAnswer": {"@type": "Answer", "text": a},
+            }
+            for q, a in faq_items
         ],
     }
+    faq_html_items = "\n".join(
+        f'''                    <details class="faq-item" open style="border-bottom:1px solid #d8d4c7; padding:10px 0;">
+                        <summary style="font-weight:700; cursor:pointer; font-size:14px;">{html.escape(q)}</summary>
+                        <p style="margin-top:6px; font-size:13.5px; color:#3a3e38; line-height:1.6;">{html.escape(a)}</p>
+                    </details>'''
+        for q, a in faq_items
+    )
     full_schema = build_market_schema_graph("fi", extra_entities=[faq_entity])
     hreflang_html = render_hreflang_tags()
+    idx_title = "Pörssisähkö nyt & 7 vrk ennuste – Hinta tänään | Spotpuls"
+    idx_desc = "Pörssisähkön hinta nyt, tänään ja huomenna sekä itseoppiva 7 vrk ennuste 40 Euroopan hinta-alueelle. Siirtohintalaskuri postinumerolla ja ilmainen avoin API."
+    seo_ai_tags = render_seo_ai_head_tags(idx_title, idx_desc, f"{SITE_URL}/", "fi_FI", "FI")
 
     dashboard_html = render_interactive_dashboard_block(
         prefix="",
@@ -377,8 +392,40 @@ def build_index_page() -> str:
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spotpuls — Pörssisähkö nyt, 7 vrk Ennuste, Siirtohintalaskuri &amp; Avoin API | spotpuls.app</title>
-    <meta name="description" content="Spotpuls (spotpuls.app): Tarkista pörssisähkön spot-hinta tänään, huomenna ja itseoppiva 7 vrk hintaennuste 40 Euroopan hinta-alueella, paikallinen siirtohinta postinumerolla sekä ilmainen avoin REST API.">
+    <script>
+    /* Kielen automaattivalinta: ohjaa vain etusivun ensikäynnillä käyttäjän selainkielen mukaan (ei hakukonebotteja, ei käyttäjän aiemmin valitsemaa kieltä) */
+    (function () {{
+        try {{
+            var p = location.pathname;
+            if (p !== '/' && p !== '/index.html') return;
+            if (navigator.webdriver || /bot|crawl|spider|slurp|lighthouse|headless|pagespeed|facebookexternalhit|preview|inspect/i.test(navigator.userAgent || '')) return;
+            var pref = null;
+            try {{ pref = localStorage.getItem('ps_lang_pref'); }} catch (e) {{}}
+            if (pref) {{
+                if (pref !== '/' && pref.charAt(0) === '/' && pref.length < 8) location.replace(pref + location.search + location.hash);
+                return;
+            }}
+            var MAP = {{
+                'fi': '/', 'en': '/en/', 'en-gb': '/gb/', 'en-ie': '/ie/', 'sv': '/se/', 'nb': '/no/', 'nn': '/no/', 'no': '/no/',
+                'da': '/dk/', 'et': '/ee/', 'lv': '/lv/', 'lt': '/lt/', 'de': '/de/', 'de-at': '/at/', 'de-ch': '/ch/', 'de-li': '/ch/',
+                'nl': '/nl/', 'nl-be': '/be/', 'fr-be': '/be/', 'fr': '/fr/', 'es': '/es/', 'pt': '/pt/', 'it': '/it/', 'pl': '/pl/',
+                'cs': '/cz/', 'sk': '/sk/', 'hu': '/hu/', 'ro': '/ro/', 'bg': '/bg/', 'sl': '/si/', 'hr': '/hr/', 'el': '/gr/'
+            }};
+            var langs = (navigator.languages && navigator.languages.length) ? navigator.languages : [navigator.language || 'en'];
+            var target = null;
+            for (var i = 0; i < langs.length && target === null; i++) {{
+                var l = String(langs[i] || '').toLowerCase();
+                var t = MAP[l];
+                if (t === undefined) t = MAP[l.split('-')[0]];
+                if (t !== undefined) target = t;
+            }}
+            if (target === null) target = '/en/';
+            if (target !== '/') location.replace(target + location.search + location.hash);
+        }} catch (e) {{}}
+    }})();
+    </script>
+    <title>{html.escape(idx_title)}</title>
+    <meta name="description" content="{html.escape(idx_desc)}">
     <meta name="geo.region" content="FI">
     <meta name="content-language" content="fi-FI">
     <link rel="canonical" href="{SITE_URL}/" />
@@ -391,6 +438,7 @@ def build_index_page() -> str:
     <script type="application/ld+json">
 {json.dumps(full_schema, ensure_ascii=False, indent=2)}
     </script>
+{seo_ai_tags}
 </head>
 <body>
 {render_header("")}
@@ -443,6 +491,15 @@ def build_index_page() -> str:
                 </div>
             </div>
         </section>
+
+        <section class="panel-box" id="faq">
+            <div class="panel-head">
+                <h2>USEIN KYSYTYT KYSYMYKSET PÖRSSISÄHKÖSTÄ (UKK / FAQ)</h2>
+            </div>
+            <div class="panel-body">
+{faq_html_items}
+            </div>
+        </section>
     </main>
 
 {render_footer("")}
@@ -482,7 +539,7 @@ def build_dso_page(comp: dict) -> str:
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{html.escape(comp['name'])} Siirtohinta 2026 &amp; Pörssisähkön Kokonaishintalaskuri</title>
+    <title>{html.escape(comp['name'])} Siirtohinta 2026 &amp; Pörssisähkön Kokonaishinta | Spotpuls</title>
     <meta name="description" content="Katso {html.escape(comp['name'])} yleissiirto ({fmt_c(comp['general_c_kwh'])} snt/kWh), yösiirto ({fmt_c(comp['day_c_kwh'])} / {fmt_c(comp['night_c_kwh'])} snt/kWh), perusmaksut ja pörssisähkön reaaliaikainen kokonaishinta sekä 7 vrk ennuste.">
     <link rel="canonical" href="{SITE_URL}/verkkoyhtiot/{slug}.html" />
     <meta name="geo.region" content="FI">
@@ -492,6 +549,10 @@ def build_dso_page(comp: dict) -> str:
     <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
     <link rel="manifest" href="../site.webmanifest">
     <link rel="stylesheet" href="../styles.css?v=43">
+    {render_seo_ai_head_tags(f"{comp['name']} Siirtohinta 2026 & Pörssisähkön Kokonaishinta | Spotpuls", f"Katso {comp['name']} yleissiirto ({fmt_c(comp['general_c_kwh'])} snt/kWh), yösiirto ({fmt_c(comp['day_c_kwh'])} / {fmt_c(comp['night_c_kwh'])} snt/kWh), perusmaksut ja pörssisähkön reaaliaikainen kokonaishinta sekä 7 vrk ennuste.", f"{SITE_URL}/verkkoyhtiot/{slug}.html", "fi_FI", "FI")}
+    <script type="application/ld+json">
+{json.dumps({"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Spotpuls", "item": f"{SITE_URL}/"}, {"@type": "ListItem", "position": 2, "name": "Sähköverkkoyhtiöt", "item": f"{SITE_URL}/verkkoyhtiot/index.html"}, {"@type": "ListItem", "position": 3, "name": comp["name"], "item": f"{SITE_URL}/verkkoyhtiot/{slug}.html"}]}, ensure_ascii=False)}
+    </script>
 </head>
 <body data-preset-dso="{comp['id']}" data-preset-postal="{sample_postal}" data-preset-city="{html.escape(sample_city)}">
 {render_header("../")}
@@ -636,7 +697,7 @@ def build_directory_page(title: str, lead: str, cards_html: str, canonical_path:
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{html.escape(title)} | {SITE_NAME}</title>
+    <title>{html.escape(title)} | Spotpuls</title>
     <meta name="description" content="{html.escape(lead)}">
     <link rel="canonical" href="{SITE_URL}/{canonical_path}" />
     <meta name="geo.region" content="FI">
@@ -646,6 +707,7 @@ def build_directory_page(title: str, lead: str, cards_html: str, canonical_path:
     <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
     <link rel="manifest" href="../site.webmanifest">
     <link rel="stylesheet" href="../styles.css?v=43">
+{render_seo_ai_head_tags(f"{title} | Spotpuls", lead, f"{SITE_URL}/{canonical_path}", "fi_FI", "FI")}
 </head>
 <body>
 {render_header("../")}
@@ -674,7 +736,7 @@ def build_guide_page(slug: str, title: str, meta_desc: str, body_html: str) -> s
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{html.escape(title)} | {SITE_NAME}</title>
+    <title>{html.escape(title)} | Spotpuls</title>
     <meta name="description" content="{html.escape(meta_desc)}">
     <link rel="canonical" href="{SITE_URL}/oppaat/{slug}.html" />
     <meta name="geo.region" content="FI">
@@ -684,6 +746,10 @@ def build_guide_page(slug: str, title: str, meta_desc: str, body_html: str) -> s
     <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
     <link rel="manifest" href="../site.webmanifest">
     <link rel="stylesheet" href="../styles.css?v=43">
+{render_seo_ai_head_tags(f"{title} | Spotpuls", meta_desc, f"{SITE_URL}/oppaat/{slug}.html", "fi_FI", "FI", og_type="article")}
+    <script type="application/ld+json">
+{json.dumps({"@context": "https://schema.org", "@graph": [{"@type": "Article", "headline": title, "description": meta_desc, "url": f"{SITE_URL}/oppaat/{slug}.html", "inLanguage": "fi-FI", "author": {"@type": "Organization", "name": "Spotpuls", "url": SITE_URL}, "publisher": {"@type": "Organization", "name": "Spotpuls", "url": SITE_URL}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Spotpuls", "item": f"{SITE_URL}/"}, {"@type": "ListItem", "position": 2, "name": title, "item": f"{SITE_URL}/oppaat/{slug}.html"}]}]}, ensure_ascii=False)}
+    </script>
 </head>
 <body>
 {render_header("../")}
@@ -811,12 +877,31 @@ def main():
     urls.append(f"{SITE_URL}/api-docs/")
 
     today_str = datetime.now(timezone.utc).strftime("%Y-%m-%d")
-    sitemap_items = "\n".join(
-        f"  <url>\n    <loc>{u}</loc>\n    <lastmod>{today_str}</lastmod>\n  </url>" for u in urls
+    locale_urls = {f"{SITE_URL}{loc['path']}" for loc in MARKET_LOCALES.values()}
+    hreflang_xml_lines = []
+    for loc_item in MARKET_LOCALES.values():
+        hreflang_xml_lines.append(
+            f'    <xhtml:link rel="alternate" hreflang="{loc_item["hreflang"]}" href="{SITE_URL}{loc_item["path"]}" />'
+        )
+    hreflang_xml_lines.append(
+        f'    <xhtml:link rel="alternate" hreflang="x-default" href="{SITE_URL}/en/" />'
     )
+    hreflang_xml_block = "\n".join(hreflang_xml_lines)
+
+    sitemap_entries = []
+    for u in urls:
+        if u in locale_urls:
+            sitemap_entries.append(
+                f"  <url>\n    <loc>{u}</loc>\n    <lastmod>{today_str}</lastmod>\n{hreflang_xml_block}\n  </url>"
+            )
+        else:
+            sitemap_entries.append(
+                f"  <url>\n    <loc>{u}</loc>\n    <lastmod>{today_str}</lastmod>\n  </url>"
+            )
+    sitemap_items = "\n".join(sitemap_entries)
     with open(os.path.join(base_dir, "sitemap.xml"), "w", encoding="utf-8") as f:
         f.write(
-            f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{sitemap_items}\n</urlset>\n'
+            f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n{sitemap_items}\n</urlset>\n'
         )
 
     print(f"Generated {len(urls)} pages in {base_dir}!")

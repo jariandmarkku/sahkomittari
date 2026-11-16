@@ -26,6 +26,7 @@ Spotpuls (`https://spotpuls.app`) provides official hourly day-ahead electricity
   - `evcc` (`/api/v1/evcc/DE-LU.json`): Native evcc.io open-source EV/solar charger tariff array `[{start, end, value}]`.
   - `victron` (`/api/v1/victron/NL.json`): Node-RED & Victron VenusOS Dynamic ESS schedule payload.
   - `csv` (`?format=csv`): Spreadsheet feed for Google Sheets `=IMPORTDATA(...)`, Excel PowerQuery, and Pandas.
+  - `markdown` (`?format=markdown`): Token-efficient live Markdown briefing (current price, today min/avg/max, cheapest window, 7-day table) for AI agents and RAG pipelines.
   - `ical` (`/api/v1/ical/FI.ics`): RFC 5545 calendar subscription feed for Apple Calendar, Google Calendar, and Outlook.
   - `prometheus` (`/api/v1/metrics?zone=FI`): Native Prometheus / Grafana / VictoriaMetrics metrics.
   - `plain` (`/api/v1/plain/FI?field=spot` or `field=run_now`): Single plain-text value (`1`/`0` or numeric price) for Apple Shortcuts, Tasker, curl, Loxone, and KNX.

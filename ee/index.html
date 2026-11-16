@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spotpuls — Börsielektri hind tundide kaupa, 7 päeva prognoos ja võrgutasu kalkulaator postiindeksiga | spotpuls.app</title>
-    <meta name="description" content="Börsielektri hind praegu, täna ja homme ning isesõppiv 7 päeva prognoos Eestile. Võrgutasu kalkulaator postiindeksi järgi ja tasuta avatud API.">
+    <title>Börsielektri hind tundide kaupa, 7 päeva prognoos ja võrgutasu kalkulaator postiindeksiga — Eesti | Spotpuls</title>
+    <meta name="description" content="Sisesta oma 5-kohaline postiindeks (nt 10111 Tallinn, 51003 Tartu, 80010 Pärnu, 20308 Narva), et leida võrguettevõtja.">
     <meta name="geo.region" content="EE">
     <meta name="content-language" content="et-EE">
     <link rel="canonical" href="https://spotpuls.app/ee/" />
@@ -72,6 +72,33 @@
       "alternateName": "spotpuls.app",
       "publisher": {
         "@id": "https://spotpuls.app/#organization"
+      },
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://spotpuls.app/?zone={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://spotpuls.app/ee/#webpage",
+      "url": "https://spotpuls.app/ee/",
+      "name": "Börsielektri hind tundide kaupa, 7 päeva prognoos ja võrgutasu kalkulaator postiindeksiga",
+      "description": "Sisesta oma 5-kohaline postiindeks (nt 10111 Tallinn, 51003 Tartu, 80010 Pärnu, 20308 Narva), et leida võrguettevõtja.",
+      "inLanguage": "et-EE",
+      "isPartOf": {
+        "@id": "https://spotpuls.app/#website"
+      },
+      "about": {
+        "@id": "https://spotpuls.app/ee/#dataset"
+      },
+      "speakable": {
+        "@type": "SpeakableSpecification",
+        "cssSelector": [
+          "h1",
+          ".readout-card",
+          "#faq"
+        ]
       }
     },
     {
@@ -80,7 +107,7 @@
       "name": "Spotpuls",
       "alternateName": "spotpuls.app",
       "url": "https://spotpuls.app/ee/",
-      "description": "Börsielektri hind praegu, täna ja homme ning isesõppiv 7 päeva prognoos Eestile. Võrgutasu kalkulaator postiindeksi järgi ja tasuta avatud API.",
+      "description": "Börsielektri hind tundide kaupa, 7 päeva prognoos ja võrgutasu kalkulaator postiindeksiga",
       "applicationCategory": "UtilitiesApplication",
       "operatingSystem": "Web",
       "inLanguage": "et-EE",
@@ -99,17 +126,35 @@
     {
       "@type": "Dataset",
       "@id": "https://spotpuls.app/ee/#dataset",
-      "name": "Spotpuls — Börsielektri hind tundide kaupa, 7 päeva prognoos ja võrgutasu kalkulaator postiindeksiga",
-      "description": "Börsielektri hind praegu, täna ja homme ning isesõppiv 7 päeva prognoos Eestile. Võrgutasu kalkulaator postiindeksi järgi ja tasuta avatud API.",
+      "name": "Spotpuls Eesti (EE) Day-Ahead Spot Electricity Prices & 7-Day Hourly Forecast",
+      "description": "Päri reaalajas Nord Pool EE börsihindu ja 7 päeva prognoosi JSON- või CSV-vormingus targa kodu ja rakenduste jaoks.",
       "url": "https://spotpuls.app/ee/",
       "inLanguage": "et-EE",
       "isAccessibleForFree": true,
       "license": "https://creativecommons.org/licenses/by/4.0/",
       "creator": {
-        "@type": "Organization",
-        "name": "Spotpuls",
-        "url": "https://spotpuls.app"
+        "@id": "https://spotpuls.app/#organization"
       },
+      "keywords": [
+        "electricity spot price",
+        "day-ahead electricity price",
+        "7-day electricity price forecast",
+        "EE",
+        "Eesti",
+        "Nord Pool",
+        "ENTSO-E"
+      ],
+      "variableMeasured": [
+        "Hourly Day-Ahead Electricity Spot Price",
+        "7-Day Hourly Spot Price Forecast",
+        "Conformal Min-Max Price Prediction Interval",
+        "100m Wind Speed & Solar Radiation Impact"
+      ],
+      "isBasedOn": [
+        "https://transparency.entsoe.eu/",
+        "https://www.nordpoolgroup.com/",
+        "https://open-meteo.com/"
+      ],
       "temporalCoverage": "2024-01-01/..",
       "spatialCoverage": {
         "@type": "Place",
@@ -125,6 +170,11 @@
           "@type": "DataDownload",
           "encodingFormat": "text/csv",
           "contentUrl": "https://spotpuls.app/api/v1/prices?zone=EE&vat=1&format=csv"
+        },
+        {
+          "@type": "DataDownload",
+          "encodingFormat": "text/markdown",
+          "contentUrl": "https://spotpuls.app/api/v1/prices?zone=EE&vat=1&format=markdown"
         }
       ]
     },
@@ -132,44 +182,70 @@
       "@type": "WebAPI",
       "@id": "https://spotpuls.app/api/v1/prices#webapi",
       "name": "Spotpuls Open Electricity Spot & 7-Day Forecast API",
-      "description": "Börsielektri hind praegu, täna ja homme ning isesõppiv 7 päeva prognoos Eestile. Võrgutasu kalkulaator postiindeksi järgi ja tasuta avatud API.",
+      "description": "Free CORS-enabled REST API for European day-ahead electricity spot prices and self-learning 7-day regional hourly forecasts across 40 bidding zones.",
       "url": "https://spotpuls.app/api/v1/prices",
       "documentation": "https://spotpuls.app/api-docs/",
       "termsOfService": "https://spotpuls.app/api-docs/",
       "provider": {
-        "@type": "Organization",
-        "name": "Spotpuls",
-        "url": "https://spotpuls.app"
-      },
-      "inLanguage": "en"
+        "@id": "https://spotpuls.app/#organization"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "When are tomorrow's Eesti (EE) electricity spot prices published?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Day-ahead hourly prices for Eesti (EE) on Nord Pool are published daily around 13:45 (Europe/Tallinn). Spotpuls updates automatically with both VAT-inclusive (122 %) and VAT-free prices in senti/kWh."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How does the Spotpuls 7-day electricity price forecast work for EE?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Spotpuls combines a dedicated EE Log-Merit + Hist-GBDT model with 100 m wind speed, solar radiation, temperature, and self-learning NLMS residual correction to forecast 168 hourly prices (including negative price regimes and min-max probability bands)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I fetch Eesti spot prices and 7-day forecasts via a free API?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. The open CORS-enabled endpoint https://spotpuls.app/api/v1/prices?zone=EE&vat=1 requires no API key and outputs JSON, Home Assistant, Shelly, EVCC, Victron, CSV, iCal, Prometheus, Markdown, and live SVG badges."
+          }
+        }
+      ]
     }
   ]
 }
-    </script>
-    <script>
-    window.ACTIVE_COUNTRY_LOCALE = {"countryId": "ee", "lang": "et-EE", "hreflang": "et", "path": "/ee/", "languageLabel": "Eesti (EE)", "geoRegion": "EE", "countryName": "Eesti", "defaultZone": "EE", "zones": ["EE"], "unit": "senti/kWh", "currencyMajor": "€", "subunitsPerMajor": 100, "fxFromEurCents": 1.0, "vatRate": 1.22, "vatPctText": "22 %", "defaultMargin": 0.45, "taxInclVat": 1.56, "defaultPostal": "10111", "defaultCity": "Tallinn (EE)", "brandSubtitle": "Börsielektri hind tundide kaupa, 7 päeva prognoos ja võrgutasu kalkulaator postiindeksiga", "navChart": "Börsigraafik", "navTable": "Tunnitabel", "navTransfer": "Võrgutasu", "navOptimizer": "Ajastamine", "navApi": "Avatud API", "zoneSelectLabel": "Hinnapiirkond", "langSelectLabel": "Riik / Keel", "chartTitle": "Börsielektri tunnihind ja 7 päeva prognoos (senti/kWh)", "hoverHint": "Liiguta kursor tulba kohale või puuduta tulpa, et näha hinda ja tõenäolist hinnavahemikku.", "tierBasisIntro": "Hinnatase (30 p keskmise hinna alusel", "tierCheap": "Soodne", "tierNorm": "Tavapärane", "tierHigh": "Kõrge", "legendRange": "Prognoosi hinnavahemik (min–max)", "scrollDownText": "Keri alla: tunnitabel, võrgutasu kalkulaator, tarbimise ajastamine ja avatud API", "approxPrefix": "u ", "rangePrefix": "Hinnavahemik", "fixedText": "Avaldatud fikseeritud hind", "probLabel": "Tõenäosus", "predWasLabel": "Programmi prognoos oli", "predShortLabel": "Prognoos oli", "pubShortTpl": "Avald. {date} kl {time}", "pubFullTpl": "Hind avaldatakse: {date} kl {time}", "weekdaysShort": ["P", "E", "T", "K", "N", "R", "L"], "todayWord": "Täna", "tomorrowWord": "Homme", "atClockWord": "kl", "sumNowTitle": "HETKE TUNNIHIND PRAEGU", "sumMinTitle": "PÄEVA SOODSAIM HIND", "sumMaxTitle": "PÄEVA KALLEIM HIND", "tableHeading": "Tunnipõhine hinnaprognoos ja tõenäoline hinnavahemik", "colTime": "Kellaaeg", "colSpot": "Börsihind (prognoos / hind)", "colRange": "Tõenäoline hinnavahemik", "colTotal": "Koguhind koos võrgutasuga", "colWeather": "Tuul ja temperatuur", "transferHeading": "Võrgutasu ja elektri koguhinna kalkulaator Eestis", "transferLead": "Sisesta oma 5-kohaline postiindeks (nt 10111 Tallinn, 51003 Tartu, 80010 Pärnu, 20308 Narva), et leida võrguettevõtja.", "postalLabel": "Postiindeks või linn", "postalPlaceholder": "10111, 51003, 80010...", "setBtn": "Vali", "tariffLabel": "Võrgupakett", "tariffGeneral": "Võrk 1 (Põhitariif)", "tariffTime": "Võrk 2 / 4 (Päev / Öö)", "marginLabel": "Müüja marginaal (senti/kWh)", "vatLabel": "Käibemaks", "vatIncl": "Koos KM-ga 22 %", "vatZero": "Ilma KM-ta (0 %)", "dsoNetworkKicker": "JAOTUSVÕRK", "receiptNowTitle": "KOGUHIND PRAEGU", "receiptSpotRow": "Börsihind (Nord Pool EE)", "receiptMarginRow": "Müüja marginaal", "receiptTaxRow": "Aktsiis ja taastuvenergia tasu", "receiptTotalRow": "KOGUHIND KOKKU", "receiptCheapestToday": "Tänane soodsaim tund", "receiptAvgToday": "Tänane keskmine koguhind", "receiptAvgTomorrow": "Homne keskmine koguhind", "expectWord": "ootus", "optBestWindowTpl": "SOODSAIM {h}-TUNNINE AKEN (JÄRGMISED 36 H)", "optDurationLabel": "Kestus", "optKwLabel": "Võimsus (kW)", "optProbTotalLabel": "Tõenäoline koguhind", "optAvgTotalLabel": "Keskmine koguhind", "optTransferTaxLabel": "Võrk ja maksud", "optConsumptionLabel": "Tarbimine", "optSavedLabel": "Sääst võrreldes kalleima ajaga", "apiHeading": "Avatud Elektrihinna ja Prognoosi API (Spotpuls API)", "apiLead": "Päri reaalajas Nord Pool EE börsihindu ja 7 päeva prognoosi JSON- või CSV-vormingus targa kodu ja rakenduste jaoks.", "apiCopyBtn": "Kopeeri URL", "apiCopiedBtn": "Kopeeritud!", "apiDocsBtn": "API dokumentatsioon", "apiEmbedLabel": "Manustatav reaalajas hinnamärk veebilehele", "dsos": [{"id": "elektrilevi", "name": "Elektrilevi OÜ (Võrk 1 / Võrk 2)", "gen": 5.38, "day": 6.25, "night": 3.62, "zone": "EE", "postals": ["1", "3", "4", "5", "6", "7", "8", "9"]}, {"id": "vkg", "name": "VKG Elektrivõrgud OÜ (Ida-Virumaa)", "gen": 4.92, "day": 5.75, "night": 3.4, "zone": "EE", "postals": ["2"]}]};
     </script>
     <!-- SPOTPULS_SEO_AI_START -->
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Spotpuls">
-    <meta property="og:title" content="Spotpuls — Börsielektri hind tundide kaupa, 7 päeva prognoos ja võrgutasu kalkulaator postiindeksiga | spotpuls.app">
-    <meta property="og:description" content="Börsielektri hind praegu, täna ja homme ning isesõppiv 7 päeva prognoos Eestile. Võrgutasu kalkulaator postiindeksi järgi ja tasuta avatud API.">
+    <meta property="og:title" content="Börsielektri hind tundide kaupa, 7 päeva prognoos ja võrgutasu kalkulaator postiindeksiga — Eesti | Spotpuls">
+    <meta property="og:description" content="Sisesta oma 5-kohaline postiindeks (nt 10111 Tallinn, 51003 Tartu, 80010 Pärnu, 20308 Narva), et leida võrguettevõtja.">
     <meta property="og:url" content="https://spotpuls.app/ee/">
     <meta property="og:image" content="https://spotpuls.app/og-image.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="Spotpuls — Börsielektri hind tundide kaupa, 7 päeva prognoos ja võrgutasu kalkulaator postiindeksiga | spotpuls.app">
+    <meta property="og:image:alt" content="Börsielektri hind tundide kaupa, 7 päeva prognoos ja võrgutasu kalkulaator postiindeksiga — Eesti | Spotpuls">
     <meta property="og:locale" content="et_EE">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Spotpuls — Börsielektri hind tundide kaupa, 7 päeva prognoos ja võrgutasu kalkulaator postiindeksiga | spotpuls.app">
-    <meta name="twitter:description" content="Börsielektri hind praegu, täna ja homme ning isesõppiv 7 päeva prognoos Eestile. Võrgutasu kalkulaator postiindeksi järgi ja tasuta avatud API.">
+    <meta name="twitter:title" content="Börsielektri hind tundide kaupa, 7 päeva prognoos ja võrgutasu kalkulaator postiindeksiga — Eesti | Spotpuls">
+    <meta name="twitter:description" content="Sisesta oma 5-kohaline postiindeks (nt 10111 Tallinn, 51003 Tartu, 80010 Pärnu, 20308 Narva), et leida võrguettevõtja.">
     <meta name="twitter:image" content="https://spotpuls.app/og-image.png">
     <link rel="alternate" type="text/markdown" href="https://spotpuls.app/llms.txt" title="Spotpuls LLM &amp; AI Agent Reference">
     <link rel="alternate" type="text/plain" href="https://spotpuls.app/llms-full.txt" title="Spotpuls Full Machine-Readable Knowledge Base">
     <link rel="alternate" type="application/json" href="https://spotpuls.app/api/v1/prices?zone=EE&amp;vat=1" title="Spotpuls EE Live Spot &amp; 7-Day Forecast JSON API">
     <link rel="service-desc" type="application/vnd.oai.openapi+json" href="https://spotpuls.app/openapi.json">
     <!-- SPOTPULS_SEO_AI_END -->
+    <script>
+    window.ACTIVE_COUNTRY_LOCALE = {"countryId": "ee", "lang": "et-EE", "hreflang": "et", "path": "/ee/", "languageLabel": "Eesti (EE)", "geoRegion": "EE", "countryName": "Eesti", "defaultZone": "EE", "zones": ["EE"], "unit": "senti/kWh", "currencyMajor": "€", "subunitsPerMajor": 100, "fxFromEurCents": 1.0, "vatRate": 1.22, "vatPctText": "22 %", "defaultMargin": 0.45, "taxInclVat": 1.56, "defaultPostal": "10111", "defaultCity": "Tallinn (EE)", "brandSubtitle": "Börsielektri hind tundide kaupa, 7 päeva prognoos ja võrgutasu kalkulaator postiindeksiga", "navChart": "Börsigraafik", "navTable": "Tunnitabel", "navTransfer": "Võrgutasu", "navOptimizer": "Ajastamine", "navApi": "Avatud API", "zoneSelectLabel": "Hinnapiirkond", "langSelectLabel": "Riik / Keel", "chartTitle": "Börsielektri tunnihind ja 7 päeva prognoos (senti/kWh)", "hoverHint": "Liiguta kursor tulba kohale või puuduta tulpa, et näha hinda ja tõenäolist hinnavahemikku.", "tierBasisIntro": "Hinnatase (30 p keskmise hinna alusel", "tierCheap": "Soodne", "tierNorm": "Tavapärane", "tierHigh": "Kõrge", "legendRange": "Prognoosi hinnavahemik (min–max)", "scrollDownText": "Keri alla: tunnitabel, võrgutasu kalkulaator, tarbimise ajastamine ja avatud API", "approxPrefix": "u ", "rangePrefix": "Hinnavahemik", "fixedText": "Avaldatud fikseeritud hind", "probLabel": "Tõenäosus", "predWasLabel": "Programmi prognoos oli", "predShortLabel": "Prognoos oli", "pubShortTpl": "Avald. {date} kl {time}", "pubFullTpl": "Hind avaldatakse: {date} kl {time}", "weekdaysShort": ["P", "E", "T", "K", "N", "R", "L"], "todayWord": "Täna", "tomorrowWord": "Homme", "atClockWord": "kl", "sumNowTitle": "HETKE TUNNIHIND PRAEGU", "sumMinTitle": "PÄEVA SOODSAIM HIND", "sumMaxTitle": "PÄEVA KALLEIM HIND", "tableHeading": "Tunnipõhine hinnaprognoos ja tõenäoline hinnavahemik", "colTime": "Kellaaeg", "colSpot": "Börsihind (prognoos / hind)", "colRange": "Tõenäoline hinnavahemik", "colTotal": "Koguhind koos võrgutasuga", "colWeather": "Tuul ja temperatuur", "transferHeading": "Võrgutasu ja elektri koguhinna kalkulaator Eestis", "transferLead": "Sisesta oma 5-kohaline postiindeks (nt 10111 Tallinn, 51003 Tartu, 80010 Pärnu, 20308 Narva), et leida võrguettevõtja.", "postalLabel": "Postiindeks või linn", "postalPlaceholder": "10111, 51003, 80010...", "setBtn": "Vali", "tariffLabel": "Võrgupakett", "tariffGeneral": "Võrk 1 (Põhitariif)", "tariffTime": "Võrk 2 / 4 (Päev / Öö)", "marginLabel": "Müüja marginaal (senti/kWh)", "vatLabel": "Käibemaks", "vatIncl": "Koos KM-ga 22 %", "vatZero": "Ilma KM-ta (0 %)", "dsoNetworkKicker": "JAOTUSVÕRK", "receiptNowTitle": "KOGUHIND PRAEGU", "receiptSpotRow": "Börsihind (Nord Pool EE)", "receiptMarginRow": "Müüja marginaal", "receiptTaxRow": "Aktsiis ja taastuvenergia tasu", "receiptTotalRow": "KOGUHIND KOKKU", "receiptCheapestToday": "Tänane soodsaim tund", "receiptAvgToday": "Tänane keskmine koguhind", "receiptAvgTomorrow": "Homne keskmine koguhind", "expectWord": "ootus", "optBestWindowTpl": "SOODSAIM {h}-TUNNINE AKEN (JÄRGMISED 36 H)", "optDurationLabel": "Kestus", "optKwLabel": "Võimsus (kW)", "optProbTotalLabel": "Tõenäoline koguhind", "optAvgTotalLabel": "Keskmine koguhind", "optTransferTaxLabel": "Võrk ja maksud", "optConsumptionLabel": "Tarbimine", "optSavedLabel": "Sääst võrreldes kalleima ajaga", "apiHeading": "Avatud Elektrihinna ja Prognoosi API (Spotpuls API)", "apiLead": "Päri reaalajas Nord Pool EE börsihindu ja 7 päeva prognoosi JSON- või CSV-vormingus targa kodu ja rakenduste jaoks.", "apiCopyBtn": "Kopeeri URL", "apiCopiedBtn": "Kopeeritud!", "apiDocsBtn": "API dokumentatsioon", "apiEmbedLabel": "Manustatav reaalajas hinnamärk veebilehele", "dsos": [{"id": "elektrilevi", "name": "Elektrilevi OÜ (Võrk 1 / Võrk 2)", "gen": 5.38, "day": 6.25, "night": 3.62, "zone": "EE", "postals": ["1", "3", "4", "5", "6", "7", "8", "9"]}, {"id": "vkg", "name": "VKG Elektrivõrgud OÜ (Ida-Virumaa)", "gen": 4.92, "day": 5.75, "night": 3.4, "zone": "EE", "postals": ["2"]}]};
+    </script>
 </head>
 <body>
     <header class="site-header">
@@ -395,6 +471,26 @@
           - rolling30dAvg</pre>
                         </div>
                     </div>
+                </div>
+            </section>
+
+            <section class="panel-box" id="faq">
+                <div class="panel-head">
+                    <h2>FAQ — Eesti (EE)</h2>
+                </div>
+                <div class="panel-body">
+                    <details class="faq-item" open style="border-bottom:1px solid #d8d4c7; padding:10px 0;">
+                        <summary style="font-weight:700; cursor:pointer; font-size:14px;">When are tomorrow&#x27;s Eesti (EE) electricity spot prices published?</summary>
+                        <p style="margin-top:6px; font-size:13.5px; color:#3a3e38; line-height:1.6;">Day-ahead hourly prices for Eesti (EE) on Nord Pool are published daily around 13:45 (Europe/Tallinn). Spotpuls updates automatically with both VAT-inclusive (122 %) and VAT-free prices in senti/kWh.</p>
+                    </details>
+                    <details class="faq-item" open style="border-bottom:1px solid #d8d4c7; padding:10px 0;">
+                        <summary style="font-weight:700; cursor:pointer; font-size:14px;">How does the Spotpuls 7-day electricity price forecast work for EE?</summary>
+                        <p style="margin-top:6px; font-size:13.5px; color:#3a3e38; line-height:1.6;">Spotpuls combines a dedicated EE Log-Merit + Hist-GBDT model with 100 m wind speed, solar radiation, temperature, and self-learning NLMS residual correction to forecast 168 hourly prices (including negative price regimes and min-max probability bands).</p>
+                    </details>
+                    <details class="faq-item" open style="border-bottom:1px solid #d8d4c7; padding:10px 0;">
+                        <summary style="font-weight:700; cursor:pointer; font-size:14px;">Can I fetch Eesti spot prices and 7-day forecasts via a free API?</summary>
+                        <p style="margin-top:6px; font-size:13.5px; color:#3a3e38; line-height:1.6;">Yes. The open CORS-enabled endpoint https://spotpuls.app/api/v1/prices?zone=EE&amp;vat=1 requires no API key and outputs JSON, Home Assistant, Shelly, EVCC, Victron, CSV, iCal, Prometheus, Markdown, and live SVG badges.</p>
+                    </details>
                 </div>
             </section>
         </div>

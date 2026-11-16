@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spotpuls — EPEX-Börsenstrompreis Stunde für Stunde, 7-Tage-Prognose &amp; Netzentgelt-Rechner nach PLZ | spotpuls.app</title>
-    <meta name="description" content="Aktueller Börsenstrompreis heute &amp; morgen sowie selbstlernende 7-Tage-Prognose für Deutschland (EPEX DE-LU). Netzentgelt-Rechner nach PLZ und kostenlose offene API.">
+    <title>EPEX-Börsenstrompreis Stunde für Stunde, 7-Tage-Prognose &amp; Netzentgelt-Rechner nach PLZ — Deutschland | Spotpuls</title>
+    <meta name="description" content="Geben Sie Ihre 5-stellige Postleitzahl ein (z. B. 10115 Berlin, 80331 München, 20095 Hamburg, 50667 Köln), um regionale Netzentgelte und den Bruttopreis zu berechnen.">
     <meta name="geo.region" content="DE">
     <meta name="content-language" content="de-DE">
     <link rel="canonical" href="https://spotpuls.app/de/" />
@@ -72,6 +72,33 @@
       "alternateName": "spotpuls.app",
       "publisher": {
         "@id": "https://spotpuls.app/#organization"
+      },
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://spotpuls.app/?zone={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://spotpuls.app/de/#webpage",
+      "url": "https://spotpuls.app/de/",
+      "name": "EPEX-Börsenstrompreis Stunde für Stunde, 7-Tage-Prognose & Netzentgelt-Rechner nach PLZ",
+      "description": "Geben Sie Ihre 5-stellige Postleitzahl ein (z. B. 10115 Berlin, 80331 München, 20095 Hamburg, 50667 Köln), um regionale Netzentgelte und den Bruttopreis zu berechnen.",
+      "inLanguage": "de-DE",
+      "isPartOf": {
+        "@id": "https://spotpuls.app/#website"
+      },
+      "about": {
+        "@id": "https://spotpuls.app/de/#dataset"
+      },
+      "speakable": {
+        "@type": "SpeakableSpecification",
+        "cssSelector": [
+          "h1",
+          ".readout-card",
+          "#faq"
+        ]
       }
     },
     {
@@ -80,7 +107,7 @@
       "name": "Spotpuls",
       "alternateName": "spotpuls.app",
       "url": "https://spotpuls.app/de/",
-      "description": "Aktueller Börsenstrompreis heute & morgen sowie selbstlernende 7-Tage-Prognose für Deutschland (EPEX DE-LU). Netzentgelt-Rechner nach PLZ und kostenlose offene API.",
+      "description": "EPEX-Börsenstrompreis Stunde für Stunde, 7-Tage-Prognose & Netzentgelt-Rechner nach PLZ",
       "applicationCategory": "UtilitiesApplication",
       "operatingSystem": "Web",
       "inLanguage": "de-DE",
@@ -99,17 +126,35 @@
     {
       "@type": "Dataset",
       "@id": "https://spotpuls.app/de/#dataset",
-      "name": "Spotpuls — EPEX-Börsenstrompreis Stunde für Stunde, 7-Tage-Prognose & Netzentgelt-Rechner nach PLZ",
-      "description": "Aktueller Börsenstrompreis heute & morgen sowie selbstlernende 7-Tage-Prognose für Deutschland (EPEX DE-LU). Netzentgelt-Rechner nach PLZ und kostenlose offene API.",
+      "name": "Spotpuls Deutschland (DE-LU) Day-Ahead Spot Electricity Prices & 7-Day Hourly Forecast",
+      "description": "Rufen Sie EPEX DE-LU Spotpreise und die selbstlernende 7-Tage-Prognose direkt für Home Assistant, ioBroker, EVCC oder Excel per JSON/CSV ab.",
       "url": "https://spotpuls.app/de/",
       "inLanguage": "de-DE",
       "isAccessibleForFree": true,
       "license": "https://creativecommons.org/licenses/by/4.0/",
       "creator": {
-        "@type": "Organization",
-        "name": "Spotpuls",
-        "url": "https://spotpuls.app"
+        "@id": "https://spotpuls.app/#organization"
       },
+      "keywords": [
+        "electricity spot price",
+        "day-ahead electricity price",
+        "7-day electricity price forecast",
+        "DE-LU",
+        "Deutschland",
+        "Nord Pool",
+        "ENTSO-E"
+      ],
+      "variableMeasured": [
+        "Hourly Day-Ahead Electricity Spot Price",
+        "7-Day Hourly Spot Price Forecast",
+        "Conformal Min-Max Price Prediction Interval",
+        "100m Wind Speed & Solar Radiation Impact"
+      ],
+      "isBasedOn": [
+        "https://transparency.entsoe.eu/",
+        "https://www.nordpoolgroup.com/",
+        "https://open-meteo.com/"
+      ],
       "temporalCoverage": "2024-01-01/..",
       "spatialCoverage": {
         "@type": "Place",
@@ -125,6 +170,11 @@
           "@type": "DataDownload",
           "encodingFormat": "text/csv",
           "contentUrl": "https://spotpuls.app/api/v1/prices?zone=DE-LU&vat=1&format=csv"
+        },
+        {
+          "@type": "DataDownload",
+          "encodingFormat": "text/markdown",
+          "contentUrl": "https://spotpuls.app/api/v1/prices?zone=DE-LU&vat=1&format=markdown"
         }
       ]
     },
@@ -132,44 +182,70 @@
       "@type": "WebAPI",
       "@id": "https://spotpuls.app/api/v1/prices#webapi",
       "name": "Spotpuls Open Electricity Spot & 7-Day Forecast API",
-      "description": "Aktueller Börsenstrompreis heute & morgen sowie selbstlernende 7-Tage-Prognose für Deutschland (EPEX DE-LU). Netzentgelt-Rechner nach PLZ und kostenlose offene API.",
+      "description": "Free CORS-enabled REST API for European day-ahead electricity spot prices and self-learning 7-day regional hourly forecasts across 40 bidding zones.",
       "url": "https://spotpuls.app/api/v1/prices",
       "documentation": "https://spotpuls.app/api-docs/",
       "termsOfService": "https://spotpuls.app/api-docs/",
       "provider": {
-        "@type": "Organization",
-        "name": "Spotpuls",
-        "url": "https://spotpuls.app"
-      },
-      "inLanguage": "en"
+        "@id": "https://spotpuls.app/#organization"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "When are tomorrow's Deutschland (DE-LU) electricity spot prices published?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Day-ahead hourly prices for Deutschland (DE-LU) on EPEX Spot are published daily around 12:45 (Europe/Berlin). Spotpuls updates automatically with both VAT-inclusive (119 %) and VAT-free prices in ct/kWh."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How does the Spotpuls 7-day electricity price forecast work for DE-LU?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Spotpuls combines a dedicated DE-LU Log-Merit + Hist-GBDT model with 100 m wind speed, solar radiation, temperature, and self-learning NLMS residual correction to forecast 168 hourly prices (including negative price regimes and min-max probability bands)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I fetch Deutschland spot prices and 7-day forecasts via a free API?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. The open CORS-enabled endpoint https://spotpuls.app/api/v1/prices?zone=DE-LU&vat=1 requires no API key and outputs JSON, Home Assistant, Shelly, EVCC, Victron, CSV, iCal, Prometheus, Markdown, and live SVG badges."
+          }
+        }
+      ]
     }
   ]
 }
-    </script>
-    <script>
-    window.ACTIVE_COUNTRY_LOCALE = {"countryId": "de", "lang": "de-DE", "hreflang": "de", "path": "/de/", "languageLabel": "Deutsch (DE)", "geoRegion": "DE", "countryName": "Deutschland", "defaultZone": "DE-LU", "zones": ["DE-LU"], "unit": "ct/kWh", "currencyMajor": "€", "subunitsPerMajor": 100, "fxFromEurCents": 1.0, "vatRate": 1.19, "vatPctText": "19 %", "defaultMargin": 1.5, "taxInclVat": 5.8, "defaultPostal": "10115", "defaultCity": "Berlin", "brandSubtitle": "EPEX-Börsenstrompreis Stunde für Stunde, 7-Tage-Prognose & Netzentgelt-Rechner nach PLZ", "navChart": "Börsengrafik", "navTable": "Stundentabelle", "navTransfer": "Netzentgelt-Rechner", "navOptimizer": "Lastmanagement", "navApi": "Open API", "zoneSelectLabel": "Gebotszone", "langSelectLabel": "Land / Sprache", "chartTitle": "Börsenstrompreis (EPEX DE-LU) und 7-Tage-Prognose (ct/kWh)", "hoverHint": "Bewegen Sie die Maus über einen Balken, um Stundenpreis und wahrscheinliches Preisintervall zu sehen.", "tierBasisIntro": "Preisniveau (ggü. 30-Tage-Schnitt", "tierCheap": "Günstig", "tierNorm": "Normal", "tierHigh": "Hoch", "legendRange": "Prognose-Intervall (Min–Max)", "scrollDownText": "Nach unten scrollen: Stundentabelle, Netzentgelt-Rechner (§14a EnWG), Wallbox-Optimierer & API", "approxPrefix": "ca. ", "rangePrefix": "Preisintervall", "fixedText": "Bestätigter EPEX-Preis", "probLabel": "Wahrscheinlichkeit", "predWasLabel": "Modellprognose war", "predShortLabel": "Prognose war", "pubShortTpl": "Veröff. {date} {time}", "pubFullTpl": "Börsenpreis wird veröffentlicht: {date} um {time} Uhr", "weekdaysShort": ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"], "todayWord": "Heute", "tomorrowWord": "Morgen", "atClockWord": "", "sumNowTitle": "STROMPREIS AKTUELLE STUNDE", "sumMinTitle": "GÜNSTIGSTE STUNDE HEUTE", "sumMaxTitle": "TEUERSTE STUNDE HEUTE", "tableHeading": "Stündlicher Börsenstrompreis & 7-Tage-Prognoseintervall", "colTime": "Uhrzeit", "colSpot": "Börsenpreis (Prognose / EPEX)", "colRange": "Wahrscheinliches Intervall", "colTotal": "Gesamtpreis inkl. Netz & Abgaben", "colWeather": "Windkraft & Temperatur", "transferHeading": "Dynamischer Stromtarif & Netzentgelt-Rechner nach Postleitzahl", "transferLead": "Geben Sie Ihre 5-stellige Postleitzahl ein (z. B. 10115 Berlin, 80331 München, 20095 Hamburg, 50667 Köln), um regionale Netzentgelte und den Bruttopreis zu berechnen.", "postalLabel": "Postleitzahl oder Ort", "postalPlaceholder": "10115, 80331, 20095, 50667...", "setBtn": "Übernehmen", "tariffLabel": "Netzentgelt-Tarif", "tariffGeneral": "Standardtarif", "tariffTime": "Zeitvariabel (§14a EnWG)", "marginLabel": "Anbieter-Aufschlag (ct/kWh)", "vatLabel": "Mehrwertsteuer", "vatIncl": "Inkl. 19 % MwSt.", "vatZero": "Netto (0 % MwSt.)", "dsoNetworkKicker": "VERTEILNETZBETREIBER", "receiptNowTitle": "STECKDOSENPREIS JETZT", "receiptSpotRow": "EPEX Spot DE-LU", "receiptMarginRow": "Vertriebsaufschlag", "receiptTaxRow": "Stromsteuer, Konzession & Umlagen", "receiptTotalRow": "GESAMTPREIS BRUTTO", "receiptCheapestToday": "Günstigste Stunde heute", "receiptAvgToday": "Tagesschnitt heute (gesamt)", "receiptAvgTomorrow": "Tagesschnitt morgen (gesamt)", "expectWord": "Erwartung", "optBestWindowTpl": "GÜNSTIGSTES {h}-STUNDEN-FENSTER (NÄCHSTE 36 H)", "optDurationLabel": "Ladedauer", "optKwLabel": "Leistung (kW)", "optProbTotalLabel": "Wahrscheinlicher Gesamtpreis", "optAvgTotalLabel": "Durchschnittlicher Gesamtpreis", "optTransferTaxLabel": "Netz & Abgaben", "optConsumptionLabel": "Verbrauch", "optSavedLabel": "Ersparnis ggü. teuerstem Zeitraum", "apiHeading": "Offene Börsenstrompreis- & Prognose-API (Spotpuls API)", "apiLead": "Rufen Sie EPEX DE-LU Spotpreise und die selbstlernende 7-Tage-Prognose direkt für Home Assistant, ioBroker, EVCC oder Excel per JSON/CSV ab.", "apiCopyBtn": "URL kopieren", "apiCopiedBtn": "Kopiert!", "apiDocsBtn": "API-Dokumentation", "apiEmbedLabel": "Einbettbares Live-Strompreis-Badge für Webseiten", "dsos": [{"id": "stromnetz_berlin", "name": "Stromnetz Berlin / E.DIS (Ost — DE-LU)", "gen": 10.4, "day": 12.2, "night": 6.8, "zone": "DE-LU", "postals": ["0", "1"]}, {"id": "stromnetz_hh_sh", "name": "Stromnetz Hamburg / SH Netz / EWE NETZ (Nord — DE-LU)", "gen": 11.2, "day": 13.0, "night": 7.1, "zone": "DE-LU", "postals": ["2", "3"]}, {"id": "westnetz", "name": "Westnetz / RheinNetz (NRW & West — DE-LU)", "gen": 10.8, "day": 12.5, "night": 6.9, "zone": "DE-LU", "postals": ["4", "5"]}, {"id": "netze_bw_bayern", "name": "Netze BW / Bayernwerk / SWM (Süd — DE-LU)", "gen": 9.8, "day": 11.4, "night": 6.2, "zone": "DE-LU", "postals": ["6", "7", "8", "9"]}]};
     </script>
     <!-- SPOTPULS_SEO_AI_START -->
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Spotpuls">
-    <meta property="og:title" content="Spotpuls — EPEX-Börsenstrompreis Stunde für Stunde, 7-Tage-Prognose &amp; Netzentgelt-Rechner nach PLZ | spotpuls.app">
-    <meta property="og:description" content="Aktueller Börsenstrompreis heute &amp; morgen sowie selbstlernende 7-Tage-Prognose für Deutschland (EPEX DE-LU). Netzentgelt-Rechner nach PLZ und kostenlose offene API.">
+    <meta property="og:title" content="EPEX-Börsenstrompreis Stunde für Stunde, 7-Tage-Prognose &amp; Netzentgelt-Rechner nach PLZ — Deutschland | Spotpuls">
+    <meta property="og:description" content="Geben Sie Ihre 5-stellige Postleitzahl ein (z. B. 10115 Berlin, 80331 München, 20095 Hamburg, 50667 Köln), um regionale Netzentgelte und den Bruttopreis zu berechnen.">
     <meta property="og:url" content="https://spotpuls.app/de/">
     <meta property="og:image" content="https://spotpuls.app/og-image.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="Spotpuls — EPEX-Börsenstrompreis Stunde für Stunde, 7-Tage-Prognose &amp; Netzentgelt-Rechner nach PLZ | spotpuls.app">
+    <meta property="og:image:alt" content="EPEX-Börsenstrompreis Stunde für Stunde, 7-Tage-Prognose &amp; Netzentgelt-Rechner nach PLZ — Deutschland | Spotpuls">
     <meta property="og:locale" content="de_DE">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Spotpuls — EPEX-Börsenstrompreis Stunde für Stunde, 7-Tage-Prognose &amp; Netzentgelt-Rechner nach PLZ | spotpuls.app">
-    <meta name="twitter:description" content="Aktueller Börsenstrompreis heute &amp; morgen sowie selbstlernende 7-Tage-Prognose für Deutschland (EPEX DE-LU). Netzentgelt-Rechner nach PLZ und kostenlose offene API.">
+    <meta name="twitter:title" content="EPEX-Börsenstrompreis Stunde für Stunde, 7-Tage-Prognose &amp; Netzentgelt-Rechner nach PLZ — Deutschland | Spotpuls">
+    <meta name="twitter:description" content="Geben Sie Ihre 5-stellige Postleitzahl ein (z. B. 10115 Berlin, 80331 München, 20095 Hamburg, 50667 Köln), um regionale Netzentgelte und den Bruttopreis zu berechnen.">
     <meta name="twitter:image" content="https://spotpuls.app/og-image.png">
     <link rel="alternate" type="text/markdown" href="https://spotpuls.app/llms.txt" title="Spotpuls LLM &amp; AI Agent Reference">
     <link rel="alternate" type="text/plain" href="https://spotpuls.app/llms-full.txt" title="Spotpuls Full Machine-Readable Knowledge Base">
     <link rel="alternate" type="application/json" href="https://spotpuls.app/api/v1/prices?zone=DE-LU&amp;vat=1" title="Spotpuls DE-LU Live Spot &amp; 7-Day Forecast JSON API">
     <link rel="service-desc" type="application/vnd.oai.openapi+json" href="https://spotpuls.app/openapi.json">
     <!-- SPOTPULS_SEO_AI_END -->
+    <script>
+    window.ACTIVE_COUNTRY_LOCALE = {"countryId": "de", "lang": "de-DE", "hreflang": "de", "path": "/de/", "languageLabel": "Deutsch (DE)", "geoRegion": "DE", "countryName": "Deutschland", "defaultZone": "DE-LU", "zones": ["DE-LU"], "unit": "ct/kWh", "currencyMajor": "€", "subunitsPerMajor": 100, "fxFromEurCents": 1.0, "vatRate": 1.19, "vatPctText": "19 %", "defaultMargin": 1.5, "taxInclVat": 5.8, "defaultPostal": "10115", "defaultCity": "Berlin", "brandSubtitle": "EPEX-Börsenstrompreis Stunde für Stunde, 7-Tage-Prognose & Netzentgelt-Rechner nach PLZ", "navChart": "Börsengrafik", "navTable": "Stundentabelle", "navTransfer": "Netzentgelt-Rechner", "navOptimizer": "Lastmanagement", "navApi": "Open API", "zoneSelectLabel": "Gebotszone", "langSelectLabel": "Land / Sprache", "chartTitle": "Börsenstrompreis (EPEX DE-LU) und 7-Tage-Prognose (ct/kWh)", "hoverHint": "Bewegen Sie die Maus über einen Balken, um Stundenpreis und wahrscheinliches Preisintervall zu sehen.", "tierBasisIntro": "Preisniveau (ggü. 30-Tage-Schnitt", "tierCheap": "Günstig", "tierNorm": "Normal", "tierHigh": "Hoch", "legendRange": "Prognose-Intervall (Min–Max)", "scrollDownText": "Nach unten scrollen: Stundentabelle, Netzentgelt-Rechner (§14a EnWG), Wallbox-Optimierer & API", "approxPrefix": "ca. ", "rangePrefix": "Preisintervall", "fixedText": "Bestätigter EPEX-Preis", "probLabel": "Wahrscheinlichkeit", "predWasLabel": "Modellprognose war", "predShortLabel": "Prognose war", "pubShortTpl": "Veröff. {date} {time}", "pubFullTpl": "Börsenpreis wird veröffentlicht: {date} um {time} Uhr", "weekdaysShort": ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"], "todayWord": "Heute", "tomorrowWord": "Morgen", "atClockWord": "", "sumNowTitle": "STROMPREIS AKTUELLE STUNDE", "sumMinTitle": "GÜNSTIGSTE STUNDE HEUTE", "sumMaxTitle": "TEUERSTE STUNDE HEUTE", "tableHeading": "Stündlicher Börsenstrompreis & 7-Tage-Prognoseintervall", "colTime": "Uhrzeit", "colSpot": "Börsenpreis (Prognose / EPEX)", "colRange": "Wahrscheinliches Intervall", "colTotal": "Gesamtpreis inkl. Netz & Abgaben", "colWeather": "Windkraft & Temperatur", "transferHeading": "Dynamischer Stromtarif & Netzentgelt-Rechner nach Postleitzahl", "transferLead": "Geben Sie Ihre 5-stellige Postleitzahl ein (z. B. 10115 Berlin, 80331 München, 20095 Hamburg, 50667 Köln), um regionale Netzentgelte und den Bruttopreis zu berechnen.", "postalLabel": "Postleitzahl oder Ort", "postalPlaceholder": "10115, 80331, 20095, 50667...", "setBtn": "Übernehmen", "tariffLabel": "Netzentgelt-Tarif", "tariffGeneral": "Standardtarif", "tariffTime": "Zeitvariabel (§14a EnWG)", "marginLabel": "Anbieter-Aufschlag (ct/kWh)", "vatLabel": "Mehrwertsteuer", "vatIncl": "Inkl. 19 % MwSt.", "vatZero": "Netto (0 % MwSt.)", "dsoNetworkKicker": "VERTEILNETZBETREIBER", "receiptNowTitle": "STECKDOSENPREIS JETZT", "receiptSpotRow": "EPEX Spot DE-LU", "receiptMarginRow": "Vertriebsaufschlag", "receiptTaxRow": "Stromsteuer, Konzession & Umlagen", "receiptTotalRow": "GESAMTPREIS BRUTTO", "receiptCheapestToday": "Günstigste Stunde heute", "receiptAvgToday": "Tagesschnitt heute (gesamt)", "receiptAvgTomorrow": "Tagesschnitt morgen (gesamt)", "expectWord": "Erwartung", "optBestWindowTpl": "GÜNSTIGSTES {h}-STUNDEN-FENSTER (NÄCHSTE 36 H)", "optDurationLabel": "Ladedauer", "optKwLabel": "Leistung (kW)", "optProbTotalLabel": "Wahrscheinlicher Gesamtpreis", "optAvgTotalLabel": "Durchschnittlicher Gesamtpreis", "optTransferTaxLabel": "Netz & Abgaben", "optConsumptionLabel": "Verbrauch", "optSavedLabel": "Ersparnis ggü. teuerstem Zeitraum", "apiHeading": "Offene Börsenstrompreis- & Prognose-API (Spotpuls API)", "apiLead": "Rufen Sie EPEX DE-LU Spotpreise und die selbstlernende 7-Tage-Prognose direkt für Home Assistant, ioBroker, EVCC oder Excel per JSON/CSV ab.", "apiCopyBtn": "URL kopieren", "apiCopiedBtn": "Kopiert!", "apiDocsBtn": "API-Dokumentation", "apiEmbedLabel": "Einbettbares Live-Strompreis-Badge für Webseiten", "dsos": [{"id": "stromnetz_berlin", "name": "Stromnetz Berlin / E.DIS (Ost — DE-LU)", "gen": 10.4, "day": 12.2, "night": 6.8, "zone": "DE-LU", "postals": ["0", "1"]}, {"id": "stromnetz_hh_sh", "name": "Stromnetz Hamburg / SH Netz / EWE NETZ (Nord — DE-LU)", "gen": 11.2, "day": 13.0, "night": 7.1, "zone": "DE-LU", "postals": ["2", "3"]}, {"id": "westnetz", "name": "Westnetz / RheinNetz (NRW & West — DE-LU)", "gen": 10.8, "day": 12.5, "night": 6.9, "zone": "DE-LU", "postals": ["4", "5"]}, {"id": "netze_bw_bayern", "name": "Netze BW / Bayernwerk / SWM (Süd — DE-LU)", "gen": 9.8, "day": 11.4, "night": 6.2, "zone": "DE-LU", "postals": ["6", "7", "8", "9"]}]};
+    </script>
 </head>
 <body>
     <header class="site-header">
@@ -395,6 +471,26 @@
           - rolling30dAvg</pre>
                         </div>
                     </div>
+                </div>
+            </section>
+
+            <section class="panel-box" id="faq">
+                <div class="panel-head">
+                    <h2>FAQ — Deutschland (DE-LU)</h2>
+                </div>
+                <div class="panel-body">
+                    <details class="faq-item" open style="border-bottom:1px solid #d8d4c7; padding:10px 0;">
+                        <summary style="font-weight:700; cursor:pointer; font-size:14px;">When are tomorrow&#x27;s Deutschland (DE-LU) electricity spot prices published?</summary>
+                        <p style="margin-top:6px; font-size:13.5px; color:#3a3e38; line-height:1.6;">Day-ahead hourly prices for Deutschland (DE-LU) on EPEX Spot are published daily around 12:45 (Europe/Berlin). Spotpuls updates automatically with both VAT-inclusive (119 %) and VAT-free prices in ct/kWh.</p>
+                    </details>
+                    <details class="faq-item" open style="border-bottom:1px solid #d8d4c7; padding:10px 0;">
+                        <summary style="font-weight:700; cursor:pointer; font-size:14px;">How does the Spotpuls 7-day electricity price forecast work for DE-LU?</summary>
+                        <p style="margin-top:6px; font-size:13.5px; color:#3a3e38; line-height:1.6;">Spotpuls combines a dedicated DE-LU Log-Merit + Hist-GBDT model with 100 m wind speed, solar radiation, temperature, and self-learning NLMS residual correction to forecast 168 hourly prices (including negative price regimes and min-max probability bands).</p>
+                    </details>
+                    <details class="faq-item" open style="border-bottom:1px solid #d8d4c7; padding:10px 0;">
+                        <summary style="font-weight:700; cursor:pointer; font-size:14px;">Can I fetch Deutschland spot prices and 7-day forecasts via a free API?</summary>
+                        <p style="margin-top:6px; font-size:13.5px; color:#3a3e38; line-height:1.6;">Yes. The open CORS-enabled endpoint https://spotpuls.app/api/v1/prices?zone=DE-LU&amp;vat=1 requires no API key and outputs JSON, Home Assistant, Shelly, EVCC, Victron, CSV, iCal, Prometheus, Markdown, and live SVG badges.</p>
+                    </details>
                 </div>
             </section>
         </div>

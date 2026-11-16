@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spotpuls — Prezzo luce GME / PUN zonale ora per ora, previsione a 7 giorni per tutte le 6 zone italiane e oneri ARERA | spotpuls.app</title>
-    <meta name="description" content="Prezzo della luce adesso, oggi e domani (GME / PUN zonale) con previsione autoapprendente a 7 giorni per le 6 zone italiane. Oneri ARERA per CAP e API aperta gratuita.">
+    <title>Prezzo luce GME / PUN zonale ora per ora, previsione a 7 giorni per tutte le 6 zone italiane e oneri ARERA — Italia | Spotpuls</title>
+    <meta name="description" content="Inserisci il CAP (es. 20121 Milano, 50122 Firenze, 00184 Roma, 70121 Bari, 90133 Palermo, 09124 Cagliari) per selezionare automaticamente la zona GME.">
     <meta name="geo.region" content="IT">
     <meta name="content-language" content="it-IT">
     <link rel="canonical" href="https://spotpuls.app/it/" />
@@ -72,6 +72,33 @@
       "alternateName": "spotpuls.app",
       "publisher": {
         "@id": "https://spotpuls.app/#organization"
+      },
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://spotpuls.app/?zone={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://spotpuls.app/it/#webpage",
+      "url": "https://spotpuls.app/it/",
+      "name": "Prezzo luce GME / PUN zonale ora per ora, previsione a 7 giorni per tutte le 6 zone italiane e oneri ARERA",
+      "description": "Inserisci il CAP (es. 20121 Milano, 50122 Firenze, 00184 Roma, 70121 Bari, 90133 Palermo, 09124 Cagliari) per selezionare automaticamente la zona GME.",
+      "inLanguage": "it-IT",
+      "isPartOf": {
+        "@id": "https://spotpuls.app/#website"
+      },
+      "about": {
+        "@id": "https://spotpuls.app/it/#dataset"
+      },
+      "speakable": {
+        "@type": "SpeakableSpecification",
+        "cssSelector": [
+          "h1",
+          ".readout-card",
+          "#faq"
+        ]
       }
     },
     {
@@ -80,7 +107,7 @@
       "name": "Spotpuls",
       "alternateName": "spotpuls.app",
       "url": "https://spotpuls.app/it/",
-      "description": "Prezzo della luce adesso, oggi e domani (GME / PUN zonale) con previsione autoapprendente a 7 giorni per le 6 zone italiane. Oneri ARERA per CAP e API aperta gratuita.",
+      "description": "Prezzo luce GME / PUN zonale ora per ora, previsione a 7 giorni per tutte le 6 zone italiane e oneri ARERA",
       "applicationCategory": "UtilitiesApplication",
       "operatingSystem": "Web",
       "inLanguage": "it-IT",
@@ -99,17 +126,35 @@
     {
       "@type": "Dataset",
       "@id": "https://spotpuls.app/it/#dataset",
-      "name": "Spotpuls — Prezzo luce GME / PUN zonale ora per ora, previsione a 7 giorni per tutte le 6 zone italiane e oneri ARERA",
-      "description": "Prezzo della luce adesso, oggi e domani (GME / PUN zonale) con previsione autoapprendente a 7 giorni per le 6 zone italiane. Oneri ARERA per CAP e API aperta gratuita.",
+      "name": "Spotpuls Italia (IT-North) Day-Ahead Spot Electricity Prices & 7-Day Hourly Forecast",
+      "description": "Scarica i prezzi orari e le previsioni a 7 giorni per Nord, Centro-Nord, Centro-Sud, Sud, Sicilia e Sardegna in JSON o CSV.",
       "url": "https://spotpuls.app/it/",
       "inLanguage": "it-IT",
       "isAccessibleForFree": true,
       "license": "https://creativecommons.org/licenses/by/4.0/",
       "creator": {
-        "@type": "Organization",
-        "name": "Spotpuls",
-        "url": "https://spotpuls.app"
+        "@id": "https://spotpuls.app/#organization"
       },
+      "keywords": [
+        "electricity spot price",
+        "day-ahead electricity price",
+        "7-day electricity price forecast",
+        "IT-North",
+        "Italia",
+        "Nord Pool",
+        "ENTSO-E"
+      ],
+      "variableMeasured": [
+        "Hourly Day-Ahead Electricity Spot Price",
+        "7-Day Hourly Spot Price Forecast",
+        "Conformal Min-Max Price Prediction Interval",
+        "100m Wind Speed & Solar Radiation Impact"
+      ],
+      "isBasedOn": [
+        "https://transparency.entsoe.eu/",
+        "https://www.nordpoolgroup.com/",
+        "https://open-meteo.com/"
+      ],
       "temporalCoverage": "2024-01-01/..",
       "spatialCoverage": {
         "@type": "Place",
@@ -125,6 +170,11 @@
           "@type": "DataDownload",
           "encodingFormat": "text/csv",
           "contentUrl": "https://spotpuls.app/api/v1/prices?zone=IT-North&vat=1&format=csv"
+        },
+        {
+          "@type": "DataDownload",
+          "encodingFormat": "text/markdown",
+          "contentUrl": "https://spotpuls.app/api/v1/prices?zone=IT-North&vat=1&format=markdown"
         }
       ]
     },
@@ -132,44 +182,70 @@
       "@type": "WebAPI",
       "@id": "https://spotpuls.app/api/v1/prices#webapi",
       "name": "Spotpuls Open Electricity Spot & 7-Day Forecast API",
-      "description": "Prezzo della luce adesso, oggi e domani (GME / PUN zonale) con previsione autoapprendente a 7 giorni per le 6 zone italiane. Oneri ARERA per CAP e API aperta gratuita.",
+      "description": "Free CORS-enabled REST API for European day-ahead electricity spot prices and self-learning 7-day regional hourly forecasts across 40 bidding zones.",
       "url": "https://spotpuls.app/api/v1/prices",
       "documentation": "https://spotpuls.app/api-docs/",
       "termsOfService": "https://spotpuls.app/api-docs/",
       "provider": {
-        "@type": "Organization",
-        "name": "Spotpuls",
-        "url": "https://spotpuls.app"
-      },
-      "inLanguage": "en"
+        "@id": "https://spotpuls.app/#organization"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "When are tomorrow's Italia (IT-North) electricity spot prices published?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Day-ahead hourly prices for Italia (IT-North, IT-Centre-North, IT-Centre-South, IT-South, IT-Sicily, IT-Sardinia) on GME are published daily around 12:45 (Europe/Rome). Spotpuls updates automatically with both VAT-inclusive (110 %) and VAT-free prices in cent./kWh."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How does the Spotpuls 7-day electricity price forecast work for IT-North?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Spotpuls combines a dedicated IT-North Log-Merit + Hist-GBDT model with 100 m wind speed, solar radiation, temperature, and self-learning NLMS residual correction to forecast 168 hourly prices (including negative price regimes and min-max probability bands)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I fetch Italia spot prices and 7-day forecasts via a free API?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. The open CORS-enabled endpoint https://spotpuls.app/api/v1/prices?zone=IT-North&vat=1 requires no API key and outputs JSON, Home Assistant, Shelly, EVCC, Victron, CSV, iCal, Prometheus, Markdown, and live SVG badges."
+          }
+        }
+      ]
     }
   ]
 }
-    </script>
-    <script>
-    window.ACTIVE_COUNTRY_LOCALE = {"countryId": "it", "lang": "it-IT", "hreflang": "it", "path": "/it/", "languageLabel": "Italiano (IT)", "geoRegion": "IT", "countryName": "Italia", "defaultZone": "IT-North", "zones": ["IT-North", "IT-Centre-North", "IT-Centre-South", "IT-South", "IT-Sicily", "IT-Sardinia"], "unit": "cent./kWh", "currencyMajor": "€", "subunitsPerMajor": 100, "fxFromEurCents": 1.0, "vatRate": 1.1, "vatPctText": "10 %", "defaultMargin": 1.2, "taxInclVat": 2.5, "defaultPostal": "20121", "defaultCity": "Milano (Nord)", "brandSubtitle": "Prezzo luce GME / PUN zonale ora per ora, previsione a 7 giorni per tutte le 6 zone italiane e oneri ARERA", "navChart": "Grafico GME", "navTable": "Tabella oraria", "navTransfer": "Calcolo oneri", "navOptimizer": "Ottimizzatore 36 h", "navApi": "Open API", "zoneSelectLabel": "Zona GME", "langSelectLabel": "Paese / Lingua", "chartTitle": "Prezzo zonale elettricità GME e previsione a 7 giorni (cent./kWh)", "hoverHint": "Passa il mouse o tocca una barra per vedere il prezzo orario e la fascia di previsione.", "tierBasisIntro": "Livello prezzo (rispetto a media 30 gg", "tierCheap": "Basso", "tierNorm": "Normale", "tierHigh": "Alto", "legendRange": "Fascia di previsione (min–max)", "scrollDownText": "Scorri in basso: tabella oraria, calcolo trasporto/oneri ARERA per CAP, ricarica EV e Open API", "approxPrefix": "ca. ", "rangePrefix": "Fascia probabile", "fixedText": "Prezzo GME confermato", "probLabel": "Probabilità", "predWasLabel": "La previsione era", "predShortLabel": "Previsione", "pubShortTpl": "Pubbl. {date} {time}", "pubFullTpl": "Prezzo pubblicato: {date} ore {time}", "weekdaysShort": ["Dom", "Lun", "Mar", "Mer", "Gio", "Ven", "Sab"], "todayWord": "Oggi", "tomorrowWord": "Domani", "atClockWord": "ore", "sumNowTitle": "PREZZO LUCE ORA ATTUALE", "sumMinTitle": "ORA PIÙ ECONOMICA OGGI", "sumMaxTitle": "ORA PIÙ COSTOSA OGGI", "tableHeading": "Prezzo orario zonale GME e previsione a 7 giorni", "colTime": "Fascia oraria", "colSpot": "Prezzo GME (previsione / ufficiale)", "colRange": "Fascia probabile", "colTotal": "Prezzo finito incl. rete e IVA", "colWeather": "Vento e temperatura", "transferHeading": "Calcolatore prezzo finito luce (Spot GME + Trasporto ARERA + Accise) per CAP", "transferLead": "Inserisci il CAP (es. 20121 Milano, 50122 Firenze, 00184 Roma, 70121 Bari, 90133 Palermo, 09124 Cagliari) per selezionare automaticamente la zona GME.", "postalLabel": "CAP o città", "postalPlaceholder": "20121, 00184, 70121, 90133...", "setBtn": "Imposta", "tariffLabel": "Tariffa trasporto", "tariffGeneral": "Monoraria", "tariffTime": "Bioraria (F1 / F23)", "marginLabel": "Spread fornitore (cent./kWh)", "vatLabel": "IVA domestica", "vatIncl": "Incl. IVA 10 %", "vatZero": "Escl. IVA (0 %)", "dsoNetworkKicker": "DISTRIBUTORE & ZONA", "receiptNowTitle": "PREZZO FINITO ADESSO", "receiptSpotRow": "Prezzo zonale GME", "receiptMarginRow": "Spread fornitore", "receiptTaxRow": "Oneri di sistema & accisa", "receiptTotalRow": "TOTALE FINITO", "receiptCheapestToday": "Ora più conveniente oggi", "receiptAvgToday": "Media di oggi (finito)", "receiptAvgTomorrow": "Media di domani (finito)", "expectWord": "atteso", "optBestWindowTpl": "FINESTRA DI {h} ORE PIÙ CONVENIENTE (PROSSIME 36 H)", "optDurationLabel": "Durata", "optKwLabel": "Potenza (kW)", "optProbTotalLabel": "Prezzo finito probabile", "optAvgTotalLabel": "Prezzo finito medio", "optTransferTaxLabel": "Trasporto e oneri", "optConsumptionLabel": "Consumo", "optSavedLabel": "Risparmio rispetto alle ore di punta", "apiHeading": "Open API Prezzo Luce GME & Previsione Zonale 7 Giorni (Spotpuls API)", "apiLead": "Scarica i prezzi orari e le previsioni a 7 giorni per Nord, Centro-Nord, Centro-Sud, Sud, Sicilia e Sardegna in JSON o CSV.", "apiCopyBtn": "Copia URL", "apiCopiedBtn": "Copiato!", "apiDocsBtn": "Documentazione API", "apiEmbedLabel": "Badge prezzo luce live per siti web", "dsos": [{"id": "edist_nord", "name": "e-distribuzione / Unareti / Areti Nord (IT-North)", "gen": 4.8, "day": 5.4, "night": 4.2, "zone": "IT-North", "postals": ["1", "2", "3", "4"]}, {"id": "edist_cnor", "name": "e-distribuzione Centro-Nord (Toscana, Umbria, Marche — IT-Centre-North)", "gen": 4.8, "day": 5.4, "night": 4.2, "zone": "IT-Centre-North", "postals": ["5", "60", "61", "62", "06"]}, {"id": "areti_csud", "name": "Areti / e-distribuzione Centro-Sud (Lazio, Campania, Abruzzo — IT-Centre-South)", "gen": 4.8, "day": 5.4, "night": 4.2, "zone": "IT-Centre-South", "postals": ["00", "01", "02", "03", "04", "65", "66", "67", "80", "81", "82", "83", "84"]}, {"id": "edist_sard", "name": "e-distribuzione Sardegna (IT-Sardinia)", "gen": 4.8, "day": 5.4, "night": 4.2, "zone": "IT-Sardinia", "postals": ["07", "08", "09"]}, {"id": "edist_sud", "name": "e-distribuzione Sud (Puglia, Basilicata, Calabria — IT-South)", "gen": 4.8, "day": 5.4, "night": 4.2, "zone": "IT-South", "postals": ["7", "85", "87", "88", "89"]}, {"id": "edist_sici", "name": "e-distribuzione Sicilia (IT-Sicily)", "gen": 4.8, "day": 5.4, "night": 4.2, "zone": "IT-Sicily", "postals": ["9"]}]};
     </script>
     <!-- SPOTPULS_SEO_AI_START -->
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Spotpuls">
-    <meta property="og:title" content="Spotpuls — Prezzo luce GME / PUN zonale ora per ora, previsione a 7 giorni per tutte le 6 zone italiane e oneri ARERA | spotpuls.app">
-    <meta property="og:description" content="Prezzo della luce adesso, oggi e domani (GME / PUN zonale) con previsione autoapprendente a 7 giorni per le 6 zone italiane. Oneri ARERA per CAP e API aperta gratuita.">
+    <meta property="og:title" content="Prezzo luce GME / PUN zonale ora per ora, previsione a 7 giorni per tutte le 6 zone italiane e oneri ARERA — Italia | Spotpuls">
+    <meta property="og:description" content="Inserisci il CAP (es. 20121 Milano, 50122 Firenze, 00184 Roma, 70121 Bari, 90133 Palermo, 09124 Cagliari) per selezionare automaticamente la zona GME.">
     <meta property="og:url" content="https://spotpuls.app/it/">
     <meta property="og:image" content="https://spotpuls.app/og-image.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="Spotpuls — Prezzo luce GME / PUN zonale ora per ora, previsione a 7 giorni per tutte le 6 zone italiane e oneri ARERA | spotpuls.app">
+    <meta property="og:image:alt" content="Prezzo luce GME / PUN zonale ora per ora, previsione a 7 giorni per tutte le 6 zone italiane e oneri ARERA — Italia | Spotpuls">
     <meta property="og:locale" content="it_IT">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Spotpuls — Prezzo luce GME / PUN zonale ora per ora, previsione a 7 giorni per tutte le 6 zone italiane e oneri ARERA | spotpuls.app">
-    <meta name="twitter:description" content="Prezzo della luce adesso, oggi e domani (GME / PUN zonale) con previsione autoapprendente a 7 giorni per le 6 zone italiane. Oneri ARERA per CAP e API aperta gratuita.">
+    <meta name="twitter:title" content="Prezzo luce GME / PUN zonale ora per ora, previsione a 7 giorni per tutte le 6 zone italiane e oneri ARERA — Italia | Spotpuls">
+    <meta name="twitter:description" content="Inserisci il CAP (es. 20121 Milano, 50122 Firenze, 00184 Roma, 70121 Bari, 90133 Palermo, 09124 Cagliari) per selezionare automaticamente la zona GME.">
     <meta name="twitter:image" content="https://spotpuls.app/og-image.png">
     <link rel="alternate" type="text/markdown" href="https://spotpuls.app/llms.txt" title="Spotpuls LLM &amp; AI Agent Reference">
     <link rel="alternate" type="text/plain" href="https://spotpuls.app/llms-full.txt" title="Spotpuls Full Machine-Readable Knowledge Base">
     <link rel="alternate" type="application/json" href="https://spotpuls.app/api/v1/prices?zone=IT-North&amp;vat=1" title="Spotpuls IT-North Live Spot &amp; 7-Day Forecast JSON API">
     <link rel="service-desc" type="application/vnd.oai.openapi+json" href="https://spotpuls.app/openapi.json">
     <!-- SPOTPULS_SEO_AI_END -->
+    <script>
+    window.ACTIVE_COUNTRY_LOCALE = {"countryId": "it", "lang": "it-IT", "hreflang": "it", "path": "/it/", "languageLabel": "Italiano (IT)", "geoRegion": "IT", "countryName": "Italia", "defaultZone": "IT-North", "zones": ["IT-North", "IT-Centre-North", "IT-Centre-South", "IT-South", "IT-Sicily", "IT-Sardinia"], "unit": "cent./kWh", "currencyMajor": "€", "subunitsPerMajor": 100, "fxFromEurCents": 1.0, "vatRate": 1.1, "vatPctText": "10 %", "defaultMargin": 1.2, "taxInclVat": 2.5, "defaultPostal": "20121", "defaultCity": "Milano (Nord)", "brandSubtitle": "Prezzo luce GME / PUN zonale ora per ora, previsione a 7 giorni per tutte le 6 zone italiane e oneri ARERA", "navChart": "Grafico GME", "navTable": "Tabella oraria", "navTransfer": "Calcolo oneri", "navOptimizer": "Ottimizzatore 36 h", "navApi": "Open API", "zoneSelectLabel": "Zona GME", "langSelectLabel": "Paese / Lingua", "chartTitle": "Prezzo zonale elettricità GME e previsione a 7 giorni (cent./kWh)", "hoverHint": "Passa il mouse o tocca una barra per vedere il prezzo orario e la fascia di previsione.", "tierBasisIntro": "Livello prezzo (rispetto a media 30 gg", "tierCheap": "Basso", "tierNorm": "Normale", "tierHigh": "Alto", "legendRange": "Fascia di previsione (min–max)", "scrollDownText": "Scorri in basso: tabella oraria, calcolo trasporto/oneri ARERA per CAP, ricarica EV e Open API", "approxPrefix": "ca. ", "rangePrefix": "Fascia probabile", "fixedText": "Prezzo GME confermato", "probLabel": "Probabilità", "predWasLabel": "La previsione era", "predShortLabel": "Previsione", "pubShortTpl": "Pubbl. {date} {time}", "pubFullTpl": "Prezzo pubblicato: {date} ore {time}", "weekdaysShort": ["Dom", "Lun", "Mar", "Mer", "Gio", "Ven", "Sab"], "todayWord": "Oggi", "tomorrowWord": "Domani", "atClockWord": "ore", "sumNowTitle": "PREZZO LUCE ORA ATTUALE", "sumMinTitle": "ORA PIÙ ECONOMICA OGGI", "sumMaxTitle": "ORA PIÙ COSTOSA OGGI", "tableHeading": "Prezzo orario zonale GME e previsione a 7 giorni", "colTime": "Fascia oraria", "colSpot": "Prezzo GME (previsione / ufficiale)", "colRange": "Fascia probabile", "colTotal": "Prezzo finito incl. rete e IVA", "colWeather": "Vento e temperatura", "transferHeading": "Calcolatore prezzo finito luce (Spot GME + Trasporto ARERA + Accise) per CAP", "transferLead": "Inserisci il CAP (es. 20121 Milano, 50122 Firenze, 00184 Roma, 70121 Bari, 90133 Palermo, 09124 Cagliari) per selezionare automaticamente la zona GME.", "postalLabel": "CAP o città", "postalPlaceholder": "20121, 00184, 70121, 90133...", "setBtn": "Imposta", "tariffLabel": "Tariffa trasporto", "tariffGeneral": "Monoraria", "tariffTime": "Bioraria (F1 / F23)", "marginLabel": "Spread fornitore (cent./kWh)", "vatLabel": "IVA domestica", "vatIncl": "Incl. IVA 10 %", "vatZero": "Escl. IVA (0 %)", "dsoNetworkKicker": "DISTRIBUTORE & ZONA", "receiptNowTitle": "PREZZO FINITO ADESSO", "receiptSpotRow": "Prezzo zonale GME", "receiptMarginRow": "Spread fornitore", "receiptTaxRow": "Oneri di sistema & accisa", "receiptTotalRow": "TOTALE FINITO", "receiptCheapestToday": "Ora più conveniente oggi", "receiptAvgToday": "Media di oggi (finito)", "receiptAvgTomorrow": "Media di domani (finito)", "expectWord": "atteso", "optBestWindowTpl": "FINESTRA DI {h} ORE PIÙ CONVENIENTE (PROSSIME 36 H)", "optDurationLabel": "Durata", "optKwLabel": "Potenza (kW)", "optProbTotalLabel": "Prezzo finito probabile", "optAvgTotalLabel": "Prezzo finito medio", "optTransferTaxLabel": "Trasporto e oneri", "optConsumptionLabel": "Consumo", "optSavedLabel": "Risparmio rispetto alle ore di punta", "apiHeading": "Open API Prezzo Luce GME & Previsione Zonale 7 Giorni (Spotpuls API)", "apiLead": "Scarica i prezzi orari e le previsioni a 7 giorni per Nord, Centro-Nord, Centro-Sud, Sud, Sicilia e Sardegna in JSON o CSV.", "apiCopyBtn": "Copia URL", "apiCopiedBtn": "Copiato!", "apiDocsBtn": "Documentazione API", "apiEmbedLabel": "Badge prezzo luce live per siti web", "dsos": [{"id": "edist_nord", "name": "e-distribuzione / Unareti / Areti Nord (IT-North)", "gen": 4.8, "day": 5.4, "night": 4.2, "zone": "IT-North", "postals": ["1", "2", "3", "4"]}, {"id": "edist_cnor", "name": "e-distribuzione Centro-Nord (Toscana, Umbria, Marche — IT-Centre-North)", "gen": 4.8, "day": 5.4, "night": 4.2, "zone": "IT-Centre-North", "postals": ["5", "60", "61", "62", "06"]}, {"id": "areti_csud", "name": "Areti / e-distribuzione Centro-Sud (Lazio, Campania, Abruzzo — IT-Centre-South)", "gen": 4.8, "day": 5.4, "night": 4.2, "zone": "IT-Centre-South", "postals": ["00", "01", "02", "03", "04", "65", "66", "67", "80", "81", "82", "83", "84"]}, {"id": "edist_sard", "name": "e-distribuzione Sardegna (IT-Sardinia)", "gen": 4.8, "day": 5.4, "night": 4.2, "zone": "IT-Sardinia", "postals": ["07", "08", "09"]}, {"id": "edist_sud", "name": "e-distribuzione Sud (Puglia, Basilicata, Calabria — IT-South)", "gen": 4.8, "day": 5.4, "night": 4.2, "zone": "IT-South", "postals": ["7", "85", "87", "88", "89"]}, {"id": "edist_sici", "name": "e-distribuzione Sicilia (IT-Sicily)", "gen": 4.8, "day": 5.4, "night": 4.2, "zone": "IT-Sicily", "postals": ["9"]}]};
+    </script>
 </head>
 <body>
     <header class="site-header">
@@ -395,6 +471,26 @@
           - rolling30dAvg</pre>
                         </div>
                     </div>
+                </div>
+            </section>
+
+            <section class="panel-box" id="faq">
+                <div class="panel-head">
+                    <h2>FAQ — Italia (IT-North)</h2>
+                </div>
+                <div class="panel-body">
+                    <details class="faq-item" open style="border-bottom:1px solid #d8d4c7; padding:10px 0;">
+                        <summary style="font-weight:700; cursor:pointer; font-size:14px;">When are tomorrow&#x27;s Italia (IT-North) electricity spot prices published?</summary>
+                        <p style="margin-top:6px; font-size:13.5px; color:#3a3e38; line-height:1.6;">Day-ahead hourly prices for Italia (IT-North, IT-Centre-North, IT-Centre-South, IT-South, IT-Sicily, IT-Sardinia) on GME are published daily around 12:45 (Europe/Rome). Spotpuls updates automatically with both VAT-inclusive (110 %) and VAT-free prices in cent./kWh.</p>
+                    </details>
+                    <details class="faq-item" open style="border-bottom:1px solid #d8d4c7; padding:10px 0;">
+                        <summary style="font-weight:700; cursor:pointer; font-size:14px;">How does the Spotpuls 7-day electricity price forecast work for IT-North?</summary>
+                        <p style="margin-top:6px; font-size:13.5px; color:#3a3e38; line-height:1.6;">Spotpuls combines a dedicated IT-North Log-Merit + Hist-GBDT model with 100 m wind speed, solar radiation, temperature, and self-learning NLMS residual correction to forecast 168 hourly prices (including negative price regimes and min-max probability bands).</p>
+                    </details>
+                    <details class="faq-item" open style="border-bottom:1px solid #d8d4c7; padding:10px 0;">
+                        <summary style="font-weight:700; cursor:pointer; font-size:14px;">Can I fetch Italia spot prices and 7-day forecasts via a free API?</summary>
+                        <p style="margin-top:6px; font-size:13.5px; color:#3a3e38; line-height:1.6;">Yes. The open CORS-enabled endpoint https://spotpuls.app/api/v1/prices?zone=IT-North&amp;vat=1 requires no API key and outputs JSON, Home Assistant, Shelly, EVCC, Victron, CSV, iCal, Prometheus, Markdown, and live SVG badges.</p>
+                    </details>
                 </div>
             </section>
         </div>
