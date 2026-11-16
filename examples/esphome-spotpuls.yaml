@@ -12,7 +12,7 @@ switch:
     name: "Boiler / EV Relay"
 
 interval:
-  - interval: 5min
+  - interval: 60min
     then:
       - http_request.get:
           url: "https://spotpuls.app/api/v1/plain/FI?field=run_now&window=3"

@@ -5,7 +5,7 @@
 let ZONE = "FI";
 let WINDOW_HOURS = 3;
 let RELAY_ID = 0;
-let POLL_MS = 5 * 60 * 1000; // 5 minutes (matches Spotpuls CDN cache)
+let POLL_MS = 60 * 60 * 1000; // 1 hour (spot prices only change once per hour)
 let API_URL = "https://spotpuls.app/api/v1/shelly/" + ZONE + ".json?vat=1&window=" + WINDOW_HOURS;
 
 function updateRelay() {
