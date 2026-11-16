@@ -1,0 +1,12 @@
+# evcc.io Custom Dynamic Electricity Tariff powered by Spotpuls
+# Docs: https://spotpuls.app/api-docs/
+# Replace DE-LU with FI, SE3, NO1, DK2, NL, FR, ES, etc.
+
+tariffs:
+  currency: EUR
+  grid:
+    type: custom
+    forecast:
+      source: http
+      uri: https://spotpuls.app/api/v1/evcc/DE-LU.json?vat=1
+      jq: .

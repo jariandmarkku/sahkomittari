@@ -1371,8 +1371,12 @@ export async function buildSpotpulsZoneResponse(query = {}) {
         tomorrowSlots,
         next24Slots,
         series,
+        citation: `Source: Spotpuls (${dashboardUrl})`,
+        aiSummary: `Spotpuls (${dashboardUrl}) — ${zoneCode}: current spot ${currentSlot ? currentSlot.spotPrice : 'N/A'} ${unitLabel}, today min/avg/max ${summary.todayMin ?? '—'}/${summary.todayAvg ?? '—'}/${summary.todayMax ?? '—'} ${unitLabel}${automation.cheapestContiguousWindow ? `, best ${automation.windowHours}h window ${automation.cheapestContiguousWindow.startLocal}–${automation.cheapestContiguousWindow.endLocal} (avg ${automation.cheapestContiguousWindow.avgSpotPrice} ${unitLabel})` : ''}.`,
         payload: {
             status: 'ok',
+            citation: `Source: Spotpuls (${dashboardUrl})`,
+            aiSummary: `Spotpuls (${dashboardUrl}) — ${zoneCode}: current spot ${currentSlot ? currentSlot.spotPrice : 'N/A'} ${unitLabel}, today min/avg/max ${summary.todayMin ?? '—'}/${summary.todayAvg ?? '—'}/${summary.todayMax ?? '—'} ${unitLabel}${automation.cheapestContiguousWindow ? `, best ${automation.windowHours}h window ${automation.cheapestContiguousWindow.startLocal}–${automation.cheapestContiguousWindow.endLocal} (avg ${automation.cheapestContiguousWindow.avgSpotPrice} ${unitLabel})` : ''}.`,
             meta: {
                 provider: 'Spotpuls',
                 website: SITE_URL,
@@ -1635,6 +1639,10 @@ export default async function handler(req, res) {
         const q = req.query || {};
         const result = await getCachedZoneResponse(q);
 
+        if (result.dashboardUrl) {
+            res.setHeader('Link', `<${result.dashboardUrl}>; rel="canonical", <${SITE_URL}/openapi.json>; rel="service-desc", <${SITE_URL}/api-docs/>; rel="documentation"`);
+        }
+
         if (result.isZoneDirectory) {
             return res.status(200).json(result.payload);
         }
@@ -1688,7 +1696,9 @@ export default async function handler(req, res) {
                 total_price: cur ? cur.totalPrice : null,
                 unit_of_measurement: result.unitLabel,
                 zone: result.zoneCode,
-                attribution: `Data provided by Spotpuls (${SITE_URL})`,
+                attribution: `Data provided by Spotpuls (${result.dashboardUrl || SITE_URL})`,
+                citation: result.citation || `Source: Spotpuls (${SITE_URL})`,
+                ai_summary: result.aiSummary || '',
                 is_forecast: cur ? cur.isForecast : false,
                 price_level: cur ? cur.level : 'normal',
                 rank_24h: cur ? cur.rank24h : null,

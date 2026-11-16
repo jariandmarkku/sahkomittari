@@ -1,0 +1,35 @@
+# Spotpuls Home Assistant REST Integration
+# Docs: https://spotpuls.app/api-docs/
+# Replace "FI" with any of 40 European bidding zones (SE1..SE4, NO1..NO5, DK1, DK2, EE, DE-LU, etc.).
+
+rest:
+  - resource: "https://spotpuls.app/api/v1/ha/FI.json?vat=1&window=3&margin=0.45"
+    scan_interval: 300
+    sensor:
+      - name: "Spotpuls Electricity Price"
+        unique_id: spotpuls_fi_spot_price
+        value_template: "{{ value_json.state }}"
+        unit_of_measurement: "snt/kWh"
+        state_class: measurement
+        json_attributes:
+          - total_price
+          - price_level
+          - rank_24h
+          - today_min
+          - today_max
+          - today_avg
+          - tomorrow_valid
+          - cheapest_window_start
+          - cheapest_window_end
+          - cheapest_window_avg
+          - raw_today
+          - raw_tomorrow
+          - forecast_7d
+          - citation
+    binary_sensor:
+      - name: "Spotpuls Run Cheapest Window"
+        unique_id: spotpuls_fi_run_contiguous_now
+        value_template: "{{ value_json.run_contiguous_now }}"
+      - name: "Spotpuls Avoid Peak Window"
+        unique_id: spotpuls_fi_avoid_peak_now
+        value_template: "{{ value_json.avoid_peak_now }}"

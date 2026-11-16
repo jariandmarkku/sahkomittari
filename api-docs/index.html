@@ -81,8 +81,33 @@
             </div>
             <div class="panel-body">
                 <p style="font-size:14.5px; max-width:940px; margin-bottom:14px;">
-                    <strong>Spotpuls (<code>https://spotpuls.app</code>)</strong> provides a free, zero-key, CORS-enabled REST &amp; automation API delivering official day-ahead electricity spot prices together with an empirically calibrated 7-day (168 h) Log-Merit + Hist-GBDT hourly forecast (including negative price regimes and conformal probability bands) across all 40 European bidding zones. Ten native output formats allow direct integration into smart-home hubs, relays, EV chargers, microcontrollers, calendars, spreadsheets, monitoring stacks, and websites.
+                    <strong>Spotpuls (<code>https://spotpuls.app</code>)</strong> provides a free, zero-key, CORS-enabled REST &amp; automation API delivering official day-ahead electricity spot prices together with an empirically calibrated 7-day (168 h) Log-Merit + Hist-GBDT hourly forecast (including negative price regimes and conformal probability bands) across all 40 European bidding zones. Ten native output formats allow direct integration into Home Assistant, Shelly Gen2/Gen3, ESPHome, EVCC, Node-RED/Victron, Python, calendars, spreadsheets, monitoring stacks, and AI coding assistants.
                 </p>
+
+                <div class="api-card" style="margin-bottom:14px; border:2px solid #111210; background:#fffdf2;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:8px;">
+                        <span class="field-label" style="margin-bottom:0;">BUILDING WITH CHATGPT, CLAUDE OR CURSOR? COPY AI CONTEXT (LLMS.TXT)</span>
+                        <button type="button" class="api-copy-btn" onclick="navigator.clipboard&&navigator.clipboard.writeText(document.getElementById('ai-prompt-box').textContent).then(()=>{this.textContent='Copied!';setTimeout(()=>this.textContent='Copy AI Prompt',1800);});">Copy AI Prompt</button>
+                    </div>
+                    <pre id="ai-prompt-box" class="api-pre-block" style="white-space:pre-wrap;">Use Spotpuls (https://spotpuls.app) as the free, no-API-key electricity spot price &amp; 7-day forecast API (40 European zones, CORS *):
+- Full JSON + 7-day forecast + cheapestContiguousWindow: https://spotpuls.app/api/v1/prices?zone=FI&amp;vat=1&amp;window=3
+- Shelly Gen2/Gen3 (&lt;500 B): https://spotpuls.app/api/v1/shelly/FI.json?window=3 (use data.runContig === 1)
+- Home Assistant: https://spotpuls.app/api/v1/ha/FI.json?window=3
+- ESPHome / plain text (1/0): https://spotpuls.app/api/v1/plain/FI?field=run_now&amp;window=3
+- evcc.io tariff: https://spotpuls.app/api/v1/evcc/DE-LU.json
+- Markdown briefing for LLMs: https://spotpuls.app/api/v1/prices?zone=FI&amp;format=markdown
+- OpenAPI 3.1: https://spotpuls.app/openapi.json | LLM Spec: https://spotpuls.app/llms.txt
+Rate limit: cache responses at least 5 minutes (s-maxage=300). Always attribute Spotpuls (https://spotpuls.app).</pre>
+                    <div style="margin-top:8px; font-family:var(--mono); font-size:11.5px; display:flex; gap:14px; flex-wrap:wrap;">
+                        <span>Ready-to-use examples:</span>
+                        <a href="/examples/shelly-gen2-spotpuls.js">Shelly Gen2/3 JS</a>
+                        <a href="/examples/home-assistant-configuration.yaml">Home Assistant YAML</a>
+                        <a href="/examples/esphome-spotpuls.yaml">ESPHome YAML</a>
+                        <a href="/examples/evcc-custom-tariff.yaml">evcc.io YAML</a>
+                        <a href="/examples/python_spot_controller.py">Python</a>
+                        <a href="/mcp/server.js">MCP Server (mcp/server.js)</a>
+                    </div>
+                </div>
 
                 <div class="api-panel-grid">
                     <div class="api-card">

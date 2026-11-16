@@ -1,0 +1,12 @@
+{
+  "name": "spotpuls-mcp",
+  "version": "1.0.0",
+  "description": "Lightweight zero-dependency MCP server for Spotpuls European electricity spot prices, 7-day forecasts, and smart-home load shifting across 40 bidding zones.",
+  "type": "module",
+  "bin": {
+    "spotpuls-mcp": "./server.js"
+  },
+  "main": "./server.js",
+  "license": "CC-BY-4.0",
+  "homepage": "https://spotpuls.app/api-docs/"
+}

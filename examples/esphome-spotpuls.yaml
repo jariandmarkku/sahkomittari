@@ -1,0 +1,28 @@
+# Spotpuls ESPHome / ESP32 Controller (returns "1" or "0" plain text)
+# Docs: https://spotpuls.app/api-docs/
+
+http_request:
+  useragent: esphome-spotpuls
+  timeout: 10s
+
+switch:
+  - platform: gpio
+    pin: GPIO12
+    id: load_relay
+    name: "Boiler / EV Relay"
+
+interval:
+  - interval: 5min
+    then:
+      - http_request.get:
+          url: "https://spotpuls.app/api/v1/plain/FI?field=run_now&window=3"
+          on_response:
+            then:
+              - lambda: |-
+                  if (response->status_code == 200) {
+                    if (body == "1") {
+                      id(load_relay).turn_on();
+                    } else if (body == "0") {
+                      id(load_relay).turn_off();
+                    }
+                  }
