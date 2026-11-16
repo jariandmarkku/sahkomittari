@@ -52,6 +52,97 @@ const upstreamWeatherCache = new Map();
 const tzFmtCache = new Map();
 const easterUtcCache = new Map();
 const UPSTREAM_TTL_MS = 5 * 60 * 1000;
+const RESPONSE_CACHE_TTL_MS = 2 * 60 * 1000;
+const MAX_RESPONSE_CACHE = 250;
+const RATE_LIMIT_WINDOW_MS = 60 * 1000;
+const RATE_LIMIT_MAX_REQ = 30;
+const MAX_RATE_BUCKETS = 2000;
+
+const responseCache = new Map();
+const inflightBuilds = new Map();
+const rateLimitBuckets = new Map();
+
+function getClientIp(req) {
+    const xff = req.headers?.['x-forwarded-for'];
+    if (typeof xff === 'string' && xff.trim()) {
+        return xff.split(',')[0].trim();
+    }
+    const realIp = req.headers?.['x-real-ip'];
+    if (typeof realIp === 'string' && realIp.trim()) {
+        return realIp.trim();
+    }
+    return req.socket?.remoteAddress || 'unknown';
+}
+
+function checkRateLimit(ip) {
+    const now = Date.now();
+    if (rateLimitBuckets.size > MAX_RATE_BUCKETS) {
+        for (const [k, v] of rateLimitBuckets.entries()) {
+            if (now >= v.resetAt) rateLimitBuckets.delete(k);
+        }
+        if (rateLimitBuckets.size > MAX_RATE_BUCKETS) {
+            rateLimitBuckets.clear();
+        }
+    }
+    let bucket = rateLimitBuckets.get(ip);
+    if (!bucket || now >= bucket.resetAt) {
+        bucket = { count: 0, resetAt: now + RATE_LIMIT_WINDOW_MS };
+        rateLimitBuckets.set(ip, bucket);
+    }
+    bucket.count += 1;
+    const remaining = Math.max(0, RATE_LIMIT_MAX_REQ - bucket.count);
+    const retryAfterSec = Math.max(1, Math.ceil((bucket.resetAt - now) / 1000));
+    return {
+        limited: bucket.count > RATE_LIMIT_MAX_REQ,
+        limit: RATE_LIMIT_MAX_REQ,
+        remaining,
+        resetEpochSec: Math.ceil(bucket.resetAt / 1000),
+        retryAfterSec
+    };
+}
+
+function getNormalizedCacheKey(q) {
+    const hourBucket = Math.floor(Date.now() / 300000);
+    return [
+        hourBucket,
+        String(q.list || '').toLowerCase(),
+        String(q.zone || 'FI').toUpperCase(),
+        String(q.vat ?? '1'),
+        String(q.currency || 'local').toLowerCase(),
+        String(q.window || '3'),
+        String(q.margin || ''),
+        String(q.transfer || ''),
+        String(q.threshold || '')
+    ].join('|');
+}
+
+async function getCachedZoneResponse(q) {
+    const key = getNormalizedCacheKey(q);
+    const now = Date.now();
+    const cached = responseCache.get(key);
+    if (cached && now - cached.ts < RESPONSE_CACHE_TTL_MS) {
+        return cached.data;
+    }
+    if (inflightBuilds.has(key)) {
+        return inflightBuilds.get(key);
+    }
+    const p = buildSpotpulsZoneResponse(q)
+        .then((data) => {
+            if (responseCache.size >= MAX_RESPONSE_CACHE) {
+                const oldestKey = responseCache.keys().next().value;
+                if (oldestKey !== undefined) responseCache.delete(oldestKey);
+            }
+            responseCache.set(key, { ts: Date.now(), data });
+            inflightBuilds.delete(key);
+            return data;
+        })
+        .catch((err) => {
+            inflightBuilds.delete(key);
+            throw err;
+        });
+    inflightBuilds.set(key, p);
+    return p;
+}
 
 function loadGlobalConfig() {
     if (cachedGlobalConfig) return cachedGlobalConfig;
@@ -1511,19 +1602,37 @@ a{color:${fg};text-decoration:none;font-weight:700;border-bottom:1.5px solid #ff
 
 export default async function handler(req, res) {
     res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, HEAD, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Accept');
-    res.setHeader('Cache-Control', 'public, s-maxage=300, stale-while-revalidate=1800');
+    res.setHeader('Cache-Control', 'public, max-age=60, s-maxage=300, stale-while-revalidate=3600');
     res.setHeader('X-Powered-By-Data', `Spotpuls (${SITE_URL})`);
     res.setHeader('Link', `<${SITE_URL}>; rel="canonical", <${SITE_URL}/openapi.json>; rel="service-desc", <${SITE_URL}/api-docs/>; rel="documentation"`);
 
     if (req.method === 'OPTIONS') {
         return res.status(200).end();
     }
+    if (req.method !== 'GET' && req.method !== 'HEAD') {
+        res.setHeader('Allow', 'GET, HEAD, OPTIONS');
+        return res.status(405).json({ error: 'Method Not Allowed. Use GET.' });
+    }
+
+    const rl = checkRateLimit(getClientIp(req));
+    res.setHeader('X-RateLimit-Limit', String(rl.limit));
+    res.setHeader('X-RateLimit-Remaining', String(rl.remaining));
+    res.setHeader('X-RateLimit-Reset', String(rl.resetEpochSec));
+    if (rl.limited) {
+        res.setHeader('Retry-After', String(rl.retryAfterSec));
+        res.setHeader('Cache-Control', 'no-store');
+        return res.status(429).json({
+            error: 'Too Many Requests',
+            message: `Rate limit exceeded (${rl.limit} cache-miss requests/minute per IP). Spot prices update hourly; please cache responses for at least 5 minutes.`,
+            retryAfterSeconds: rl.retryAfterSec
+        });
+    }
 
     try {
         const q = req.query || {};
-        const result = await buildSpotpulsZoneResponse(q);
+        const result = await getCachedZoneResponse(q);
 
         if (result.isZoneDirectory) {
             return res.status(200).json(result.payload);
