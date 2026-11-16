@@ -1,10 +1,10 @@
-# Spotpuls Home Assistant REST Integration
+# Spotpuls Home Assistant REST Integration (updates at the top of every hour)
 # Docs: https://spotpuls.app/api-docs/
 # Replace "FI" with any of 40 European bidding zones (SE1..SE4, NO1..NO5, DK1, DK2, EE, DE-LU, etc.).
 
 rest:
   - resource: "https://spotpuls.app/api/v1/ha/FI.json?vat=1&window=3&margin=0.45"
-    scan_interval: 3600
+    scan_interval: 86400
     sensor:
       - name: "Spotpuls Electricity Price"
         unique_id: spotpuls_fi_spot_price
@@ -33,3 +33,14 @@ rest:
       - name: "Spotpuls Avoid Peak Window"
         unique_id: spotpuls_fi_avoid_peak_now
         value_template: "{{ value_json.avoid_peak_now }}"
+
+automation:
+  - alias: "Spotpuls Hourly Top-of-Hour Refresh"
+    trigger:
+      - platform: time_pattern
+        minutes: 0
+        seconds: 5
+    action:
+      - service: homeassistant.update_entity
+        target:
+          entity_id: sensor.spotpuls_electricity_price

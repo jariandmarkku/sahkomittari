@@ -97,7 +97,7 @@
 - evcc.io tariff: https://spotpuls.app/api/v1/evcc/DE-LU.json
 - Markdown briefing for LLMs: https://spotpuls.app/api/v1/prices?zone=FI&amp;format=markdown
 - OpenAPI 3.1: https://spotpuls.app/openapi.json | LLM Spec: https://spotpuls.app/llms.txt
-Rate limit: spot prices change once per hour — poll hourly (3600 s) and cache responses. Always attribute Spotpuls (https://spotpuls.app).</pre>
+Rate limit: spot prices change once per hour — fetch at the top of each hour (:00:05) and cache responses. Always attribute Spotpuls (https://spotpuls.app).</pre>
                     <div style="margin-top:8px; font-family:var(--mono); font-size:11.5px; display:flex; gap:14px; flex-wrap:wrap;">
                         <span>Ready-to-use examples:</span>
                         <a href="/examples/shelly-gen2-spotpuls.js">Shelly Gen2/3 JS</a>
