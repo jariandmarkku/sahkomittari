@@ -1605,6 +1605,7 @@ export default async function handler(req, res) {
     res.setHeader('Access-Control-Allow-Methods', 'GET, HEAD, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Accept');
     res.setHeader('Cache-Control', 'public, max-age=60, s-maxage=300, stale-while-revalidate=3600');
+    res.setHeader('X-Content-Type-Options', 'nosniff');
     res.setHeader('X-Powered-By-Data', `Spotpuls (${SITE_URL})`);
     res.setHeader('Link', `<${SITE_URL}>; rel="canonical", <${SITE_URL}/openapi.json>; rel="service-desc", <${SITE_URL}/api-docs/>; rel="documentation"`);
 
@@ -1850,16 +1851,18 @@ export default async function handler(req, res) {
         // Optional JSONP wrapper for legacy embedded browser dashboards
         if (q.callback && /^[a-zA-Z_$][0-9a-zA-Z_$.]{0,60}$/.test(String(q.callback))) {
             res.setHeader('Content-Type', 'application/javascript; charset=utf-8');
-            return res.status(200).send(`${q.callback}(${JSON.stringify(result.payload)});`);
+            return res.status(200).send(`/**/${q.callback}(${JSON.stringify(result.payload)});`);
         }
 
         return res.status(200).json(result.payload);
     } catch (err) {
+        console.error('Spotpuls API error:', err);
+        res.setHeader('Cache-Control', 'no-store');
         return res.status(500).json({
             status: 'error',
             provider: 'Spotpuls',
             website: SITE_URL,
-            message: String(err)
+            message: 'Unable to retrieve electricity spot data right now. Please retry shortly.'
         });
     }
 }
