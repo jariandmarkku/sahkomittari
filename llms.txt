@@ -12,6 +12,8 @@ Spotpuls (`https://spotpuls.app`) provides official hourly day-ahead electricity
 ## Universal Public REST API (Free, No API Key, CORS `*`)
 - **Primary Endpoint**:
   - `GET https://spotpuls.app/api/v1/prices?zone=FI&vat=1&currency=local&window=3&format=json`
+- **Grid Tariffs & Address Geocoding Endpoint (Finland DSOs + GPS)**:
+  - `GET https://spotpuls.app/api/v1/grid-tariffs?address=Keskustie+1,+35300+Orivesi&vat=1` (also accepts `?postalCode=35300&country=FI` or `?lat=...&lon=...`)
 - **Supported Query Parameters**:
   - `zone`: Any of 40 European bidding zones (`FI`, `SE1`..`SE4`, `NO1`..`NO5`, `DK1`, `DK2`, `EE`, `LV`, `LT`, `DE-LU`, `AT`, `CH`, `NL`, `BE`, `FR`, `GB`, `IE-SEM`, `ES`, `PT`, `IT-North`..`IT-Sardinia`, `PL`, `CZ`, `SK`, `HU`, `RO`, `BG`, `SI`, `HR`, `GR`, plus aliases `SE`, `NO`, `DK`, `DE`, `UK`, `IE`, `IT`, `EL`).
   - `vat`: `1` (incl. national residential electricity VAT, default) or `0` (VAT 0 %).

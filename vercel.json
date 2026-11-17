@@ -3,7 +3,7 @@
   "cleanUrls": false,
   "functions": {
     "api/**/*.js": {
-      "includeFiles": "{data/global_zones.json,ml_weights.json}"
+      "includeFiles": "{data/global_zones.json,data/dso_data.json,ml_weights.json}"
     }
   },
   "rewrites": [

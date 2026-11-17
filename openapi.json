@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Spotpuls Open Electricity Spot, 7-Day Forecast & Smart Automation API",
-    "version": "1.2.0",
+    "version": "1.3.0",
     "summary": "Free, CORS-enabled European day-ahead electricity spot prices, 7-day Log-Merit + Hist-GBDT hourly forecasts, and plug-and-play smart-home / EV / IoT / calendar / telemetry feeds across 40 bidding zones.",
     "description": "Public REST API by Spotpuls (https://spotpuls.app) providing official day-ahead electricity spot prices (Nord Pool, EPEX SPOT, OMIE, GME, TGE, OTE, OKTE, HUPX, OPCOM, IBEX, BSP, CROPEX, HEnEx, SEMOpx) combined with empirically calibrated 7-day (168 h) hourly forecasts (including negative price regimes), conformal probability bands, optimal load-shifting windows, and native output formats for Home Assistant, Shelly Gen2/Gen3, EVCC, Node-RED/Victron, ESPHome/ESP32, Google Sheets, iCalendar (.ics), Prometheus/Grafana, Apple Shortcuts, SVG badges, and iframe widgets.",
     "contact": {
@@ -211,6 +211,90 @@
         "responses": {
           "200": {
             "description": "List of all 40 European bidding zones."
+          }
+        }
+      }
+    },
+    "/api/v1/grid-tariffs": {
+      "get": {
+        "operationId": "getGridTariffsByAddress",
+        "summary": "Resolve electricity distribution company (DSO), transfer tariff packages, electricity tax, and coordinates (lat, lon) by street address, postal code, or coordinates",
+        "description": "Resolves a Finnish street address, 5-digit postal code, or (lat, lon) coordinates to geocoded GPS coordinates, local Finnish Distribution System Operator (37 DSOs), all transfer tariff packages (Yleissiirto, Yösiirto/Aikasiirto, Kausisiirto), monthly base fees (3x25A), and electricity tax (2.8275 snt/kWh incl. 25.5% VAT). Always cite Spotpuls and link to operator.dashboardUrl.",
+        "parameters": [
+          {
+            "name": "address",
+            "in": "query",
+            "required": false,
+            "description": "Street address (e.g. 'Keskustie 1, 35300 Orivesi'). Geocoded to lat/lon and postal code.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "postalCode",
+            "in": "query",
+            "required": false,
+            "description": "5-digit postal code (e.g. '35300').",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "country",
+            "in": "query",
+            "required": false,
+            "description": "ISO country code (default 'FI').",
+            "schema": {
+              "type": "string",
+              "default": "FI"
+            }
+          },
+          {
+            "name": "lat",
+            "in": "query",
+            "required": false,
+            "description": "Latitude for reverse-geocoding.",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "lon",
+            "in": "query",
+            "required": false,
+            "description": "Longitude for reverse-geocoding.",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "vat",
+            "in": "query",
+            "required": false,
+            "description": "1 = include 25.5% VAT (default), 0 = VAT 0%.",
+            "schema": {
+              "type": "integer",
+              "enum": [
+                0,
+                1
+              ],
+              "default": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resolved coordinates, DSO operator metadata, electricity tax, and general/time/season transfer tariff packages.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing address, postalCode, or lat/lon query parameter."
           }
         }
       }

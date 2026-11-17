@@ -923,6 +923,7 @@ POSTAL_PREFIX_RULES = [
 
 
 def export_dso_js(filepath: str):
+    import os
     payload = {
         "vatRate": VAT_RATE,
         "electricityTaxVat0": ELECTRICITY_TAX_VAT0,
@@ -935,6 +936,10 @@ def export_dso_js(filepath: str):
         f.write("window.PORSSISAHKO_DSO_DATA = ")
         json.dump(payload, f, ensure_ascii=False, indent=2)
         f.write(";\n")
+    json_dir = os.path.join(os.path.dirname(os.path.abspath(filepath)), "data")
+    os.makedirs(json_dir, exist_ok=True)
+    with open(os.path.join(json_dir, "dso_data.json"), "w", encoding="utf-8") as jf:
+        json.dump(payload, jf, ensure_ascii=False, indent=2)
 
 
 if __name__ == "__main__":
