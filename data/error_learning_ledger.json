@@ -6621,185 +6621,305 @@
       "predicted": 6.525,
       "actual": 10.553,
       "error": 4.028
-    }
-  ],
-  "pendingPredictions": {
-    "1795042800000": {
+    },
+    {
       "epochMs": 1795042800000,
       "dateKey": "2026-11-19",
       "hour": 1,
-      "predicted": 8.791
+      "isFreeDay": false,
+      "windMw": 3558,
+      "tempC": 4.4,
+      "predicted": 8.791,
+      "actual": 8.6,
+      "error": -0.191
     },
-    "1795046400000": {
+    {
       "epochMs": 1795046400000,
       "dateKey": "2026-11-19",
       "hour": 2,
-      "predicted": 7.104
+      "isFreeDay": false,
+      "windMw": 3734,
+      "tempC": 4.4,
+      "predicted": 7.104,
+      "actual": 8.816,
+      "error": 1.712
     },
-    "1795050000000": {
+    {
       "epochMs": 1795050000000,
       "dateKey": "2026-11-19",
       "hour": 3,
-      "predicted": 6.493
+      "isFreeDay": false,
+      "windMw": 3857,
+      "tempC": 4.3,
+      "predicted": 6.493,
+      "actual": 9.32,
+      "error": 2.827
     },
-    "1795053600000": {
+    {
       "epochMs": 1795053600000,
       "dateKey": "2026-11-19",
       "hour": 4,
-      "predicted": 6.608
+      "isFreeDay": false,
+      "windMw": 4241,
+      "tempC": 4.0,
+      "predicted": 6.608,
+      "actual": 8.814,
+      "error": 2.206
     },
-    "1795057200000": {
+    {
       "epochMs": 1795057200000,
       "dateKey": "2026-11-19",
       "hour": 5,
-      "predicted": 7.452
+      "isFreeDay": false,
+      "windMw": 4051,
+      "tempC": 4.0,
+      "predicted": 7.452,
+      "actual": 9.409,
+      "error": 1.957
     },
-    "1795060800000": {
+    {
       "epochMs": 1795060800000,
       "dateKey": "2026-11-19",
       "hour": 6,
-      "predicted": 9.5
+      "isFreeDay": false,
+      "windMw": 3808,
+      "tempC": 3.9,
+      "predicted": 9.5,
+      "actual": 12.891,
+      "error": 3.391
     },
-    "1795064400000": {
+    {
       "epochMs": 1795064400000,
       "dateKey": "2026-11-19",
       "hour": 7,
-      "predicted": 13.92
+      "isFreeDay": false,
+      "windMw": 3788,
+      "tempC": 3.9,
+      "predicted": 13.92,
+      "actual": 17.271,
+      "error": 3.351
     },
-    "1795068000000": {
+    {
       "epochMs": 1795068000000,
       "dateKey": "2026-11-19",
       "hour": 8,
-      "predicted": 18.188
+      "isFreeDay": false,
+      "windMw": 3688,
+      "tempC": 3.8,
+      "predicted": 18.188,
+      "actual": 19.966,
+      "error": 1.778
     },
-    "1795071600000": {
+    {
       "epochMs": 1795071600000,
       "dateKey": "2026-11-19",
       "hour": 9,
-      "predicted": 18.681
+      "isFreeDay": false,
+      "windMw": 3396,
+      "tempC": 3.7,
+      "predicted": 18.681,
+      "actual": 28.489,
+      "error": 9.808
     },
-    "1795075200000": {
+    {
       "epochMs": 1795075200000,
       "dateKey": "2026-11-19",
       "hour": 10,
-      "predicted": 19.701
+      "isFreeDay": false,
+      "windMw": 3277,
+      "tempC": 3.6,
+      "predicted": 19.701,
+      "actual": 28.081,
+      "error": 8.38
     },
-    "1795078800000": {
+    {
       "epochMs": 1795078800000,
       "dateKey": "2026-11-19",
       "hour": 11,
-      "predicted": 19.411
+      "isFreeDay": false,
+      "windMw": 3073,
+      "tempC": 3.6,
+      "predicted": 19.411,
+      "actual": 28.073,
+      "error": 8.662
     },
-    "1795082400000": {
+    {
       "epochMs": 1795082400000,
       "dateKey": "2026-11-19",
       "hour": 12,
-      "predicted": 18.879
+      "isFreeDay": false,
+      "windMw": 3172,
+      "tempC": 3.7,
+      "predicted": 18.879,
+      "actual": 28.124,
+      "error": 9.245
     },
-    "1795086000000": {
+    {
       "epochMs": 1795086000000,
       "dateKey": "2026-11-19",
       "hour": 13,
-      "predicted": 19.056
+      "isFreeDay": false,
+      "windMw": 3031,
+      "tempC": 3.7,
+      "predicted": 19.056,
+      "actual": 27.754,
+      "error": 8.698
     },
-    "1795089600000": {
+    {
       "epochMs": 1795089600000,
       "dateKey": "2026-11-19",
       "hour": 14,
-      "predicted": 19.031
+      "isFreeDay": false,
+      "windMw": 2520,
+      "tempC": 3.6,
+      "predicted": 19.031,
+      "actual": 27.974,
+      "error": 8.943
     },
-    "1795093200000": {
+    {
       "epochMs": 1795093200000,
       "dateKey": "2026-11-19",
       "hour": 15,
-      "predicted": 17.828
+      "isFreeDay": false,
+      "windMw": 2888,
+      "tempC": 3.6,
+      "predicted": 17.828,
+      "actual": 26.361,
+      "error": 8.533
     },
-    "1795096800000": {
+    {
       "epochMs": 1795096800000,
       "dateKey": "2026-11-19",
       "hour": 16,
-      "predicted": 16.968
+      "isFreeDay": false,
+      "windMw": 3412,
+      "tempC": 3.5,
+      "predicted": 16.968,
+      "actual": 24.649,
+      "error": 7.681
     },
-    "1795100400000": {
+    {
       "epochMs": 1795100400000,
       "dateKey": "2026-11-19",
       "hour": 17,
-      "predicted": 14.611
+      "isFreeDay": false,
+      "windMw": 3897,
+      "tempC": 3.5,
+      "predicted": 14.611,
+      "actual": 21.334,
+      "error": 6.723
     },
-    "1795104000000": {
+    {
       "epochMs": 1795104000000,
       "dateKey": "2026-11-19",
       "hour": 18,
-      "predicted": 13.856
+      "isFreeDay": false,
+      "windMw": 4140,
+      "tempC": 3.5,
+      "predicted": 13.856,
+      "actual": 19.958,
+      "error": 6.102
     },
-    "1795107600000": {
+    {
       "epochMs": 1795107600000,
       "dateKey": "2026-11-19",
       "hour": 19,
-      "predicted": 12.776
+      "isFreeDay": false,
+      "windMw": 4315,
+      "tempC": 3.4,
+      "predicted": 12.776,
+      "actual": 19.433,
+      "error": 6.657
     },
-    "1795111200000": {
+    {
       "epochMs": 1795111200000,
       "dateKey": "2026-11-19",
       "hour": 20,
-      "predicted": 10.186
+      "isFreeDay": false,
+      "windMw": 4339,
+      "tempC": 3.6,
+      "predicted": 10.186,
+      "actual": 16.027,
+      "error": 5.841
     },
-    "1795114800000": {
+    {
       "epochMs": 1795114800000,
       "dateKey": "2026-11-19",
       "hour": 21,
-      "predicted": 8.209
+      "isFreeDay": false,
+      "windMw": 4351,
+      "tempC": 3.7,
+      "predicted": 8.209,
+      "actual": 10.945,
+      "error": 2.736
     },
-    "1795118400000": {
+    {
       "epochMs": 1795118400000,
       "dateKey": "2026-11-19",
       "hour": 22,
-      "predicted": 6.942
+      "isFreeDay": false,
+      "windMw": 4740,
+      "tempC": 3.7,
+      "predicted": 6.942,
+      "actual": 9.396,
+      "error": 2.454
     },
-    "1795122000000": {
+    {
       "epochMs": 1795122000000,
       "dateKey": "2026-11-19",
       "hour": 23,
-      "predicted": 5.639
+      "isFreeDay": false,
+      "windMw": 5085,
+      "tempC": 3.8,
+      "predicted": 5.639,
+      "actual": 7.746,
+      "error": 2.107
     },
-    "1795125600000": {
+    {
       "epochMs": 1795125600000,
       "dateKey": "2026-11-20",
       "hour": 0,
-      "predicted": 3.487
-    },
+      "isFreeDay": false,
+      "windMw": 5452,
+      "tempC": 4.0,
+      "predicted": 3.487,
+      "actual": 5.702,
+      "error": 2.215
+    }
+  ],
+  "pendingPredictions": {
     "1795129200000": {
       "epochMs": 1795129200000,
       "dateKey": "2026-11-20",
       "hour": 1,
-      "predicted": 3.075
+      "predicted": 4.845
     }
   },
   "weekdayResidualEma": [
-    1.353,
-    -0.314,
-    -0.8,
-    -0.486,
-    -0.732,
-    -0.664,
-    -0.391,
-    -0.511,
-    0.604,
-    1.105,
-    0.924,
-    1.524,
-    1.408,
-    2.462,
-    2.604,
-    2.195,
-    2.936,
-    3.437,
-    3.693,
-    4.144,
-    3.004,
-    2.423,
-    2.374,
-    2.045
+    1.474,
+    -0.297,
+    -0.448,
+    -0.022,
+    -0.321,
+    -0.297,
+    0.139,
+    0.03,
+    0.769,
+    2.323,
+    1.968,
+    2.523,
+    2.505,
+    3.335,
+    3.492,
+    3.083,
+    3.6,
+    3.897,
+    4.03,
+    4.495,
+    3.401,
+    2.467,
+    2.385,
+    2.054
   ],
   "weekendResidualEma": [
     1.183,
@@ -6828,14 +6948,14 @@
     0.529
   ],
   "regimeResidualEma": {
-    "3_2": 1.495,
+    "3_2": 1.646,
     "4_2": 0.838,
     "2_3": -0.471,
     "1_3": 0.01,
     "3_3": 0.407,
     "4_3": 0.296,
-    "2_2": 3.753,
-    "1_2": 2.175,
+    "2_2": 4.457,
+    "1_2": 5.697,
     "0_2": 7.056,
     "0_3": -0.682,
     "0_1": 3.88,
