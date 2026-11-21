@@ -663,8 +663,8 @@ def build_municipality_page(m: dict) -> str:
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pörssisähkö &amp; Sähkön Siirtohinta {html.escape(m['name'])} ({m['postal']}) | {html.escape(comp['short_name'])}</title>
-    <meta name="description" content="Paljonko pörssisähkö maksaa siirtohinnan kanssa paikkakunnalla {html.escape(m['name'])} ({m['postal_range']})? Verkkoyhtiö: {html.escape(comp['name'])}, yleissiirto {fmt_c(comp['general_c_kwh'])} snt/kWh + sähkövero {fmt_c(ELECTRICITY_TAX_INCL_VAT)} snt/kWh. Katso tuntihinnat ja 7 vrk ennuste.">
+    <title>Pörssisähkö, sähkön hinta &amp; siirtohinta {html.escape(m['name'])} ({m['postal']}) | Spotpuls</title>
+    <meta name="description" content="Sähkön hinta, pörssisähkö ja sähkösopimus paikkakunnalla {html.escape(m['name'])} ({m['postal_range']}). Verkkoyhtiö: {html.escape(comp['name'])}, yleissiirto {fmt_c(comp['general_c_kwh'])} snt/kWh + sähkövero {fmt_c(ELECTRICITY_TAX_INCL_VAT)} snt/kWh. Katso tuntihinnat ja 7 vrk ennuste.">
     <link rel="canonical" href="{SITE_URL}/paikkakunnat/{mslug}.html" />
     <meta name="geo.region" content="FI">
     <meta name="content-language" content="fi-FI">
@@ -673,6 +673,10 @@ def build_municipality_page(m: dict) -> str:
     <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
     <link rel="manifest" href="../site.webmanifest">
     <link rel="stylesheet" href="../styles.css?v=43">
+{render_seo_ai_head_tags(f"Pörssisähkö, sähkön hinta & siirtohinta {m['name']} ({m['postal']}) | Spotpuls", f"Sähkön hinta, pörssisähkö ja sähkösopimus paikkakunnalla {m['name']} ({m['postal_range']}). Verkkoyhtiö: {comp['name']}, yleissiirto {fmt_c(comp['general_c_kwh'])} snt/kWh + sähkövero {fmt_c(ELECTRICITY_TAX_INCL_VAT)} snt/kWh.", f"{SITE_URL}/paikkakunnat/{mslug}.html", "fi_FI", "FI")}
+    <script type="application/ld+json">
+{json.dumps({"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Spotpuls", "item": f"{SITE_URL}/"}, {"@type": "ListItem", "position": 2, "name": "Paikkakunnat", "item": f"{SITE_URL}/paikkakunnat/index.html"}, {"@type": "ListItem", "position": 3, "name": m["name"], "item": f"{SITE_URL}/paikkakunnat/{mslug}.html"}]}, ensure_ascii=False)}
+    </script>
 </head>
 <body data-preset-dso="{comp['id']}" data-preset-postal="{m['postal']}" data-preset-city="{html.escape(m['name'])}">
 {render_header("../")}
