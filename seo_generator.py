@@ -783,7 +783,8 @@ def main():
 
     urls = [f"{SITE_URL}/"]
 
-    with open(os.path.join(base_dir, "index.html"), "w", encoding="utf-8") as f:
+    os.makedirs(os.path.join(base_dir, "templates"), exist_ok=True)
+    with open(os.path.join(base_dir, "templates", "index.html"), "w", encoding="utf-8") as f:
         f.write(build_index_page())
 
     dso_pills = []

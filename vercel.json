@@ -3,10 +3,18 @@
   "cleanUrls": false,
   "functions": {
     "api/**/*.js": {
-      "includeFiles": "{data/global_zones.json,data/dso_data.json,ml_weights.json}"
+      "includeFiles": "{templates/index.html,data/global_zones.json,data/dso_data.json,ml_weights.json}"
     }
   },
   "rewrites": [
+    {
+      "source": "/",
+      "destination": "/api/ssr"
+    },
+    {
+      "source": "/index.html",
+      "destination": "/api/ssr"
+    },
     {
       "source": "/api/v1/zones",
       "destination": "/api/v1/prices?list=zones"
