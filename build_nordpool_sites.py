@@ -634,13 +634,13 @@ def main():
     for cid, loc in MARKET_LOCALES.items():
         if cid == "fi":
             continue
-        out_dir = os.path.join(ROOT_DIR, cid)
+        out_dir = os.path.join(ROOT_DIR, "templates", cid)
         os.makedirs(out_dir, exist_ok=True)
         out_file = os.path.join(out_dir, "index.html")
         with open(out_file, "w", encoding="utf-8") as f:
             f.write(build_country_page(cid, loc))
         count += 1
-        print(f"[GENERATED] /{cid}/ ({loc['lang']}) -> {loc['countryName']} | Zones: {', '.join(loc['zones'])}")
+        print(f"[GENERATED] /templates/{cid}/ ({loc['lang']}) -> {loc['countryName']} | Zones: {', '.join(loc['zones'])}")
 
     api_docs_dir = os.path.join(ROOT_DIR, "api-docs")
     os.makedirs(api_docs_dir, exist_ok=True)

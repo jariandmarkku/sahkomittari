@@ -539,7 +539,7 @@ def build_dso_page(comp: dict) -> str:
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{html.escape(comp['name'])} Siirtohinta 2026 &amp; Pörssisähkön Kokonaishinta | Spotpuls</title>
+    <title>{html.escape(comp['short_name'])} siirtohinnasto 2026 – Yleissiirto {fmt_c(comp['general_c_kwh'])} snt/kWh | Spotpuls</title>
     <meta name="description" content="Katso {html.escape(comp['name'])} yleissiirto ({fmt_c(comp['general_c_kwh'])} snt/kWh), yösiirto ({fmt_c(comp['day_c_kwh'])} / {fmt_c(comp['night_c_kwh'])} snt/kWh), perusmaksut ja pörssisähkön reaaliaikainen kokonaishinta sekä 7 vrk ennuste.">
     <link rel="canonical" href="{SITE_URL}/verkkoyhtiot/{slug}.html" />
     <meta name="geo.region" content="FI">
@@ -549,7 +549,7 @@ def build_dso_page(comp: dict) -> str:
     <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
     <link rel="manifest" href="../site.webmanifest">
     <link rel="stylesheet" href="../styles.css?v=43">
-    {render_seo_ai_head_tags(f"{comp['name']} Siirtohinta 2026 & Pörssisähkön Kokonaishinta | Spotpuls", f"Katso {comp['name']} yleissiirto ({fmt_c(comp['general_c_kwh'])} snt/kWh), yösiirto ({fmt_c(comp['day_c_kwh'])} / {fmt_c(comp['night_c_kwh'])} snt/kWh), perusmaksut ja pörssisähkön reaaliaikainen kokonaishinta sekä 7 vrk ennuste.", f"{SITE_URL}/verkkoyhtiot/{slug}.html", "fi_FI", "FI")}
+    {render_seo_ai_head_tags(f"{comp['short_name']} siirtohinnasto 2026 – Yleissiirto {fmt_c(comp['general_c_kwh'])} snt/kWh | Spotpuls", f"Katso {comp['name']} yleissiirto ({fmt_c(comp['general_c_kwh'])} snt/kWh), yösiirto ({fmt_c(comp['day_c_kwh'])} / {fmt_c(comp['night_c_kwh'])} snt/kWh), perusmaksut ja pörssisähkön reaaliaikainen kokonaishinta sekä 7 vrk ennuste.", f"{SITE_URL}/verkkoyhtiot/{slug}.html", "fi_FI", "FI")}
     <script type="application/ld+json">
 {json.dumps({"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Spotpuls", "item": f"{SITE_URL}/"}, {"@type": "ListItem", "position": 2, "name": "Sähköverkkoyhtiöt", "item": f"{SITE_URL}/verkkoyhtiot/index.html"}, {"@type": "ListItem", "position": 3, "name": comp["name"], "item": f"{SITE_URL}/verkkoyhtiot/{slug}.html"}]}, ensure_ascii=False)}
     </script>

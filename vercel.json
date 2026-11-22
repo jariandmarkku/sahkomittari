@@ -3,17 +3,29 @@
   "cleanUrls": false,
   "functions": {
     "api/**/*.js": {
-      "includeFiles": "{templates/index.html,data/global_zones.json,data/dso_data.json,ml_weights.json}"
+      "includeFiles": "{templates/**/*.html,data/global_zones.json,data/dso_data.json,ml_weights.json}"
     }
   },
   "rewrites": [
     {
       "source": "/",
-      "destination": "/api/ssr"
+      "destination": "/api/ssr?country=fi"
     },
     {
       "source": "/index.html",
-      "destination": "/api/ssr"
+      "destination": "/api/ssr?country=fi"
+    },
+    {
+      "source": "/:country(en|se|no|dk|ee|lv|lt|de|at|ch|nl|be|fr|gb|ie|es|pt|it|pl|cz|sk|hu|ro|bg|si|hr|gr)",
+      "destination": "/api/ssr?country=:country"
+    },
+    {
+      "source": "/:country(en|se|no|dk|ee|lv|lt|de|at|ch|nl|be|fr|gb|ie|es|pt|it|pl|cz|sk|hu|ro|bg|si|hr|gr)/",
+      "destination": "/api/ssr?country=:country"
+    },
+    {
+      "source": "/:country(en|se|no|dk|ee|lv|lt|de|at|ch|nl|be|fr|gb|ie|es|pt|it|pl|cz|sk|hu|ro|bg|si|hr|gr)/index.html",
+      "destination": "/api/ssr?country=:country"
     },
     {
       "source": "/api/v1/zones",
