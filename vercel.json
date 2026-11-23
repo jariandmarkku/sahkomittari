@@ -6,6 +6,19 @@
       "includeFiles": "{templates/**/*.html,data/global_zones.json,data/dso_data.json,ml_weights.json}"
     }
   },
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.spotpuls.app"
+        }
+      ],
+      "destination": "https://spotpuls.app/:path*",
+      "permanent": true
+    }
+  ],
   "rewrites": [
     {
       "source": "/",

@@ -395,7 +395,7 @@ DSO_COMPANIES = {
         "id": "neve",
         "name": "Rovaniemen Verkko Oy (Neve)",
         "short_name": "Neve (Rovaniemi)",
-        "region_desc": "Rovaniemen keskusta-alue",
+        "region_desc": "Rovaniemen kantakaupunki (Rovaniemen Verkko Oy / Neve)",
         "general_c_kwh": 3.62,
         "general_base_eur": 12.20,
         "day_c_kwh": 4.18,

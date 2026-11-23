@@ -512,73 +512,9 @@ def build_index_page() -> str:
 """
 
 
-def build_dso_page(comp: dict) -> str:
-    slug = slugify(comp["short_name"])
-    munis_in_dso = [
-        m for m in MUNICIPALITIES if m["primary"] == comp["id"] or comp["id"] in (m.get("alt") or [])
-    ]
-    sample_postal = munis_in_dso[0]["postal"] if munis_in_dso else "00100"
-    sample_city = munis_in_dso[0]["name"] if munis_in_dso else comp["region_desc"]
-    total_fixed_gen = comp["general_c_kwh"] + ELECTRICITY_TAX_INCL_VAT
-    total_fixed_night = comp["night_c_kwh"] + ELECTRICITY_TAX_INCL_VAT
-
-    muni_links = "".join(
-        f'<a href="../paikkakunnat/{slugify(m["name"])}.html" class="dir-pill"><span>{html.escape(m["name"])} ({m["postal"]})</span><span class="dir-pill-sub">{m["postal_range"]}</span></a>'
-        for m in munis_in_dso
-    )
-
-    dashboard_html = render_interactive_dashboard_block(
-        prefix="../",
-        h1_text=f"{comp['name']} — Siirtohinta, pörssisähkön kokonaishinta ja 7 vrk ennuste",
-        lead_text=f"Toiminta-alue: {comp['region_desc']}. Yleissiirto {fmt_c(comp['general_c_kwh'])} snt/kWh (veron kanssa {fmt_c(total_fixed_gen)} snt/kWh) ja yösiirron yöhinta klo 22–07 {fmt_c(comp['night_c_kwh'])} snt/kWh (veron kanssa {fmt_c(total_fixed_night)} snt/kWh).",
-        default_postal=sample_postal,
-    )
-
-    return f"""<!DOCTYPE html>
-<html lang="fi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{html.escape(comp['short_name'])} siirtohinnasto 2026 – Yleissiirto {fmt_c(comp['general_c_kwh'])} snt/kWh | Spotpuls</title>
-    <meta name="description" content="Katso {html.escape(comp['name'])} yleissiirto ({fmt_c(comp['general_c_kwh'])} snt/kWh), yösiirto ({fmt_c(comp['day_c_kwh'])} / {fmt_c(comp['night_c_kwh'])} snt/kWh), perusmaksut ja pörssisähkön reaaliaikainen kokonaishinta sekä 7 vrk ennuste.">
-    <link rel="canonical" href="{SITE_URL}/verkkoyhtiot/{slug}.html" />
-    <meta name="geo.region" content="FI">
-    <meta name="content-language" content="fi-FI">
-    <link rel="icon" type="image/svg+xml" href="../favicon.svg?v=37">
-    <link rel="icon" type="image/x-icon" href="../favicon.ico">
-    <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
-    <link rel="manifest" href="../site.webmanifest">
-    <link rel="stylesheet" href="../styles.css?v=43">
-    {render_seo_ai_head_tags(f"{comp['short_name']} siirtohinnasto 2026 – Yleissiirto {fmt_c(comp['general_c_kwh'])} snt/kWh | Spotpuls", f"Katso {comp['name']} yleissiirto ({fmt_c(comp['general_c_kwh'])} snt/kWh), yösiirto ({fmt_c(comp['day_c_kwh'])} / {fmt_c(comp['night_c_kwh'])} snt/kWh), perusmaksut ja pörssisähkön reaaliaikainen kokonaishinta sekä 7 vrk ennuste.", f"{SITE_URL}/verkkoyhtiot/{slug}.html", "fi_FI", "FI")}
-    <script type="application/ld+json">
-{json.dumps({"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Spotpuls", "item": f"{SITE_URL}/"}, {"@type": "ListItem", "position": 2, "name": "Sähköverkkoyhtiöt", "item": f"{SITE_URL}/verkkoyhtiot/index.html"}, {"@type": "ListItem", "position": 3, "name": comp["name"], "item": f"{SITE_URL}/verkkoyhtiot/{slug}.html"}]}, ensure_ascii=False)}
-    </script>
-</head>
-<body data-preset-dso="{comp['id']}" data-preset-postal="{sample_postal}" data-preset-city="{html.escape(sample_city)}">
-{render_header("../")}
-
-    <main class="container">
-{dashboard_html}
-
-        <section class="panel-box">
-            <div class="panel-head">
-                <h2>{html.escape(comp['name']).upper()} — SIIRTOHINNASTO JA KIINTEÄT MAKSUT (SIS. ALV 25,5 %)</h2>
-            </div>
-            <div class="panel-body">
-                <div class="table-wrap">
-                    <table class="data-table">
-                        <thead>
-                            <tr>
-                                <th>Siirtotuote</th>
-                                <th>Energiamaksu (snt/kWh)</th>
-                                <th>Sähkövero (luokka I)</th>
-                                <th>Siirto + vero yhteensä</th>
-                                <th>Perusmaksu (3x25A)</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><strong>Yleissiirto</strong></td>
+def render_tariff_table_rows(comp: dict) -> str:
+    return f"""                            <tr>
+                                <td><strong>Yleissiirto (verkkopalvelumaksu)</strong></td>
                                 <td>{fmt_c(comp['general_c_kwh'])} snt/kWh</td>
                                 <td>{fmt_c(ELECTRICITY_TAX_INCL_VAT)} snt/kWh</td>
                                 <td><strong>{fmt_c(comp['general_c_kwh'] + ELECTRICITY_TAX_INCL_VAT)} snt/kWh</strong></td>
@@ -611,7 +547,153 @@ def build_dso_page(comp: dict) -> str:
                                 <td>{fmt_c(ELECTRICITY_TAX_INCL_VAT)} snt/kWh</td>
                                 <td><strong>{fmt_c(comp['other_c_kwh'] + ELECTRICITY_TAX_INCL_VAT)} snt/kWh</strong></td>
                                 <td>{fmt_c(comp['season_base_eur'])} €/kk</td>
+                            </tr>"""
+
+
+def render_faq_and_schema(faq_items: list, breadcrumb_items: list, heading: str) -> tuple[str, str]:
+    faq_html = "\n".join(
+        f'''                    <details class="faq-item" open style="border-bottom:1px solid #d8d4c7; padding:10px 0;">
+                        <summary style="font-weight:700; cursor:pointer; font-size:14px;">{html.escape(q)}</summary>
+                        <p style="margin-top:6px; font-size:13.5px; color:#3a3e38; line-height:1.6;">{html.escape(a)}</p>
+                    </details>'''
+        for q, a in faq_items
+    )
+    section = f"""        <section class="panel-box" id="faq">
+            <div class="panel-head">
+                <h2>{html.escape(heading)}</h2>
+            </div>
+            <div class="panel-body">
+{faq_html}
+            </div>
+        </section>"""
+    schema_obj = {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "BreadcrumbList",
+                "itemListElement": breadcrumb_items,
+            },
+            {
+                "@type": "FAQPage",
+                "mainEntity": [
+                    {
+                        "@type": "Question",
+                        "name": q,
+                        "acceptedAnswer": {"@type": "Answer", "text": a},
+                    }
+                    for q, a in faq_items
+                ],
+            },
+        ],
+    }
+    return section, json.dumps(schema_obj, ensure_ascii=False)
+
+
+def build_dso_page(comp: dict) -> str:
+    slug = slugify(comp["short_name"])
+    munis_in_dso = [
+        m for m in MUNICIPALITIES if m["primary"] == comp["id"] or comp["id"] in (m.get("alt") or [])
+    ]
+    sample_postal = munis_in_dso[0]["postal"] if munis_in_dso else "00100"
+    sample_city = munis_in_dso[0]["name"] if munis_in_dso else comp["region_desc"]
+    total_fixed_gen = comp["general_c_kwh"] + ELECTRICITY_TAX_INCL_VAT
+    total_fixed_night = comp["night_c_kwh"] + ELECTRICITY_TAX_INCL_VAT
+    total_fixed_winter = comp["winter_day_c_kwh"] + ELECTRICITY_TAX_INCL_VAT
+
+    muni_links = "".join(
+        f'<a href="../paikkakunnat/{slugify(m["name"])}.html" class="dir-pill"><span>{html.escape(m["name"])} ({m["postal"]})</span><span class="dir-pill-sub">{m["postal_range"]}</span></a>'
+        for m in munis_in_dso
+    )
+
+    page_title = f"{comp['short_name']} siirtohinnasto 2026 – Siirtohinta {fmt_c(comp['general_c_kwh'])} snt/kWh | Spotpuls"
+    page_desc = (
+        f"Katso {comp['name']} siirtohinta, siirtomaksu ja verkkopalvelumaksu 2026: "
+        f"yleissiirto {fmt_c(comp['general_c_kwh'])} snt/kWh (perusmaksu {fmt_c(comp['general_base_eur'])} €/kk), "
+        f"yösiirto {fmt_c(comp['day_c_kwh'])} / {fmt_c(comp['night_c_kwh'])} snt/kWh ja "
+        f"talviarkipäivä {fmt_c(comp['winter_day_c_kwh'])} snt/kWh sekä pörssisähkön hinta."
+    )
+
+    muni_names_preview = ", ".join(m["name"] for m in munis_in_dso[:8]) or comp["region_desc"]
+    dso_faqs = [
+        (
+            f"Mikä on {comp['name']} siirtohinta ja verkkopalvelumaksu vuonna 2026?",
+            f"Yhtiön {comp['name']} yleissiirron energiamaksu (verkkopalvelumaksu) on {fmt_c(comp['general_c_kwh'])} snt/kWh ja perusmaksu 3x25A liittymälle {fmt_c(comp['general_base_eur'])} €/kk (sis. ALV 25,5 %). Yhdessä sähköveron ({fmt_c(ELECTRICITY_TAX_INCL_VAT)} snt/kWh) kanssa siirtomaksu on {fmt_c(total_fixed_gen)} snt/kWh.",
+        ),
+        (
+            f"Paljonko on {comp['short_name']} yösiirto ja kausisiirron talviarkipäivä?",
+            f"Yösiirrossa päiväsähkön siirtomaksu (klo 07–22) on {fmt_c(comp['day_c_kwh'])} snt/kWh ja yöhinta (klo 22–07) {fmt_c(comp['night_c_kwh'])} snt/kWh (perusmaksu {fmt_c(comp['time_base_eur'])} €/kk). Kausisiirrossa talviarkipäivän (1.11.–31.3. ma–la klo 07–22) siirtohinta on {fmt_c(comp['winter_day_c_kwh'])} snt/kWh (veron kanssa {fmt_c(total_fixed_winter)} snt/kWh) ja muun ajan {fmt_c(comp['other_c_kwh'])} snt/kWh.",
+        ),
+        (
+            f"Mitkä kunnat kuuluvat yhtiön {comp['short_name']} jakeluverkkoon?",
+            f"Jakeluverkkoyhtiö {comp['name']} palvelee alueella: {comp['region_desc']} (esimerkiksi {muni_names_preview}). Tarkista oma yhtiösi syöttämällä postinumero yllä olevaan laskuriin.",
+        ),
+        (
+            f"Paljonko sähkövero ja siirtomaksu tekevät yhteensä pörssisähkön päälle?",
+            f"Suomessa yleisen sähköveroluokan I sähkövero huoltovarmuusmaksuineen on {fmt_c(ELECTRICITY_TAX_INCL_VAT)} snt/kWh (sis. ALV 25,5 %). Yhtiön {comp['short_name']} verkkopalvelumaksu huomioiden kiinteä lisä spot-hinnan päälle on yleissiirrossa {fmt_c(total_fixed_gen)} snt/kWh ja yösiirron yötunteina {fmt_c(total_fixed_night)} snt/kWh.",
+        ),
+    ]
+    breadcrumbs = [
+        {"@type": "ListItem", "position": 1, "name": "Spotpuls", "item": f"{SITE_URL}/"},
+        {"@type": "ListItem", "position": 2, "name": "Sähköverkkoyhtiöt", "item": f"{SITE_URL}/verkkoyhtiot/index.html"},
+        {"@type": "ListItem", "position": 3, "name": comp["name"], "item": f"{SITE_URL}/verkkoyhtiot/{slug}.html"},
+    ]
+    faq_section_html, schema_json = render_faq_and_schema(
+        dso_faqs,
+        breadcrumbs,
+        f"USEIN KYSYTYT KYSYMYKSET: {comp['short_name'].upper()} SIIRTOHINNASTO",
+    )
+
+    dashboard_html = render_interactive_dashboard_block(
+        prefix="../",
+        h1_text=f"{comp['name']} — Siirtohinta, verkkopalvelumaksu, pörssisähkön kokonaishinta ja 7 vrk ennuste",
+        lead_text=f"Toiminta-alue: {comp['region_desc']}. Hinnasto 2026: yleissiirto {fmt_c(comp['general_c_kwh'])} snt/kWh (veron kanssa {fmt_c(total_fixed_gen)} snt/kWh), yösiirto klo 22–07 {fmt_c(comp['night_c_kwh'])} snt/kWh ja talviarkipäivä {fmt_c(comp['winter_day_c_kwh'])} snt/kWh.",
+        default_postal=sample_postal,
+    )
+
+    return f"""<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{html.escape(page_title)}</title>
+    <meta name="description" content="{html.escape(page_desc)}">
+    <link rel="canonical" href="{SITE_URL}/verkkoyhtiot/{slug}.html" />
+    <meta name="geo.region" content="FI">
+    <meta name="content-language" content="fi-FI">
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg?v=37">
+    <link rel="icon" type="image/x-icon" href="../favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+    <link rel="manifest" href="../site.webmanifest">
+    <link rel="stylesheet" href="../styles.css?v=43">
+    {render_seo_ai_head_tags(page_title, page_desc, f"{SITE_URL}/verkkoyhtiot/{slug}.html", "fi_FI", "FI")}
+    <script type="application/ld+json">
+{schema_json}
+    </script>
+</head>
+<body data-preset-dso="{comp['id']}" data-preset-postal="{sample_postal}" data-preset-city="{html.escape(sample_city)}">
+{render_header("../")}
+
+    <main class="container">
+{dashboard_html}
+
+        <section class="panel-box">
+            <div class="panel-head">
+                <h2>{html.escape(comp['name']).upper()} — SIIRTOHINNASTO JA KIINTEÄT MAKSUT (SIS. ALV 25,5 %)</h2>
+            </div>
+            <div class="panel-body">
+                <div class="table-wrap">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Siirtotuote</th>
+                                <th>Energiamaksu (snt/kWh)</th>
+                                <th>Sähkövero (luokka I)</th>
+                                <th>Siirto + vero yhteensä</th>
+                                <th>Perusmaksu (3x25A)</th>
                             </tr>
+                        </thead>
+                        <tbody>
+{render_tariff_table_rows(comp)}
                         </tbody>
                     </table>
                 </div>
@@ -628,6 +710,8 @@ def build_dso_page(comp: dict) -> str:
                 </div>
             </div>
         </section>
+
+{faq_section_html}
     </main>
 
 {render_footer("../")}
@@ -643,6 +727,7 @@ def build_dso_page(comp: dict) -> str:
 def build_municipality_page(m: dict) -> str:
     mslug = slugify(m["name"])
     comp = DSO_COMPANIES[m["primary"]]
+    comp_slug = slugify(comp["short_name"])
     alt_names = [DSO_COMPANIES[a]["name"] for a in (m.get("alt") or []) if a in DSO_COMPANIES]
     alt_sentence = (
         f" Kunnan reuna- tai haja-asutusalueilla verkosta vastaa osittain myös {', '.join(alt_names)}."
@@ -650,10 +735,43 @@ def build_municipality_page(m: dict) -> str:
         else ""
     )
     total_fixed = comp["general_c_kwh"] + ELECTRICITY_TAX_INCL_VAT
+    total_fixed_night = comp["night_c_kwh"] + ELECTRICITY_TAX_INCL_VAT
+
+    page_title = f"Pörssisähkö, sähkön hinta & siirtohinta {m['name']} ({m['postal']}) | Spotpuls"
+    page_desc = (
+        f"Sähkön hinta, pörssisähkö ja sähkösopimus paikkakunnalla {m['name']} ({m['postal_range']}). "
+        f"Verkkoyhtiö: {comp['name']}, yleissiirto {fmt_c(comp['general_c_kwh'])} snt/kWh + sähkövero "
+        f"{fmt_c(ELECTRICITY_TAX_INCL_VAT)} snt/kWh (yht. {fmt_c(total_fixed)} snt/kWh). Katso tuntihinnat ja 7 vrk ennuste."
+    )
+
+    muni_faqs = [
+        (
+            f"Mikä on sähkön siirtohinta ja sähköverkkoyhtiö paikkakunnalla {m['name']} ({m['postal_range']})?",
+            f"Paikkakunnalla {m['name']} ({m['region']}) ensisijainen jakeluverkkoyhtiö on {comp['name']}.{alt_sentence} Yleissiirron siirtomaksu on {fmt_c(comp['general_c_kwh'])} snt/kWh ja kuukausiperusmaksu (3x25A) {fmt_c(comp['general_base_eur'])} €/kk (sis. ALV 25,5 %).",
+        ),
+        (
+            f"Mikä sähkösopimus ja siirtotuote kannattaa valita paikkakunnalla {m['name']}?",
+            f"Pörssisähkösopimus yhdistettynä paikalliseen yhtiöön {comp['short_name']} sopii erityisesti talouksiin, joissa kulutusta voi ajoittaa halvoille tunneille. Alle 6 000 kWh vuosikulutuksessa Yleissiirto on usein edullisin, kun taas yli 10 000 kWh sähkölämmittäjälle tai sähköautoilijalle Yösiirto ({fmt_c(comp['night_c_kwh'])} snt/kWh klo 22–07) tai Kausisiirto voi tuoda säästöä.",
+        ),
+        (
+            f"Miten pörssisähkön kokonaishinta muodostuu paikkakunnalla {m['name']}?",
+            f"Sähkön todellinen pistorasiahinta paikkakunnalla {m['name']} on Nord Pool FI -spot-hinta + sähkömyyjän marginaali + {comp['short_name']} siirtomaksu + sähkövero ({fmt_c(ELECTRICITY_TAX_INCL_VAT)} snt/kWh sis. ALV 25,5 %). Kiinteä siirto + vero -osuus spot-hinnan päälle on yleissiirrossa {fmt_c(total_fixed)} snt/kWh ja yösiirron yötunteina {fmt_c(total_fixed_night)} snt/kWh.",
+        ),
+    ]
+    breadcrumbs = [
+        {"@type": "ListItem", "position": 1, "name": "Spotpuls", "item": f"{SITE_URL}/"},
+        {"@type": "ListItem", "position": 2, "name": "Paikkakunnat", "item": f"{SITE_URL}/paikkakunnat/index.html"},
+        {"@type": "ListItem", "position": 3, "name": m["name"], "item": f"{SITE_URL}/paikkakunnat/{mslug}.html"},
+    ]
+    faq_section_html, schema_json = render_faq_and_schema(
+        muni_faqs,
+        breadcrumbs,
+        f"USEIN KYSYTYT KYSYMYKSET: SÄHKÖN HINTA JA SIIRTO — {m['name'].upper()}",
+    )
 
     dashboard_html = render_interactive_dashboard_block(
         prefix="../",
-        h1_text=f"Pörssisähkö ja sähkön siirtohinta {m['name']} ({m['postal_range']})",
+        h1_text=f"Pörssisähkö, sähkön hinta ja siirtohinta {m['name']} ({m['postal_range']})",
         lead_text=f"Paikkakunnalla {m['name']} ({m['region']}) ensisijainen jakeluverkkoyhtiö on {comp['name']}.{alt_sentence} Yleissiirron ja sähköveron kiinteä osuus on yhteensä {fmt_c(total_fixed)} snt/kWh pörssisähkön spot-hinnan päälle.",
         default_postal=m["postal"],
     )
@@ -663,8 +781,8 @@ def build_municipality_page(m: dict) -> str:
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pörssisähkö, sähkön hinta &amp; siirtohinta {html.escape(m['name'])} ({m['postal']}) | Spotpuls</title>
-    <meta name="description" content="Sähkön hinta, pörssisähkö ja sähkösopimus paikkakunnalla {html.escape(m['name'])} ({m['postal_range']}). Verkkoyhtiö: {html.escape(comp['name'])}, yleissiirto {fmt_c(comp['general_c_kwh'])} snt/kWh + sähkövero {fmt_c(ELECTRICITY_TAX_INCL_VAT)} snt/kWh. Katso tuntihinnat ja 7 vrk ennuste.">
+    <title>{html.escape(page_title)}</title>
+    <meta name="description" content="{html.escape(page_desc)}">
     <link rel="canonical" href="{SITE_URL}/paikkakunnat/{mslug}.html" />
     <meta name="geo.region" content="FI">
     <meta name="content-language" content="fi-FI">
@@ -673,9 +791,9 @@ def build_municipality_page(m: dict) -> str:
     <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
     <link rel="manifest" href="../site.webmanifest">
     <link rel="stylesheet" href="../styles.css?v=43">
-{render_seo_ai_head_tags(f"Pörssisähkö, sähkön hinta & siirtohinta {m['name']} ({m['postal']}) | Spotpuls", f"Sähkön hinta, pörssisähkö ja sähkösopimus paikkakunnalla {m['name']} ({m['postal_range']}). Verkkoyhtiö: {comp['name']}, yleissiirto {fmt_c(comp['general_c_kwh'])} snt/kWh + sähkövero {fmt_c(ELECTRICITY_TAX_INCL_VAT)} snt/kWh.", f"{SITE_URL}/paikkakunnat/{mslug}.html", "fi_FI", "FI")}
+{render_seo_ai_head_tags(page_title, page_desc, f"{SITE_URL}/paikkakunnat/{mslug}.html", "fi_FI", "FI")}
     <script type="application/ld+json">
-{json.dumps({"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Spotpuls", "item": f"{SITE_URL}/"}, {"@type": "ListItem", "position": 2, "name": "Paikkakunnat", "item": f"{SITE_URL}/paikkakunnat/index.html"}, {"@type": "ListItem", "position": 3, "name": m["name"], "item": f"{SITE_URL}/paikkakunnat/{mslug}.html"}]}, ensure_ascii=False)}
+{schema_json}
     </script>
 </head>
 <body data-preset-dso="{comp['id']}" data-preset-postal="{m['postal']}" data-preset-city="{html.escape(m['name'])}">
@@ -683,6 +801,36 @@ def build_municipality_page(m: dict) -> str:
 
     <main class="container">
 {dashboard_html}
+
+        <section class="panel-box">
+            <div class="panel-head">
+                <h2>PAIKALLINEN SÄHKÖVERKKOYHTIÖ {html.escape(m['name']).upper()}: {html.escape(comp['name']).upper()} — SIIRTOHINNASTO 2026</h2>
+                <a href="../verkkoyhtiot/{comp_slug}.html" style="color:var(--signal-yellow); font-family:var(--mono); font-size:12px; font-weight:700; text-decoration:underline;">Katso koko yhtiösivu &rarr;</a>
+            </div>
+            <div class="panel-body">
+                <p style="margin-bottom:12px; font-size:13.5px; color:#3a3e38;">
+                    Postinumeroalueella {html.escape(m['postal_range'])} ({html.escape(m['name'])}) jakeluverkosta vastaa <a href="../verkkoyhtiot/{comp_slug}.html"><strong>{html.escape(comp['name'])}</strong></a>.{html.escape(alt_sentence)} Kaikki taulukon siirtohinnat sisältävät arvonlisäveron 25,5 %.
+                </p>
+                <div class="table-wrap">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Siirtotuote</th>
+                                <th>Energiamaksu (snt/kWh)</th>
+                                <th>Sähkövero (luokka I)</th>
+                                <th>Siirto + vero yhteensä</th>
+                                <th>Perusmaksu (3x25A)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+{render_tariff_table_rows(comp)}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+{faq_section_html}
     </main>
 
 {render_footer("../")}
