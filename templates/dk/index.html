@@ -195,26 +195,26 @@
       "mainEntity": [
         {
           "@type": "Question",
-          "name": "When are tomorrow's Danmark (DK2) electricity spot prices published?",
+          "name": "Hvad er pris på el lige nu, og hvornår kommer morgendagens elpriser i Danmark?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Day-ahead hourly prices for Danmark (DK1, DK2) on Nord Pool are published daily around 12:45 (Europe/Copenhagen). Spotpuls updates automatically with both VAT-inclusive (125 %) and VAT-free prices in øre/kWh."
+            "text": "Her ser du elpriser time for time i Danmark (DK1, DK2) fra Nord Pool i øre/kWh inkl. 125 % moms eller uden moms. Morgendagens elpriser offentliggøres dagligt omkring kl. 12:45 (Europe/Copenhagen)."
           }
         },
         {
           "@type": "Question",
-          "name": "How does the Spotpuls 7-day electricity price forecast work for DK2?",
+          "name": "Hvordan beregnes 7 dages prognosen for elpriser i Danmark (DK1 / DK2)?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Spotpuls combines a dedicated DK2 Log-Merit + Hist-GBDT model with 100 m wind speed, solar radiation, temperature, and self-learning NLMS residual correction to forecast 168 hourly prices (including negative price regimes and min-max probability bands)."
+            "text": "Spotpuls kombinerer vindstyrke i 100 m højde, solindstråling, temperatur og selvlærende NLMS-korrektion til en 168-timers prognose for både DK1 og DK2."
           }
         },
         {
           "@type": "Question",
-          "name": "Can I fetch Danmark spot prices and 7-day forecasts via a free API?",
+          "name": "Kan jeg hente danske elpriser time for time via en gratis API?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Yes. The open CORS-enabled endpoint https://spotpuls.app/api/v1/prices?zone=DK2&vat=1 requires no API key and outputs JSON, Home Assistant, Shelly, EVCC, Victron, CSV, iCal, Prometheus, Markdown, and live SVG badges."
+            "text": "Ja. Den åbne API på https://spotpuls.app/api/v1/prices?zone=DK2&vat=1 kræver ingen API-nøgle og understøtter JSON, Home Assistant, Shelly, evcc, CSV, iCal og Markdown."
           }
         }
       ]
@@ -476,20 +476,20 @@
 
             <section class="panel-box" id="faq">
                 <div class="panel-head">
-                    <h2>FAQ — Danmark (DK2)</h2>
+                    <h2>OFTE STILLEDE SPØRGSMÅL: ELPRISER TIME FOR TIME (DK2)</h2>
                 </div>
                 <div class="panel-body">
                     <details class="faq-item" open style="border-bottom:1px solid #d8d4c7; padding:10px 0;">
-                        <summary style="font-weight:700; cursor:pointer; font-size:14px;">When are tomorrow&#x27;s Danmark (DK2) electricity spot prices published?</summary>
-                        <p style="margin-top:6px; font-size:13.5px; color:#3a3e38; line-height:1.6;">Day-ahead hourly prices for Danmark (DK1, DK2) on Nord Pool are published daily around 12:45 (Europe/Copenhagen). Spotpuls updates automatically with both VAT-inclusive (125 %) and VAT-free prices in øre/kWh.</p>
+                        <summary style="font-weight:700; cursor:pointer; font-size:14px;">Hvad er pris på el lige nu, og hvornår kommer morgendagens elpriser i Danmark?</summary>
+                        <p style="margin-top:6px; font-size:13.5px; color:#3a3e38; line-height:1.6;">Her ser du elpriser time for time i Danmark (DK1, DK2) fra Nord Pool i øre/kWh inkl. 125 % moms eller uden moms. Morgendagens elpriser offentliggøres dagligt omkring kl. 12:45 (Europe/Copenhagen).</p>
                     </details>
                     <details class="faq-item" open style="border-bottom:1px solid #d8d4c7; padding:10px 0;">
-                        <summary style="font-weight:700; cursor:pointer; font-size:14px;">How does the Spotpuls 7-day electricity price forecast work for DK2?</summary>
-                        <p style="margin-top:6px; font-size:13.5px; color:#3a3e38; line-height:1.6;">Spotpuls combines a dedicated DK2 Log-Merit + Hist-GBDT model with 100 m wind speed, solar radiation, temperature, and self-learning NLMS residual correction to forecast 168 hourly prices (including negative price regimes and min-max probability bands).</p>
+                        <summary style="font-weight:700; cursor:pointer; font-size:14px;">Hvordan beregnes 7 dages prognosen for elpriser i Danmark (DK1 / DK2)?</summary>
+                        <p style="margin-top:6px; font-size:13.5px; color:#3a3e38; line-height:1.6;">Spotpuls kombinerer vindstyrke i 100 m højde, solindstråling, temperatur og selvlærende NLMS-korrektion til en 168-timers prognose for både DK1 og DK2.</p>
                     </details>
                     <details class="faq-item" open style="border-bottom:1px solid #d8d4c7; padding:10px 0;">
-                        <summary style="font-weight:700; cursor:pointer; font-size:14px;">Can I fetch Danmark spot prices and 7-day forecasts via a free API?</summary>
-                        <p style="margin-top:6px; font-size:13.5px; color:#3a3e38; line-height:1.6;">Yes. The open CORS-enabled endpoint https://spotpuls.app/api/v1/prices?zone=DK2&amp;vat=1 requires no API key and outputs JSON, Home Assistant, Shelly, EVCC, Victron, CSV, iCal, Prometheus, Markdown, and live SVG badges.</p>
+                        <summary style="font-weight:700; cursor:pointer; font-size:14px;">Kan jeg hente danske elpriser time for time via en gratis API?</summary>
+                        <p style="margin-top:6px; font-size:13.5px; color:#3a3e38; line-height:1.6;">Ja. Den åbne API på https://spotpuls.app/api/v1/prices?zone=DK2&amp;vat=1 kræver ingen API-nøgle og understøtter JSON, Home Assistant, Shelly, evcc, CSV, iCal og Markdown.</p>
                     </details>
                 </div>
             </section>

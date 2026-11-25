@@ -195,26 +195,26 @@
       "mainEntity": [
         {
           "@type": "Question",
-          "name": "When are tomorrow's Hrvatska (HR) electricity spot prices published?",
+          "name": "Kada se objavljuje CROPEX cijena električne energije za sutra?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Day-ahead hourly prices for Hrvatska (HR) on CROPEX are published daily around 12:45 (Europe/Zagreb). Spotpuls updates automatically with both VAT-inclusive (113 %) and VAT-free prices in c/kWh."
+            "text": "Satna CROPEX cijena struje (HR) za Hrvatsku na burzi CROPEX objavljuje se svakodnevno oko 12:45 (Europe/Zagreb) u c/kWh (s 113 % PDV-a ili bez PDV-a)."
           }
         },
         {
           "@type": "Question",
-          "name": "How does the Spotpuls 7-day electricity price forecast work for HR?",
+          "name": "Kako Spotpuls izračunava 7-dnevnu prognozu CROPEX cijene struje?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Spotpuls combines a dedicated HR Log-Merit + Hist-GBDT model with 100 m wind speed, solar radiation, temperature, and self-learning NLMS residual correction to forecast 168 hourly prices (including negative price regimes and min-max probability bands)."
+            "text": "Regionalni HR model koristi podatke o vjetru na 100 m, sunčevom zračenju, temperaturi i samoučeću NLMS korekciju za 168 sati unaprijed."
           }
         },
         {
           "@type": "Question",
-          "name": "Can I fetch Hrvatska spot prices and 7-day forecasts via a free API?",
+          "name": "Mogu li preuzeti CROPEX cijene struje putem besplatnog API-ja?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Yes. The open CORS-enabled endpoint https://spotpuls.app/api/v1/prices?zone=HR&vat=1 requires no API key and outputs JSON, Home Assistant, Shelly, EVCC, Victron, CSV, iCal, Prometheus, Markdown, and live SVG badges."
+            "text": "Da, https://spotpuls.app/api/v1/prices?zone=HR&vat=1 je besplatan CORS REST API bez potrebe za ključem (JSON, Home Assistant, Shelly, CSV, Markdown)."
           }
         }
       ]
@@ -476,20 +476,20 @@
 
             <section class="panel-box" id="faq">
                 <div class="panel-head">
-                    <h2>FAQ — Hrvatska (HR)</h2>
+                    <h2>ČESTA PITANJA: CROPEX CIJENA STRUJE I ELEKTRIČNE ENERGIJE (HR)</h2>
                 </div>
                 <div class="panel-body">
                     <details class="faq-item" open style="border-bottom:1px solid #d8d4c7; padding:10px 0;">
-                        <summary style="font-weight:700; cursor:pointer; font-size:14px;">When are tomorrow&#x27;s Hrvatska (HR) electricity spot prices published?</summary>
-                        <p style="margin-top:6px; font-size:13.5px; color:#3a3e38; line-height:1.6;">Day-ahead hourly prices for Hrvatska (HR) on CROPEX are published daily around 12:45 (Europe/Zagreb). Spotpuls updates automatically with both VAT-inclusive (113 %) and VAT-free prices in c/kWh.</p>
+                        <summary style="font-weight:700; cursor:pointer; font-size:14px;">Kada se objavljuje CROPEX cijena električne energije za sutra?</summary>
+                        <p style="margin-top:6px; font-size:13.5px; color:#3a3e38; line-height:1.6;">Satna CROPEX cijena struje (HR) za Hrvatsku na burzi CROPEX objavljuje se svakodnevno oko 12:45 (Europe/Zagreb) u c/kWh (s 113 % PDV-a ili bez PDV-a).</p>
                     </details>
                     <details class="faq-item" open style="border-bottom:1px solid #d8d4c7; padding:10px 0;">
-                        <summary style="font-weight:700; cursor:pointer; font-size:14px;">How does the Spotpuls 7-day electricity price forecast work for HR?</summary>
-                        <p style="margin-top:6px; font-size:13.5px; color:#3a3e38; line-height:1.6;">Spotpuls combines a dedicated HR Log-Merit + Hist-GBDT model with 100 m wind speed, solar radiation, temperature, and self-learning NLMS residual correction to forecast 168 hourly prices (including negative price regimes and min-max probability bands).</p>
+                        <summary style="font-weight:700; cursor:pointer; font-size:14px;">Kako Spotpuls izračunava 7-dnevnu prognozu CROPEX cijene struje?</summary>
+                        <p style="margin-top:6px; font-size:13.5px; color:#3a3e38; line-height:1.6;">Regionalni HR model koristi podatke o vjetru na 100 m, sunčevom zračenju, temperaturi i samoučeću NLMS korekciju za 168 sati unaprijed.</p>
                     </details>
                     <details class="faq-item" open style="border-bottom:1px solid #d8d4c7; padding:10px 0;">
-                        <summary style="font-weight:700; cursor:pointer; font-size:14px;">Can I fetch Hrvatska spot prices and 7-day forecasts via a free API?</summary>
-                        <p style="margin-top:6px; font-size:13.5px; color:#3a3e38; line-height:1.6;">Yes. The open CORS-enabled endpoint https://spotpuls.app/api/v1/prices?zone=HR&amp;vat=1 requires no API key and outputs JSON, Home Assistant, Shelly, EVCC, Victron, CSV, iCal, Prometheus, Markdown, and live SVG badges.</p>
+                        <summary style="font-weight:700; cursor:pointer; font-size:14px;">Mogu li preuzeti CROPEX cijene struje putem besplatnog API-ja?</summary>
+                        <p style="margin-top:6px; font-size:13.5px; color:#3a3e38; line-height:1.6;">Da, https://spotpuls.app/api/v1/prices?zone=HR&amp;vat=1 je besplatan CORS REST API bez potrebe za ključem (JSON, Home Assistant, Shelly, CSV, Markdown).</p>
                     </details>
                 </div>
             </section>

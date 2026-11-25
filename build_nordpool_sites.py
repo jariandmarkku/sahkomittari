@@ -27,6 +27,241 @@ from global_markets_config import (
 ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
 
 
+def build_localized_faqs(cid: str, loc: dict, z_code: str, exchange_name: str, pub_time: str, tz_name: str, zones_str: str, vat_pct: str):
+    unit = loc["unit"]
+    api_url = f"https://spotpuls.app/api/v1/prices?zone={z_code}&vat=1"
+    u = {"cid": cid, "z": z_code, "ex": exchange_name, "pub": pub_time, "tz": tz_name, "zs": zones_str, "vat": vat_pct, "unit": unit, "api": api_url}
+    CUSTOM = {
+        "es": (
+            f"PREGUNTAS FRECUENTES: PRECIO DE LA LUZ HOY ({z_code})",
+            [
+                ("¿Cuál es el precio de la luz hoy hora a hora y a qué hora se publica el de mañana?", f"El precio de la luz hoy hora a hora en España ({zones_str}) según {exchange_name} (tarifa luz hoy PVPC / OMIE) se muestra en {unit} con y sin IVA ({vat_pct} %). Los precios del día siguiente se publican cada día hacia las {pub_time} ({tz_name})."),
+                ("¿Cuáles son las horas de luz más baratas hoy y la hora valle?", f"En el gráfico interactivo y en el optimizador superior puedes ver al instante la hora valle de la luz hoy y las horas más baratas en {unit} ({vat_pct} % IVA). Además, Spotpuls calcula el precio del kilovatio hora (kWh) hoy para los próximos 7 días con velocidad del viento, radiación solar y temperatura."),
+                ("¿Hay API gratuita para consultar la tarifa de luz hoy por horas?", f"Sí. El endpoint abierto con CORS ({api_url}) no requiere clave y devuelve datos en JSON, Home Assistant, Shelly, evcc, CSV, iCal y Markdown."),
+            ],
+        ),
+        "pt": (
+            f"PERGUNTAS FREQUENTES: OMIE SPOT HOJE ({z_code})",
+            [
+                ("Como ver o preço da eletricidade hoje e os preços OMIE por kWh?", f"O preço spot horário OMIE hoje para Portugal ({zones_str}) é apresentado em {unit} com IVA ({vat_pct} %) ou sem IVA. Os preços do dia seguinte na bolsa OMIE são publicados diariamente por volta das {pub_time} ({tz_name})."),
+                ("Como funciona a previsão de 7 dias do preço spot da energia?", f"O Spotpuls combina um modelo regional para {z_code} com vento a 100 m, radiação solar, temperatura e aprendizagem contínua para prever 168 horas de preço spot em {unit}."),
+                ("Existe uma API gratuita para o preço spot de energia?", f"Sim. A API REST pública e gratuita ({api_url}) suporta JSON, Home Assistant, Shelly, evcc, CSV, iCal e Markdown sem necessidade de chave."),
+            ],
+        ),
+        "gb": (
+            f"FAQ: CURRENT UK ELECTRICITY PRICE PER KWH TODAY ({z_code})",
+            [
+                ("What is the current UK electricity price per kWh today and when are tomorrow's rates published?", f"Spotpuls tracks hourly UK spot electricity prices ({zones_str}) in {unit} (incl. {vat_pct}% VAT or VAT-free). Tomorrow's day-ahead auction rates on {exchange_name} are published daily around {pub_time} ({tz_name})."),
+                ("How do electricity prices in the UK today compare with the 7-day forecast?", f"Spotpuls forecasts 168 hourly UK power prices using 100 m wind speeds, solar generation, temperature, and self-learning NLMS error correction, showing min-max probability intervals in {unit}."),
+                ("Is there a free UK spot electricity price API for smart homes?", f"Yes. Query {api_url} with no API key required for JSON, Home Assistant, Shelly, evcc, Victron, CSV, iCal, and Markdown."),
+            ],
+        ),
+        "dk": (
+            f"OFTE STILLEDE SPØRGSMÅL: ELPRISER TIME FOR TIME ({z_code})",
+            [
+                ("Hvad er pris på el lige nu, og hvornår kommer morgendagens elpriser i Danmark?", f"Her ser du elpriser time for time i Danmark ({zones_str}) fra {exchange_name} i {unit} inkl. {vat_pct} % moms eller uden moms. Morgendagens elpriser offentliggøres dagligt omkring kl. {pub_time} ({tz_name})."),
+                ("Hvordan beregnes 7 dages prognosen for elpriser i Danmark (DK1 / DK2)?", f"Spotpuls kombinerer vindstyrke i 100 m højde, solindstråling, temperatur og selvlærende NLMS-korrektion til en 168-timers prognose for både DK1 og DK2."),
+                ("Kan jeg hente danske elpriser time for time via en gratis API?", f"Ja. Den åbne API på {api_url} kræver ingen API-nøgle og understøtter JSON, Home Assistant, Shelly, evcc, CSV, iCal og Markdown."),
+            ],
+        ),
+        "se": (
+            f"VANLIGA FRÅGOR: ELPRIS TIMME FÖR TIMME ({z_code})",
+            [
+                ("Vad är spotpris el nu och när släpps morgondagens elpris timme för timme?", f"Spotpuls visar timspotpris för Sverige ({zones_str}) från {exchange_name} i {unit} med {vat_pct} % moms eller exkl. moms. Morgondagens priser publiceras varje dag omkring kl. {pub_time} ({tz_name})."),
+                ("Hur räknar Spotpuls ut 7 dygns elprognos för SE1–SE4?", f"Modellen väger in 100 m vindhastighet, solstrålning, temperatur och självlärande NLMS-kalibrering för att beräkna 168 timmars elprisprognos och intervall i {unit}."),
+                ("Finns det ett gratis API för timspotpris till Home Assistant och Shelly?", f"Ja, {api_url} är helt öppet utan API-nyckel och levererar JSON, Home Assistant, Shelly, evcc, Victron, CSV och Markdown."),
+            ],
+        ),
+        "no": (
+            f"OFTE STILTE SPØRSMÅL: STRØMPRIS TIME FOR TIME ({z_code})",
+            [
+                ("Hva er strømpris time for time i dag og når kommer prisene for i morgen?", f"Spotpuls viser spotpris strøm i dag for Norge ({zones_str}) fra {exchange_name} i {unit} (inkl. eller eks. {vat_pct} % MVA). Morgendagens priser publiseres daglig rundt kl. {pub_time} ({tz_name})."),
+                ("Hvordan fungerer 7-dagers strømprognose for NO1–NO5?", f"Modellen bruker 100 m vind, temperatur, solforhold og selvlærende feilkorreksjon for å beregne 168 timer med sannsynlige prisintervall i {unit}."),
+                ("Kan jeg bruke et gratis API for strømpris time for time?", f"Ja, {api_url} krever ingen API-nøkkel og fungerer direkte med Home Assistant, Shelly, evcc, Tibber-alternativer, JSON og CSV."),
+            ],
+        ),
+        "lv": (
+            f"BIEŽĀK UZDOTIE JAUTĀJUMI: ELEKTRĪBAS BIRŽAS CENA PA STUNDĀM ({z_code})",
+            [
+                ("Cik maksā 1 kWh un kad tiek publicēta elektrības biržas cena pa stundām rītdienai?", f"Spotpuls rāda Nord Pool elektrības cenu biržā pa stundām Latvijā ({zones_str}) vienībās {unit} (ar {vat_pct} % PVN vai bez PVN). Rītdienas cenas tiek publicētas ap plkst. {pub_time} ({tz_name})."),
+                ("Kā strādā elektrības kalkulators un 7 dienu biržas cenas prognoze?", f"Elektrības kalkulators un slodzes optimizētājs palīdz atrast lētākās secīgās stundas, bet 7 dienu modelis analizē vēja ātrumu 100 m augstumā, saules starojumu un temperatūru."),
+                ("Vai ir bezmaksas API elektrības cenām biržā pa stundām?", f"Jā. Brīvais REST API ({api_url}) darbojas bez atslēgas un atbalsta JSON, Home Assistant, Shelly, CSV un Markdown."),
+            ],
+        ),
+        "ee": (
+            f"KORDUMA KIPPUVAD KÜSIMUSED: BÖRSIHINNAD TÄNA ({z_code})",
+            [
+                ("Millal avaldatakse homsed elektri börsihinnad täna ja kuidas leida soodus elekter täna?", f"Spotpuls kuvab {exchange_name} Eesti ({zones_str}) börsihinnad täna ühikus {unit} (koos {vat_pct} % käibemaksuga või ilma). Homsed hinnad avaldatakse iga päev umbes kell {pub_time} ({tz_name})."),
+                ("Kuidas arvutatakse 7 päeva elektrihinna prognoos?", f"Mudel ühendab 100 m tuulekiiruse, päikesekiirguse, õhutemperatuuri ja iseõppiva NLMS-korrektsiooni 168 tunni prognoosiks."),
+                ("Kas elektri börsihinna API on tasuta saadaval?", f"Jah, avatud API ({api_url}) ei vaja võtit ning toetab JSON-, Home Assistanti, Shelly, evcc, CSV ja Markdowni vorminguid."),
+            ],
+        ),
+        "lt": (
+            f"DAŽNIAUSI KLAUSIMAI: ELEKTROS KAINA BIRŽOJE ({z_code})",
+            [
+                ("Kokia elektros kaina dabar ir kada skelbiamas rytojaus elektros kainos biržoje grafikas?", f"Spotpuls rodo Lietuvos ({zones_str}) {exchange_name} kainas vienetais {unit} su {vat_pct} % PVM arba be PVM. Rytojaus kainos skelbiamos kasdien apie {pub_time} ({tz_name})."),
+                ("Kaip sudaroma 7 dienų elektros kainos prognozė?", f"7 dienų (168 val.) prognozė skaičiuojama pagal 100 m vėjo greitį, saulės spinduliuotę, temperatūrą ir savimokį klaidų koregavimą."),
+                ("Ar galima gauti elektros kainas per nemokamą API?", f"Taip, atviras API ({api_url}) nereikalauja rakto ir palaiko JSON, Home Assistant, Shelly, CSV bei Markdown."),
+            ],
+        ),
+        "nl": (
+            f"VEELGESTELDE VRAGEN: ACTUELE STROOMPRIJZEN & EPEX VOORSPELLING ({z_code})",
+            [
+                ("Wanneer worden nieuwe EPEX spot prijzen Nederland gepubliceerd?", f"De actuele stroomprijzen per uur voor Nederland ({zones_str}) op {exchange_name} worden dagelijks rond {pub_time} ({tz_name}) gepubliceerd in {unit} (incl. of excl. {vat_pct} % btw)."),
+                ("Hoe werkt de EPEX voorspelling voor de komende 7 dagen?", f"Spotpuls berekent voor {z_code} een 7-daagse (168 uur) EPEX voorspelling op basis van wind op 100 m hoogte, zoninstraling, temperatuur en zelflerende NLMS-correctie."),
+                ("Kan ik de EPEX prijzen NL gratis ophalen via een API?", f"Ja, de open CORS-API ({api_url}) werkt zonder API-sleutel en ondersteunt JSON, Home Assistant, Shelly, evcc, Victron, CSV en Markdown."),
+            ],
+        ),
+        "be": (
+            f"VEELGESTELDE VRAGEN: ACTUELE STROOMPRIJS BELGIË / BELPEX ({z_code})",
+            [
+                ("Wanneer komen de nieuwe Belpex / EPEX spot België prijzen online?", f"De actuele stroomprijs België ({zones_str}) op EPEX SPOT / Belpex wordt dagelijks rond {pub_time} ({tz_name}) bekendgemaakt in {unit} (incl. {vat_pct} % btw of excl. btw)."),
+                ("Hoe werkt de 7-daagse voorspelling van Spot Belpex prijzen?", f"Het {z_code}-model gebruikt wind op 100 m, zonne-instraling, temperatuur en zelflerende NLMS-foutcorrectie voor 168 uur aan waarschijnlijke prijsintervallen."),
+                ("Is er een gratis API voor Belgische dynamische stroomprijzen (o.a. Elexys-vergelijking)?", f"Ja, via {api_url} haal je zonder API-sleutel live EPEX/Belpex uurprijzen op voor Home Assistant, Shelly, evcc en spreadsheets."),
+            ],
+        ),
+        "de": (
+            f"HÄUFIGE FRAGEN: DAY-AHEAD STROMPREIS & EEX / EPEX ({z_code})",
+            [
+                ("Wann erscheint der Day-Ahead Strompreis für morgen an der Strombörse?", f"Der Day-Ahead Strompreis (EPEX / EEX Strompreis) für Deutschland ({zones_str}) wird täglich gegen {pub_time} Uhr ({tz_name}) in {unit} (inkl. {vat_pct} % MwSt. oder netto) veröffentlicht."),
+                ("Wie funktioniert die 7-Tage-Prognose und der Tarifrechner Strom?", f"Spotpuls berechnet für {z_code} 168 Stundenprognosen aus 100-m-Windgeschwindigkeit, Solarstrahlung, Temperatur und selbstlernender NLMS-Korrektur – inklusive negativer Börsenpreise."),
+                ("Gibt es eine kostenlose API für Day-Ahead-Börsenstrompreise?", f"Ja, {api_url} erfordert keinen API-Key und liefert JSON, Home Assistant, Shelly, evcc, Victron, CSV, iCal und Markdown."),
+            ],
+        ),
+        "at": (
+            f"HÄUFIGE FRAGEN: STROMPREIS ÖSTERREICH & EXAA / EPEX ({z_code})",
+            [
+                ("Wann werden die Day-Ahead Strompreise für Österreich (AT) veröffentlicht?", f"Die stündlichen Börsenstrompreise für Österreich ({zones_str}) auf {exchange_name} erscheinen täglich um ca. {pub_time} Uhr ({tz_name}) in {unit} (inkl. {vat_pct} % MwSt.)."),
+                ("Wie entsteht die 7-Tage-Strompreisprognose für Österreich?", f"Spotpuls kombiniert Wind-, Solar- und Temperaturdaten mit einem selbstlernenden NLMS-Modell für 168 Stunden im Voraus."),
+                ("Kann ich die österreichischen Spotpreise kostenlos per API abrufen?", f"Ja, über {api_url} stehen JSON, Home Assistant, Shelly, evcc, CSV und Markdown ohne API-Schlüssel bereit."),
+            ],
+        ),
+        "ch": (
+            f"HÄUFIGE FRAGEN: STROMPREIS BÖRSE SCHWEIZ ({z_code})",
+            [
+                ("Wann erscheinen die stündlichen Strompreise der Börse Schweiz (CH)?", f"Der Day-Ahead Strompreis für die Schweiz ({zones_str}) an der {exchange_name} wird täglich gegen {pub_time} Uhr ({tz_name}) in {unit} (inkl. {vat_pct} % MwSt. oder netto) veröffentlicht."),
+                ("Wie berechnet Spotpuls den Strommarkt Schweiz 7 Tage im Voraus?", f"Das regionale CH-Modell kombiniert Wind, Sonnenstrahlung, Wasserkraft-Saisonalität und Temperatur zu einer 168-Stunden-Prognose samt Bandbreite."),
+                ("Gibt es eine kostenlose API für den Schweizer Spotmarkt?", f"Ja, {api_url} liefert kostenlose JSON-, Home-Assistant-, Shelly-, evcc-, CSV- und Markdown-Feeds ohne Anmeldung."),
+            ],
+        ),
+        "ro": (
+            f"ÎNTREBĂRI FRECVENTE: PREȚ PZU OPCOM ENERGIE ELECTRICĂ ({z_code})",
+            [
+                ("La ce oră se publică prețul PZU OPCOM pentru ziua următoare?", f"Prețurile spot pe Piața pentru Ziua Următoare (preț PZU OPCOM, grafic PZU și prețuri PZU) pentru România ({zones_str}) se publică zilnic în jurul orei {pub_time} ({tz_name}) în {unit} (cu sau fără TVA {vat_pct} %)."),
+                ("Cum funcționează prognoza pe 7 zile pentru preț energie electrică?", f"Spotpuls analizează viteza vântului la 100 m, radiația solară, temperatura și corecția adaptivă NLMS pentru 168 de ore de prognoză spot în România."),
+                ("Există un API gratuit pentru prețurile PZU OPCOM?", f"Da, endpoint-ul deschis {api_url} funcționează fără cheie API în formate JSON, Home Assistant, Shelly, CSV și Markdown."),
+            ],
+        ),
+        "bg": (
+            f"ЧЕСТО ЗАДАВАНИ ВЪПРОСИ: IBEX ЦЕНИ И ЦЕНА НА ТОКА ДЕН НАПРЕД ({z_code})",
+            [
+                ("В колко часа се публикуват IBEX цени (ИБЕКС БГ) за ден напред?", f"Почасовите цени на тока ден напред на борсата {exchange_name} (ИБЕКС цени / IBEX цени) за България ({zones_str}) се публикуват ежедневно около {pub_time} ({tz_name}) в {unit} с {vat_pct} % ДДС или без ДДС."),
+                ("Как се изчислява 7-дневната прогноза за цената на тока ден напред?", f"Моделът на Spotpuls за {z_code} комбинира скорост на вятъра на 100 м, слънчева радиация, температура и самообучаваща се NLMS корекция за 168 часа напред."),
+                ("Мога ли да извличам IBEX цени автоматично чрез безплатно API?", f"Да, отвореният REST API на {api_url} не изисква ключ и поддържа JSON, Home Assistant, Shelly, CSV и Markdown."),
+            ],
+        ),
+        "si": (
+            f"POGOSTA VPRAŠANJA: CENA ELEKTRIKE DANES & OMREŽNINA ({z_code})",
+            [
+                ("Kdaj so objavljene borzne cene BSP SouthPool za jutri?", f"Dnevne cene elektrike na borzi {exchange_name} za Slovenijo ({zones_str}) so objavljene vsak dan okoli {pub_time} ({tz_name}) v {unit} (z vključenim {vat_pct} % DDV ali brez DDV)."),
+                ("Kako Spotpuls pomaga pri načrtovanju porabe glede na ceno elektrike in omrežnino?", f"Optimizator obremenitve poišče najcenejše ure za polnjenje EV ali ogrevanje vode v naslednjih 24–36 urah, kar pomaga uskladiti porabo z nizko borzno ceno in časovnimi bloki za omrežnino."),
+                ("Ali je na voljo brezplačen API za borzno ceno elektrike BSP SouthPool?", f"Da, na naslovu {api_url} brez API ključa dobite JSON, Home Assistant, Shelly, evcc, CSV in Markdown vire."),
+            ],
+        ),
+        "hr": (
+            f"ČESTA PITANJA: CROPEX CIJENA STRUJE I ELEKTRIČNE ENERGIJE ({z_code})",
+            [
+                ("Kada se objavljuje CROPEX cijena električne energije za sutra?", f"Satna CROPEX cijena struje ({zones_str}) za Hrvatsku na burzi {exchange_name} objavljuje se svakodnevno oko {pub_time} ({tz_name}) u {unit} (s {vat_pct} % PDV-a ili bez PDV-a)."),
+                ("Kako Spotpuls izračunava 7-dnevnu prognozu CROPEX cijene struje?", f"Regionalni {z_code} model koristi podatke o vjetru na 100 m, sunčevom zračenju, temperaturi i samoučeću NLMS korekciju za 168 sati unaprijed."),
+                ("Mogu li preuzeti CROPEX cijene struje putem besplatnog API-ja?", f"Da, {api_url} je besplatan CORS REST API bez potrebe za ključem (JSON, Home Assistant, Shelly, CSV, Markdown)."),
+            ],
+        ),
+        "cz": (
+            f"ČASTÉ DOTAZY: SPOTOVÁ CENA ELEKTŘINY & CENA OTE ({z_code})",
+            [
+                ("Kdy se zveřejňuje spotová cena elektřiny OTE na zítra?", f"Hodinová spotová cena elektřiny (cena OTE) pro Česko ({zones_str}) na burze {exchange_name} vychází každý den přibližně v {pub_time} ({tz_name}) v {unit} (vč. {vat_pct} % DPH nebo bez DPH)."),
+                ("Jak vzniká 7denní predikce spotových cen elektřiny v ČR?", f"Spotpuls spojuje vítr ve výšce 100 m, sluneční osvit, teplotu a samoučící NLMS korekci do 168hodinového výhledu v {unit}."),
+                ("Nabízí Spotpuls bezplatné API pro cenu OTE?", f"Ano, bezplatné API na adrese {api_url} funguje bez klíče a podporuje JSON, Home Assistant, Shelly, evcc, CSV a Markdown."),
+            ],
+        ),
+        "sk": (
+            f"ČASTÉ OTÁZKY: ČO JE SPOTOVÁ CENA ELEKTRINY & OKTE ({z_code})",
+            [
+                ("Čo je spotová cena elektriny a kedy sú známe zajtrajšie ceny OKTE?", f"Spotová cena elektriny je hodinová trhová cena elektriny na dennom trhu {exchange_name} ({zones_str}). Zajtrajšie spotové ceny elektriny sa zverejňujú denne okolo {pub_time} ({tz_name}) v {unit} (vrátane {vat_pct} % DPH alebo bez DPH)."),
+                ("Ako sa počíta 7-dňová predikcia spotovej ceny elektriny pre Slovensko?", f"Model kombinuje rýchlosť vetra v 100 m, slnečné žiarenie, teplotu a samoučiacu NLMS korekciu pre 168 hodín dopredu."),
+                ("Je k dispozícii bezplatné API pre spotové ceny elektriny OKTE?", f"Áno, endpoint {api_url} nevyžaduje API kľúč a podporuje JSON, Home Assistant, Shelly, CSV aj Markdown."),
+            ],
+        ),
+        "pl": (
+            f"NAJCZĘSTSZE PYTANIA: TGE100 & CENA PRĄDU DZIŚ ({z_code})",
+            [
+                ("Kiedy publikowane są ceny RDN / TGE dla Polski?", f"Godzinowa cena prądu na Towarowej Giełdzie Energii ({exchange_name}, TGE / RDN, indeksy typu TGE100 / TGeBase) dla Polski ({zones_str}) pojawia się codziennie około {pub_time} ({tz_name}) w {unit} (z {vat_pct} % VAT lub netto)."),
+                ("Jak działa 7-dniowa prognoza cen prądu RDN?", f"Spotpuls analizuje wiatr na wysokości 100 m, nasłonecznienie, temperaturę oraz adaptacyjną korekcję NLMS dla 168 godzin naprzód."),
+                ("Czy API z cenami prądu TGE jest darmowe?", f"Tak, otwarte API ({api_url}) nie wymaga klucza i obsługuje JSON, Home Assistant, Shelly, evcc, CSV i Markdown."),
+            ],
+        ),
+        "hu": (
+            f"GYAKORI KÉRDÉSEK: HUPX DAM ÁRAK & ÁRAMÁR MA ({z_code})",
+            [
+                ("Mikor jelennek meg a holnapi HUPX DAM árak?", f"A magyarországi ({zones_str}) órás {exchange_name} HUPX DAM árak minden nap körülbelül {pub_time} ({tz_name}) körül jelennek meg {unit} mértékegységben ({vat_pct} % ÁFA-val vagy nettó)."),
+                ("Hogyan készül a 7 napos magyar áramár-előrejelzés?", f"A modell 100 m-es szélsebességet, napsugárzást, hőmérsékletet és öntanuló NLMS korrekciót használ a következő 168 óra megbecslésére."),
+                ("Van ingyenes API a HUPX áramárakhoz?", f"Igen, a {api_url} kulcs nélkül elérhető JSON, Home Assistant, Shelly, CSV és Markdown formátumban."),
+            ],
+        ),
+        "fr": (
+            f"FOIRE AUX QUESTIONS : PRIX SPOT ÉLECTRICITÉ EPEX ({z_code})",
+            [
+                ("À quelle heure sont publiés les prix électricité spot en France ?", f"Les prix horaires EPEX SPOT pour la France ({zones_str}) sont publiés chaque jour vers {pub_time} ({tz_name}) en {unit} (TTC {vat_pct} % ou HT)."),
+                ("Comment fonctionne la prévision à 7 jours du prix spot ?", f"Spotpuls associe vent à 100 m, rayonnement solaire, température et apprentissage NLMS sur 168 heures (y compris prix négatifs)."),
+                ("Existe-t-il une API gratuite pour le prix électricité spot ?", f"Oui, {api_url} est accessible sans clé API en JSON, Home Assistant, Shelly, evcc, CSV et Markdown."),
+            ],
+        ),
+        "it": (
+            f"DOMANDE FREQUENTI: PUN OGGI & PREZZO ZONALE ORARIO GME ({z_code})",
+            [
+                ("Quando vengono pubblicati PUN oggi e prezzi zonali orari GME?", f"Il prezzo zonale orario GME (e PUN) per l'Italia ({zones_str}) sulla borsa {exchange_name} viene pubblicato ogni giorno intorno alle {pub_time} ({tz_name}) in {unit} (IVA {vat_pct} % inclusa o esclusa)."),
+                ("Come viene calcolata la previsione oraria a 7 giorni per l'Italia?", f"Spotpuls elabora vento a 100 m, irradiazione solare, temperatura e correzione adattiva NLMS su 168 ore per ciascuna delle 6 zone GME."),
+                ("Esiste un'API gratuita per prezzi orari GME / PUN?", f"Sì, {api_url} è aperta senza chiave API in JSON, Home Assistant, Shelly, CSV e Markdown."),
+            ],
+        ),
+        "ie": (
+            f"FAQ: IRELAND SEMOPX ELECTRICITY SPOT PRICE TODAY ({z_code})",
+            [
+                ("When are tomorrow's Ireland SEMOpx day-ahead prices published?", f"Hourly SEMOpx electricity spot prices for Ireland ({zones_str}) are published daily around {pub_time} ({tz_name}) in {unit} (incl. or excl. {vat_pct}% VAT)."),
+                ("How does the 7-day forecast for IE-SEM work?", f"Spotpuls uses 100 m wind speed, temperature, and self-learning error correction tailored to Ireland's high wind penetration."),
+                ("Can I fetch IE-SEM spot prices with a free API?", f"Yes. Query {api_url} with no API key for JSON, Home Assistant, Shelly, CSV, and Markdown."),
+            ],
+        ),
+        "gr": (
+            f"ΣΥΧΝΕΣ ΕΡΩΤΗΣΕΙΣ: ΤΙΜΗ KWH ΣΗΜΕΡΑ HENEX ({z_code})",
+            [
+                ("Πότε δημοσιεύεται η τιμή kWh σήμερα και αύριο στο HEnEx;", f"Οι ωριαίες τιμές ηλεκτρικής ενέργειας στο {exchange_name} ({zones_str}) δημοσιεύονται καθημερινά περίπου στις {pub_time} ({tz_name}) σε {unit} (με ΦΠΑ {vat_pct} % ή χωρίς ΦΠΑ)."),
+                ("Πώς υπολογίζεται η 7ήμερη πρόβλεψη τιμής ρεύματος;", f"Το μοντέλο για το {z_code} συνδυάζει ταχύτητα ανέμου στα 100 μ., ηλιακή ακτινοβολία, θερμοκρασία και αυτοεκπαιδευόμενη διόρθωση NLMS για 168 ώρες."),
+                ("Υπάρχει δωρεάν API για τις τιμές HEnEx;", f"Ναι, το {api_url} λειτουργεί χωρίς κλειδί API σε JSON, Home Assistant, Shelly, CSV και Markdown."),
+            ],
+        ),
+    }
+    if cid in CUSTOM:
+        return CUSTOM[cid]
+    return (
+        f"FAQ — {loc['countryName']} ({z_code})",
+        [
+            (
+                f"When are tomorrow's {loc['countryName']} ({z_code}) electricity spot prices published?",
+                f"Day-ahead hourly prices for {loc['countryName']} ({zones_str}) on {exchange_name} are published daily around {pub_time} ({tz_name}). Spotpuls updates automatically with both VAT-inclusive ({vat_pct} %) and VAT-free prices in {unit}.",
+            ),
+            (
+                f"How does the Spotpuls 7-day electricity price forecast work for {z_code}?",
+                f"Spotpuls combines a dedicated {z_code} Log-Merit + Hist-GBDT model with 100 m wind speed, solar radiation, temperature, and self-learning NLMS residual correction to forecast 168 hourly prices (including negative price regimes and min-max probability bands).",
+            ),
+            (
+                f"Can I fetch {loc['countryName']} spot prices and 7-day forecasts via a free API?",
+                f"Yes. The open CORS-enabled endpoint {api_url} requires no API key and outputs JSON, Home Assistant, Shelly, EVCC, Victron, CSV, iCal, Prometheus, Markdown, and live SVG badges.",
+            ),
+        ],
+    )
+
+
 def build_country_page(cid: str, loc: dict) -> str:
     z_code = loc.get("defaultZone", "FI")
     z_meta = BIDDING_ZONES.get(z_code, {})
@@ -37,20 +272,9 @@ def build_country_page(cid: str, loc: dict) -> str:
     zones_str = ", ".join(loc.get("zones", [z_code]))
     vat_pct = f"{loc.get('vatRate', 0.25) * 100:.1f}".rstrip("0").rstrip(".")
 
-    faq_items = [
-        (
-            f"When are tomorrow's {loc['countryName']} ({z_code}) electricity spot prices published?",
-            f"Day-ahead hourly prices for {loc['countryName']} ({zones_str}) on {exchange_name} are published daily around {pub_h:02d}:{pub_m:02d} ({tz_name}). Spotpuls updates automatically with both VAT-inclusive ({vat_pct} %) and VAT-free prices in {loc['unit']}.",
-        ),
-        (
-            f"How does the Spotpuls 7-day electricity price forecast work for {z_code}?",
-            f"Spotpuls combines a dedicated {z_code} Log-Merit + Hist-GBDT model with 100 m wind speed, solar radiation, temperature, and self-learning NLMS residual correction to forecast 168 hourly prices (including negative price regimes and min-max probability bands).",
-        ),
-        (
-            f"Can I fetch {loc['countryName']} spot prices and 7-day forecasts via a free API?",
-            f"Yes. The open CORS-enabled endpoint https://spotpuls.app/api/v1/prices?zone={z_code}&vat=1 requires no API key and outputs JSON, Home Assistant, Shelly, EVCC, Victron, CSV, iCal, Prometheus, Markdown, and live SVG badges.",
-        ),
-    ]
+    faq_heading, faq_items = build_localized_faqs(
+        cid, loc, z_code, exchange_name, f"{pub_h:02d}:{pub_m:02d}", tz_name, zones_str, vat_pct
+    )
     faq_entity = {
         "@type": "FAQPage",
         "mainEntity": [
@@ -286,7 +510,7 @@ def build_country_page(cid: str, loc: dict) -> str:
 
             <section class="panel-box" id="faq">
                 <div class="panel-head">
-                    <h2>FAQ — {html.escape(loc['countryName'])} ({html.escape(z_code)})</h2>
+                    <h2>{html.escape(faq_heading)}</h2>
                 </div>
                 <div class="panel-body">
 {faq_html_items}

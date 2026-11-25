@@ -195,26 +195,26 @@
       "mainEntity": [
         {
           "@type": "Question",
-          "name": "When are tomorrow's Polska (PL) electricity spot prices published?",
+          "name": "Kiedy publikowane są ceny RDN / TGE dla Polski?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Day-ahead hourly prices for Polska (PL) on TGE (RDN) are published daily around 12:45 (Europe/Warsaw). Spotpuls updates automatically with both VAT-inclusive (123 %) and VAT-free prices in gr/kWh."
+            "text": "Godzinowa cena prądu na Towarowej Giełdzie Energii (TGE (RDN), TGE / RDN, indeksy typu TGE100 / TGeBase) dla Polski (PL) pojawia się codziennie około 12:45 (Europe/Warsaw) w gr/kWh (z 123 % VAT lub netto)."
           }
         },
         {
           "@type": "Question",
-          "name": "How does the Spotpuls 7-day electricity price forecast work for PL?",
+          "name": "Jak działa 7-dniowa prognoza cen prądu RDN?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Spotpuls combines a dedicated PL Log-Merit + Hist-GBDT model with 100 m wind speed, solar radiation, temperature, and self-learning NLMS residual correction to forecast 168 hourly prices (including negative price regimes and min-max probability bands)."
+            "text": "Spotpuls analizuje wiatr na wysokości 100 m, nasłonecznienie, temperaturę oraz adaptacyjną korekcję NLMS dla 168 godzin naprzód."
           }
         },
         {
           "@type": "Question",
-          "name": "Can I fetch Polska spot prices and 7-day forecasts via a free API?",
+          "name": "Czy API z cenami prądu TGE jest darmowe?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Yes. The open CORS-enabled endpoint https://spotpuls.app/api/v1/prices?zone=PL&vat=1 requires no API key and outputs JSON, Home Assistant, Shelly, EVCC, Victron, CSV, iCal, Prometheus, Markdown, and live SVG badges."
+            "text": "Tak, otwarte API (https://spotpuls.app/api/v1/prices?zone=PL&vat=1) nie wymaga klucza i obsługuje JSON, Home Assistant, Shelly, evcc, CSV i Markdown."
           }
         }
       ]
@@ -476,20 +476,20 @@
 
             <section class="panel-box" id="faq">
                 <div class="panel-head">
-                    <h2>FAQ — Polska (PL)</h2>
+                    <h2>NAJCZĘSTSZE PYTANIA: TGE100 &amp; CENA PRĄDU DZIŚ (PL)</h2>
                 </div>
                 <div class="panel-body">
                     <details class="faq-item" open style="border-bottom:1px solid #d8d4c7; padding:10px 0;">
-                        <summary style="font-weight:700; cursor:pointer; font-size:14px;">When are tomorrow&#x27;s Polska (PL) electricity spot prices published?</summary>
-                        <p style="margin-top:6px; font-size:13.5px; color:#3a3e38; line-height:1.6;">Day-ahead hourly prices for Polska (PL) on TGE (RDN) are published daily around 12:45 (Europe/Warsaw). Spotpuls updates automatically with both VAT-inclusive (123 %) and VAT-free prices in gr/kWh.</p>
+                        <summary style="font-weight:700; cursor:pointer; font-size:14px;">Kiedy publikowane są ceny RDN / TGE dla Polski?</summary>
+                        <p style="margin-top:6px; font-size:13.5px; color:#3a3e38; line-height:1.6;">Godzinowa cena prądu na Towarowej Giełdzie Energii (TGE (RDN), TGE / RDN, indeksy typu TGE100 / TGeBase) dla Polski (PL) pojawia się codziennie około 12:45 (Europe/Warsaw) w gr/kWh (z 123 % VAT lub netto).</p>
                     </details>
                     <details class="faq-item" open style="border-bottom:1px solid #d8d4c7; padding:10px 0;">
-                        <summary style="font-weight:700; cursor:pointer; font-size:14px;">How does the Spotpuls 7-day electricity price forecast work for PL?</summary>
-                        <p style="margin-top:6px; font-size:13.5px; color:#3a3e38; line-height:1.6;">Spotpuls combines a dedicated PL Log-Merit + Hist-GBDT model with 100 m wind speed, solar radiation, temperature, and self-learning NLMS residual correction to forecast 168 hourly prices (including negative price regimes and min-max probability bands).</p>
+                        <summary style="font-weight:700; cursor:pointer; font-size:14px;">Jak działa 7-dniowa prognoza cen prądu RDN?</summary>
+                        <p style="margin-top:6px; font-size:13.5px; color:#3a3e38; line-height:1.6;">Spotpuls analizuje wiatr na wysokości 100 m, nasłonecznienie, temperaturę oraz adaptacyjną korekcję NLMS dla 168 godzin naprzód.</p>
                     </details>
                     <details class="faq-item" open style="border-bottom:1px solid #d8d4c7; padding:10px 0;">
-                        <summary style="font-weight:700; cursor:pointer; font-size:14px;">Can I fetch Polska spot prices and 7-day forecasts via a free API?</summary>
-                        <p style="margin-top:6px; font-size:13.5px; color:#3a3e38; line-height:1.6;">Yes. The open CORS-enabled endpoint https://spotpuls.app/api/v1/prices?zone=PL&amp;vat=1 requires no API key and outputs JSON, Home Assistant, Shelly, EVCC, Victron, CSV, iCal, Prometheus, Markdown, and live SVG badges.</p>
+                        <summary style="font-weight:700; cursor:pointer; font-size:14px;">Czy API z cenami prądu TGE jest darmowe?</summary>
+                        <p style="margin-top:6px; font-size:13.5px; color:#3a3e38; line-height:1.6;">Tak, otwarte API (https://spotpuls.app/api/v1/prices?zone=PL&amp;vat=1) nie wymaga klucza i obsługuje JSON, Home Assistant, Shelly, evcc, CSV i Markdown.</p>
                     </details>
                 </div>
             </section>

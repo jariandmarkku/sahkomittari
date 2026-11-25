@@ -195,26 +195,26 @@
       "mainEntity": [
         {
           "@type": "Question",
-          "name": "When are tomorrow's Ireland (IE-SEM) electricity spot prices published?",
+          "name": "When are tomorrow's Ireland SEMOpx day-ahead prices published?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Day-ahead hourly prices for Ireland (IE-SEM) on SEMOpx are published daily around 11:45 (Europe/Dublin). Spotpuls updates automatically with both VAT-inclusive (109 %) and VAT-free prices in c/kWh."
+            "text": "Hourly SEMOpx electricity spot prices for Ireland (IE-SEM) are published daily around 11:45 (Europe/Dublin) in c/kWh (incl. or excl. 109% VAT)."
           }
         },
         {
           "@type": "Question",
-          "name": "How does the Spotpuls 7-day electricity price forecast work for IE-SEM?",
+          "name": "How does the 7-day forecast for IE-SEM work?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Spotpuls combines a dedicated IE-SEM Log-Merit + Hist-GBDT model with 100 m wind speed, solar radiation, temperature, and self-learning NLMS residual correction to forecast 168 hourly prices (including negative price regimes and min-max probability bands)."
+            "text": "Spotpuls uses 100 m wind speed, temperature, and self-learning error correction tailored to Ireland's high wind penetration."
           }
         },
         {
           "@type": "Question",
-          "name": "Can I fetch Ireland spot prices and 7-day forecasts via a free API?",
+          "name": "Can I fetch IE-SEM spot prices with a free API?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Yes. The open CORS-enabled endpoint https://spotpuls.app/api/v1/prices?zone=IE-SEM&vat=1 requires no API key and outputs JSON, Home Assistant, Shelly, EVCC, Victron, CSV, iCal, Prometheus, Markdown, and live SVG badges."
+            "text": "Yes. Query https://spotpuls.app/api/v1/prices?zone=IE-SEM&vat=1 with no API key for JSON, Home Assistant, Shelly, CSV, and Markdown."
           }
         }
       ]
@@ -476,20 +476,20 @@
 
             <section class="panel-box" id="faq">
                 <div class="panel-head">
-                    <h2>FAQ — Ireland (IE-SEM)</h2>
+                    <h2>FAQ: IRELAND SEMOPX ELECTRICITY SPOT PRICE TODAY (IE-SEM)</h2>
                 </div>
                 <div class="panel-body">
                     <details class="faq-item" open style="border-bottom:1px solid #d8d4c7; padding:10px 0;">
-                        <summary style="font-weight:700; cursor:pointer; font-size:14px;">When are tomorrow&#x27;s Ireland (IE-SEM) electricity spot prices published?</summary>
-                        <p style="margin-top:6px; font-size:13.5px; color:#3a3e38; line-height:1.6;">Day-ahead hourly prices for Ireland (IE-SEM) on SEMOpx are published daily around 11:45 (Europe/Dublin). Spotpuls updates automatically with both VAT-inclusive (109 %) and VAT-free prices in c/kWh.</p>
+                        <summary style="font-weight:700; cursor:pointer; font-size:14px;">When are tomorrow&#x27;s Ireland SEMOpx day-ahead prices published?</summary>
+                        <p style="margin-top:6px; font-size:13.5px; color:#3a3e38; line-height:1.6;">Hourly SEMOpx electricity spot prices for Ireland (IE-SEM) are published daily around 11:45 (Europe/Dublin) in c/kWh (incl. or excl. 109% VAT).</p>
                     </details>
                     <details class="faq-item" open style="border-bottom:1px solid #d8d4c7; padding:10px 0;">
-                        <summary style="font-weight:700; cursor:pointer; font-size:14px;">How does the Spotpuls 7-day electricity price forecast work for IE-SEM?</summary>
-                        <p style="margin-top:6px; font-size:13.5px; color:#3a3e38; line-height:1.6;">Spotpuls combines a dedicated IE-SEM Log-Merit + Hist-GBDT model with 100 m wind speed, solar radiation, temperature, and self-learning NLMS residual correction to forecast 168 hourly prices (including negative price regimes and min-max probability bands).</p>
+                        <summary style="font-weight:700; cursor:pointer; font-size:14px;">How does the 7-day forecast for IE-SEM work?</summary>
+                        <p style="margin-top:6px; font-size:13.5px; color:#3a3e38; line-height:1.6;">Spotpuls uses 100 m wind speed, temperature, and self-learning error correction tailored to Ireland&#x27;s high wind penetration.</p>
                     </details>
                     <details class="faq-item" open style="border-bottom:1px solid #d8d4c7; padding:10px 0;">
-                        <summary style="font-weight:700; cursor:pointer; font-size:14px;">Can I fetch Ireland spot prices and 7-day forecasts via a free API?</summary>
-                        <p style="margin-top:6px; font-size:13.5px; color:#3a3e38; line-height:1.6;">Yes. The open CORS-enabled endpoint https://spotpuls.app/api/v1/prices?zone=IE-SEM&amp;vat=1 requires no API key and outputs JSON, Home Assistant, Shelly, EVCC, Victron, CSV, iCal, Prometheus, Markdown, and live SVG badges.</p>
+                        <summary style="font-weight:700; cursor:pointer; font-size:14px;">Can I fetch IE-SEM spot prices with a free API?</summary>
+                        <p style="margin-top:6px; font-size:13.5px; color:#3a3e38; line-height:1.6;">Yes. Query https://spotpuls.app/api/v1/prices?zone=IE-SEM&amp;vat=1 with no API key for JSON, Home Assistant, Shelly, CSV, and Markdown.</p>
                     </details>
                 </div>
             </section>

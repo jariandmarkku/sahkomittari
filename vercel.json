@@ -41,6 +41,14 @@
       "destination": "/api/ssr?country=:country"
     },
     {
+      "source": "/verkkoyhtiot/:slug((?!index$)[^/]+)\\.html",
+      "destination": "/api/ssr?dso=:slug"
+    },
+    {
+      "source": "/paikkakunnat/:slug((?!index$)[^/]+)\\.html",
+      "destination": "/api/ssr?muni=:slug"
+    },
+    {
       "source": "/api/v1/zones",
       "destination": "/api/v1/prices?list=zones"
     },

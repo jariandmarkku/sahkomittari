@@ -728,6 +728,7 @@ def build_municipality_page(m: dict) -> str:
     mslug = slugify(m["name"])
     comp = DSO_COMPANIES[m["primary"]]
     comp_slug = slugify(comp["short_name"])
+    display_muni = "Pedersöre (Pedersören kunta)" if m["name"] == "Pedersöre" else m["name"]
     alt_names = [DSO_COMPANIES[a]["name"] for a in (m.get("alt") or []) if a in DSO_COMPANIES]
     alt_sentence = (
         f" Kunnan reuna- tai haja-asutusalueilla verkosta vastaa osittain myös {', '.join(alt_names)}."
@@ -737,25 +738,29 @@ def build_municipality_page(m: dict) -> str:
     total_fixed = comp["general_c_kwh"] + ELECTRICITY_TAX_INCL_VAT
     total_fixed_night = comp["night_c_kwh"] + ELECTRICITY_TAX_INCL_VAT
 
-    page_title = f"Pörssisähkö, sähkön hinta & siirtohinta {m['name']} ({m['postal']}) | Spotpuls"
+    page_title = f"Sähkösopimus & sähkön hinta {m['name']} ({m['postal']}) – Pörssisähkö & siirto | Spotpuls"
     page_desc = (
-        f"Sähkön hinta, pörssisähkö ja sähkösopimus paikkakunnalla {m['name']} ({m['postal_range']}). "
-        f"Verkkoyhtiö: {comp['name']}, yleissiirto {fmt_c(comp['general_c_kwh'])} snt/kWh + sähkövero "
-        f"{fmt_c(ELECTRICITY_TAX_INCL_VAT)} snt/kWh (yht. {fmt_c(total_fixed)} snt/kWh). Katso tuntihinnat ja 7 vrk ennuste."
+        f"Kilpailuta sähkösopimus ja tarkista sähkön hinta, sähkötarjous ja pörssisähkö paikkakunnalla {display_muni} ({m['postal_range']}). "
+        f"Verkkoyhtiö: {comp['name']}, siirtohinta {fmt_c(comp['general_c_kwh'])} snt/kWh + sähkövero "
+        f"{fmt_c(ELECTRICITY_TAX_INCL_VAT)} snt/kWh (yht. {fmt_c(total_fixed)} snt/kWh)."
     )
 
     muni_faqs = [
         (
-            f"Mikä on sähkön siirtohinta ja sähköverkkoyhtiö paikkakunnalla {m['name']} ({m['postal_range']})?",
-            f"Paikkakunnalla {m['name']} ({m['region']}) ensisijainen jakeluverkkoyhtiö on {comp['name']}.{alt_sentence} Yleissiirron siirtomaksu on {fmt_c(comp['general_c_kwh'])} snt/kWh ja kuukausiperusmaksu (3x25A) {fmt_c(comp['general_base_eur'])} €/kk (sis. ALV 25,5 %).",
+            f"Mikä sähkösopimus ja sähkötarjous kannattaa valita paikkakunnalla {m['name']}?",
+            f"Paikkakunnalla {display_muni} ({m['postal_range']}) voit kilpailuttaa sähkömyyjän vapaasti: pörssisähkösopimus (spot-hinta + n. 0,40–0,45 snt/kWh marginaali) on pitkällä aikavälillä yleensä kiinteää määräaikaista sähkötarjousta edullisempi, kun kulutusta ohjataan edullisimmille tunneille.",
         ),
         (
-            f"Mikä sähkösopimus ja siirtotuote kannattaa valita paikkakunnalla {m['name']}?",
-            f"Pörssisähkösopimus yhdistettynä paikalliseen yhtiöön {comp['short_name']} sopii erityisesti talouksiin, joissa kulutusta voi ajoittaa halvoille tunneille. Alle 6 000 kWh vuosikulutuksessa Yleissiirto on usein edullisin, kun taas yli 10 000 kWh sähkölämmittäjälle tai sähköautoilijalle Yösiirto ({fmt_c(comp['night_c_kwh'])} snt/kWh klo 22–07) tai Kausisiirto voi tuoda säästöä.",
+            f"Mikä on sähkön siirtohinta ja sähköverkkoyhtiö paikkakunnalla {m['name']} ({m['postal_range']})?",
+            f"Paikkakunnalla {display_muni} ({m['region']}) ensisijainen jakeluverkkoyhtiö on {comp['name']}.{alt_sentence} Yleissiirron siirtomaksu on {fmt_c(comp['general_c_kwh'])} snt/kWh ja kuukausiperusmaksu (3x25A) {fmt_c(comp['general_base_eur'])} €/kk (sis. ALV 25,5 %).",
+        ),
+        (
+            f"Kannattaako valita yleissiirto, yösiirto vai kausisiirto paikkakunnalla {m['name']}?",
+            f"Alle 6 000 kWh vuosikulutuksessa {comp['short_name']} Yleissiirto on usein edullisin pienen perusmaksun vuoksi. Yli 10 000 kWh sähkölämmittäjälle tai sähköautoilijalle Yösiirto ({fmt_c(comp['night_c_kwh'])} snt/kWh klo 22–07) tai Kausisiirto tuo selvää säästöä.",
         ),
         (
             f"Miten pörssisähkön kokonaishinta muodostuu paikkakunnalla {m['name']}?",
-            f"Sähkön todellinen pistorasiahinta paikkakunnalla {m['name']} on Nord Pool FI -spot-hinta + sähkömyyjän marginaali + {comp['short_name']} siirtomaksu + sähkövero ({fmt_c(ELECTRICITY_TAX_INCL_VAT)} snt/kWh sis. ALV 25,5 %). Kiinteä siirto + vero -osuus spot-hinnan päälle on yleissiirrossa {fmt_c(total_fixed)} snt/kWh ja yösiirron yötunteina {fmt_c(total_fixed_night)} snt/kWh.",
+            f"Sähkön todellinen pistorasiahinta paikkakunnalla {display_muni} on Nord Pool FI -spot-hinta + sähkömyyjän marginaali + {comp['short_name']} siirtomaksu + sähkövero ({fmt_c(ELECTRICITY_TAX_INCL_VAT)} snt/kWh sis. ALV 25,5 %). Kiinteä siirto + vero -osuus spot-hinnan päälle on yleissiirrossa {fmt_c(total_fixed)} snt/kWh ja yösiirron yötunteina {fmt_c(total_fixed_night)} snt/kWh.",
         ),
     ]
     breadcrumbs = [
@@ -766,13 +771,13 @@ def build_municipality_page(m: dict) -> str:
     faq_section_html, schema_json = render_faq_and_schema(
         muni_faqs,
         breadcrumbs,
-        f"USEIN KYSYTYT KYSYMYKSET: SÄHKÖN HINTA JA SIIRTO — {m['name'].upper()}",
+        f"USEIN KYSYTYT KYSYMYKSET: SÄHKÖSOPIMUS, HINTA JA SIIRTO — {m['name'].upper()}",
     )
 
     dashboard_html = render_interactive_dashboard_block(
         prefix="../",
-        h1_text=f"Pörssisähkö, sähkön hinta ja siirtohinta {m['name']} ({m['postal_range']})",
-        lead_text=f"Paikkakunnalla {m['name']} ({m['region']}) ensisijainen jakeluverkkoyhtiö on {comp['name']}.{alt_sentence} Yleissiirron ja sähköveron kiinteä osuus on yhteensä {fmt_c(total_fixed)} snt/kWh pörssisähkön spot-hinnan päälle.",
+        h1_text=f"Sähkösopimus, pörssisähkö ja sähkön hinta {display_muni} ({m['postal_range']})",
+        lead_text=f"Kilpailuta sähkösopimus ja tarkista pörssisähkön kokonaishinta paikkakunnalla {display_muni} ({m['region']}). Jakeluverkkoyhtiö on {comp['name']}.{alt_sentence} Yleissiirron ja sähköveron kiinteä osuus on yhteensä {fmt_c(total_fixed)} snt/kWh pörssisähkön spot-hinnan päälle.",
         default_postal=m["postal"],
     )
 
@@ -809,7 +814,7 @@ def build_municipality_page(m: dict) -> str:
             </div>
             <div class="panel-body">
                 <p style="margin-bottom:12px; font-size:13.5px; color:#3a3e38;">
-                    Postinumeroalueella {html.escape(m['postal_range'])} ({html.escape(m['name'])}) jakeluverkosta vastaa <a href="../verkkoyhtiot/{comp_slug}.html"><strong>{html.escape(comp['name'])}</strong></a>.{html.escape(alt_sentence)} Kaikki taulukon siirtohinnat sisältävät arvonlisäveron 25,5 %.
+                    Postinumeroalueella {html.escape(m['postal_range'])} ({html.escape(display_muni)}) jakeluverkosta vastaa <a href="../verkkoyhtiot/{comp_slug}.html"><strong>{html.escape(comp['name'])}</strong></a>.{html.escape(alt_sentence)} Kaikki taulukon siirtohinnat sisältävät arvonlisäveron 25,5 %.
                 </p>
                 <div class="table-wrap">
                     <table class="data-table">
@@ -827,6 +832,20 @@ def build_municipality_page(m: dict) -> str:
                         </tbody>
                     </table>
                 </div>
+            </div>
+        </section>
+
+        <section class="panel-box">
+            <div class="panel-head">
+                <h2>SÄHKÖSOPIMUS JA SÄHKÖTARJOUS {html.escape(m['name']).upper()} — PÖRSSISÄHKÖ VAI KIINTEÄ SÄHKÖSOPIMUS?</h2>
+            </div>
+            <div class="panel-body" style="font-size:13.5px; color:#3a3e38; line-height:1.65;">
+                <p style="margin-bottom:8px;">
+                    Kun vertailet uutta <strong>sähkösopimusta</strong> tai <strong>sähkötarjousta</strong> alueella {html.escape(display_muni)} ({html.escape(m['postal_range'])}), sähkölasku koostuu aina kahdesta erillisestä sopimuksesta: vapaasti kilpailutetusta sähköenergiasta (esim. pörssisähkö ~0,40–0,45 snt/kWh marginaalilla tai määräaikainen kiinteä sähkösopimus) sekä paikallisen verkkoyhtiön ({html.escape(comp['name'])}) sähkönsiirrosta ({fmt_c(comp['general_c_kwh'])} snt/kWh yleissiirto tai {fmt_c(comp['night_c_kwh'])} snt/kWh yösiirto klo 22–07).
+                </p>
+                <p>
+                    Käyttämällä yllä olevaa postinumerolaskuria ja 7 vuorokauden ennustetta näet heti, kuinka paljon pörssisähkön ja yösiirron avulla voit säästää paikkakunnalla {html.escape(m['name'])} verrattuna kiinteähintaiseen sähkötarjoukseen.
+                </p>
             </div>
         </section>
 
@@ -939,10 +958,13 @@ def main():
     with open(os.path.join(base_dir, "templates", "index.html"), "w", encoding="utf-8") as f:
         f.write(build_index_page())
 
+    os.makedirs(os.path.join(base_dir, "templates", "verkkoyhtiot"), exist_ok=True)
+    os.makedirs(os.path.join(base_dir, "templates", "paikkakunnat"), exist_ok=True)
+
     dso_pills = []
     for comp in sorted(DSO_COMPANIES.values(), key=lambda x: x["name"]):
         cslug = slugify(comp["short_name"])
-        out_path = os.path.join(base_dir, "verkkoyhtiot", f"{cslug}.html")
+        out_path = os.path.join(base_dir, "templates", "verkkoyhtiot", f"{cslug}.html")
         with open(out_path, "w", encoding="utf-8") as f:
             f.write(build_dso_page(comp))
         urls.append(f"{SITE_URL}/verkkoyhtiot/{cslug}.html")
@@ -964,7 +986,7 @@ def main():
     muni_pills = []
     for m in sorted(MUNICIPALITIES, key=lambda x: x["name"]):
         mslug = slugify(m["name"])
-        out_path = os.path.join(base_dir, "paikkakunnat", f"{mslug}.html")
+        out_path = os.path.join(base_dir, "templates", "paikkakunnat", f"{mslug}.html")
         with open(out_path, "w", encoding="utf-8") as f:
             f.write(build_municipality_page(m))
         urls.append(f"{SITE_URL}/paikkakunnat/{mslug}.html")

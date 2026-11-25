@@ -195,26 +195,26 @@
       "mainEntity": [
         {
           "@type": "Question",
-          "name": "When are tomorrow's Sverige (SE3) electricity spot prices published?",
+          "name": "Vad är spotpris el nu och när släpps morgondagens elpris timme för timme?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Day-ahead hourly prices for Sverige (SE1, SE2, SE3, SE4) on Nord Pool are published daily around 12:45 (Europe/Stockholm). Spotpuls updates automatically with both VAT-inclusive (125 %) and VAT-free prices in öre/kWh."
+            "text": "Spotpuls visar timspotpris för Sverige (SE1, SE2, SE3, SE4) från Nord Pool i öre/kWh med 125 % moms eller exkl. moms. Morgondagens priser publiceras varje dag omkring kl. 12:45 (Europe/Stockholm)."
           }
         },
         {
           "@type": "Question",
-          "name": "How does the Spotpuls 7-day electricity price forecast work for SE3?",
+          "name": "Hur räknar Spotpuls ut 7 dygns elprognos för SE1–SE4?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Spotpuls combines a dedicated SE3 Log-Merit + Hist-GBDT model with 100 m wind speed, solar radiation, temperature, and self-learning NLMS residual correction to forecast 168 hourly prices (including negative price regimes and min-max probability bands)."
+            "text": "Modellen väger in 100 m vindhastighet, solstrålning, temperatur och självlärande NLMS-kalibrering för att beräkna 168 timmars elprisprognos och intervall i öre/kWh."
           }
         },
         {
           "@type": "Question",
-          "name": "Can I fetch Sverige spot prices and 7-day forecasts via a free API?",
+          "name": "Finns det ett gratis API för timspotpris till Home Assistant och Shelly?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Yes. The open CORS-enabled endpoint https://spotpuls.app/api/v1/prices?zone=SE3&vat=1 requires no API key and outputs JSON, Home Assistant, Shelly, EVCC, Victron, CSV, iCal, Prometheus, Markdown, and live SVG badges."
+            "text": "Ja, https://spotpuls.app/api/v1/prices?zone=SE3&vat=1 är helt öppet utan API-nyckel och levererar JSON, Home Assistant, Shelly, evcc, Victron, CSV och Markdown."
           }
         }
       ]
@@ -476,20 +476,20 @@
 
             <section class="panel-box" id="faq">
                 <div class="panel-head">
-                    <h2>FAQ — Sverige (SE3)</h2>
+                    <h2>VANLIGA FRÅGOR: ELPRIS TIMME FÖR TIMME (SE3)</h2>
                 </div>
                 <div class="panel-body">
                     <details class="faq-item" open style="border-bottom:1px solid #d8d4c7; padding:10px 0;">
-                        <summary style="font-weight:700; cursor:pointer; font-size:14px;">When are tomorrow&#x27;s Sverige (SE3) electricity spot prices published?</summary>
-                        <p style="margin-top:6px; font-size:13.5px; color:#3a3e38; line-height:1.6;">Day-ahead hourly prices for Sverige (SE1, SE2, SE3, SE4) on Nord Pool are published daily around 12:45 (Europe/Stockholm). Spotpuls updates automatically with both VAT-inclusive (125 %) and VAT-free prices in öre/kWh.</p>
+                        <summary style="font-weight:700; cursor:pointer; font-size:14px;">Vad är spotpris el nu och när släpps morgondagens elpris timme för timme?</summary>
+                        <p style="margin-top:6px; font-size:13.5px; color:#3a3e38; line-height:1.6;">Spotpuls visar timspotpris för Sverige (SE1, SE2, SE3, SE4) från Nord Pool i öre/kWh med 125 % moms eller exkl. moms. Morgondagens priser publiceras varje dag omkring kl. 12:45 (Europe/Stockholm).</p>
                     </details>
                     <details class="faq-item" open style="border-bottom:1px solid #d8d4c7; padding:10px 0;">
-                        <summary style="font-weight:700; cursor:pointer; font-size:14px;">How does the Spotpuls 7-day electricity price forecast work for SE3?</summary>
-                        <p style="margin-top:6px; font-size:13.5px; color:#3a3e38; line-height:1.6;">Spotpuls combines a dedicated SE3 Log-Merit + Hist-GBDT model with 100 m wind speed, solar radiation, temperature, and self-learning NLMS residual correction to forecast 168 hourly prices (including negative price regimes and min-max probability bands).</p>
+                        <summary style="font-weight:700; cursor:pointer; font-size:14px;">Hur räknar Spotpuls ut 7 dygns elprognos för SE1–SE4?</summary>
+                        <p style="margin-top:6px; font-size:13.5px; color:#3a3e38; line-height:1.6;">Modellen väger in 100 m vindhastighet, solstrålning, temperatur och självlärande NLMS-kalibrering för att beräkna 168 timmars elprisprognos och intervall i öre/kWh.</p>
                     </details>
                     <details class="faq-item" open style="border-bottom:1px solid #d8d4c7; padding:10px 0;">
-                        <summary style="font-weight:700; cursor:pointer; font-size:14px;">Can I fetch Sverige spot prices and 7-day forecasts via a free API?</summary>
-                        <p style="margin-top:6px; font-size:13.5px; color:#3a3e38; line-height:1.6;">Yes. The open CORS-enabled endpoint https://spotpuls.app/api/v1/prices?zone=SE3&amp;vat=1 requires no API key and outputs JSON, Home Assistant, Shelly, EVCC, Victron, CSV, iCal, Prometheus, Markdown, and live SVG badges.</p>
+                        <summary style="font-weight:700; cursor:pointer; font-size:14px;">Finns det ett gratis API för timspotpris till Home Assistant och Shelly?</summary>
+                        <p style="margin-top:6px; font-size:13.5px; color:#3a3e38; line-height:1.6;">Ja, https://spotpuls.app/api/v1/prices?zone=SE3&amp;vat=1 är helt öppet utan API-nyckel och levererar JSON, Home Assistant, Shelly, evcc, Victron, CSV och Markdown.</p>
                     </details>
                 </div>
             </section>
