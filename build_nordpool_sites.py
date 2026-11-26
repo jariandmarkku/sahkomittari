@@ -301,7 +301,36 @@ def build_country_page(cid: str, loc: dict) -> str:
     api_section_html = render_open_api_section_html(cid, prefix="/")
     loc_json = json.dumps({"countryId": cid, **loc}, ensure_ascii=False)
     canonical_url = f"{SITE_URL}{loc['path']}"
-    page_title = f"{loc['brandSubtitle']} — {loc['countryName']} | Spotpuls"
+    CUSTOM_TITLES = {
+        "bg": "IBEX цени (ИБЕКС) & цена на тока ден напред – Прогноза 7 дни | Spotpuls",
+        "pt": "OMIE Spot Hoje e Preço da Eletricidade por Hora (Portugal) | Spotpuls",
+        "es": "Precio de la luz hoy hora a hora (OMIE / PVPC) y previsión 7 días | Spotpuls",
+        "ro": "Preț PZU OPCOM azi & grafic prețuri spot energie electrică | Spotpuls",
+        "nl": "Actuele stroomprijzen & EPEX spot prijzen Nederland (7d voorspelling) | Spotpuls",
+        "be": "Actuele stroomprijs België vandaag (Belpex / EPEX Spot) | Spotpuls",
+        "de": "Strompreis heute (Day-Ahead / EPEX / EEX) & 7-Tage-Prognose | Spotpuls",
+        "at": "Strompreis Österreich heute (Day-Ahead / EPEX) & 7-Tage-Prognose | Spotpuls",
+        "ch": "Strompreis Börse Schweiz heute (Spotmarkt) & 7-Tage-Prognose | Spotpuls",
+        "hr": "CROPEX cijena struje i električne energije danas (7-dnevna prognoza) | Spotpuls",
+        "si": "Cena elektrike danes (BSP SouthPool), 7-dnevna napoved & omrežnina | Spotpuls",
+        "sk": "Spotové ceny elektriny dnes (OKTE) a 7-dňová predikcia | Spotpuls",
+        "cz": "Spotová cena elektřiny dnes (Cena OTE) a 7denní predikce | Spotpuls",
+        "pl": "Cena prądu dziś (TGE / RDN / TGE100) i prognoza 7-dniowa | Spotpuls",
+        "hu": "HUPX DAM árak & órás áramár ma (7 napos előrejelzés) | Spotpuls",
+        "dk": "Elpriser time for time i dag (DK1 / DK2) & 7 dages elprognose | Spotpuls",
+        "se": "Elpris timme för timme idag (SE1–SE4) – Timspotpris & 7 dygns prognos | Spotpuls",
+        "no": "Strømpris time for time i dag (NO1–NO5) & 7-dagers strømprognose | Spotpuls",
+        "lv": "Elektrības biržas cena pa stundām šodien (Nord Pool LV) | Spotpuls",
+        "ee": "Börsielekter ja elektri börsihind täna (Nord Pool EE) | Spotpuls",
+        "lt": "Elektros kaina biržoje šiandien (Nord Pool LT) ir 7 d. prognozė | Spotpuls",
+        "gb": "Current UK Electricity Price per kWh Today & 7-Day Spot Forecast | Spotpuls",
+        "ie": "Ireland Electricity Spot Price Today (SEMOpx / IE-SEM) & 7-Day Forecast | Spotpuls",
+        "fr": "Prix électricité spot aujourd'hui (EPEX France) & prévision 7 jours | Spotpuls",
+        "it": "Prezzo zonale orario GME e PUN oggi (6 zone Italia) & previsione 7gg | Spotpuls",
+        "gr": "Τιμή kWh σήμερα (HEnEx) & ωριαία πρόβλεψη ρεύματος 7 ημερών | Spotpuls",
+        "en": "European Electricity Spot Prices Today & 7-Day Hourly Forecast (40 Zones) | Spotpuls",
+    }
+    page_title = CUSTOM_TITLES.get(cid, f"{loc['brandSubtitle']} — {loc['countryName']} | Spotpuls")
     seo_ai_tags = render_seo_ai_head_tags(page_title, loc["transferLead"], canonical_url, loc["lang"], z_code)
 
     market_links = " ".join(
@@ -858,13 +887,13 @@ def main():
     for cid, loc in MARKET_LOCALES.items():
         if cid == "fi":
             continue
-        out_dir = os.path.join(ROOT_DIR, "templates", cid)
+        out_dir = os.path.join(ROOT_DIR, cid)
         os.makedirs(out_dir, exist_ok=True)
         out_file = os.path.join(out_dir, "index.html")
         with open(out_file, "w", encoding="utf-8") as f:
             f.write(build_country_page(cid, loc))
         count += 1
-        print(f"[GENERATED] /templates/{cid}/ ({loc['lang']}) -> {loc['countryName']} | Zones: {', '.join(loc['zones'])}")
+        print(f"[GENERATED] /{cid}/ ({loc['lang']}) -> {loc['countryName']} | Zones: {', '.join(loc['zones'])}")
 
     api_docs_dir = os.path.join(ROOT_DIR, "api-docs")
     os.makedirs(api_docs_dir, exist_ok=True)

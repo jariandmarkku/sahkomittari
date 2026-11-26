@@ -44,15 +44,16 @@ def fmt_c(val: float) -> str:
     return f"{val:.2f}".replace(".", ",")
 
 
-def render_header(prefix: str = "") -> str:
+def render_header(prefix: str = "", transfer_val: float | None = None) -> str:
     zone_opts = render_zone_options_html("fi")
     lang_opts = render_language_options_html("fi")
+    transfer_txt = f"{fmt_c(transfer_val)} snt/kWh" if transfer_val is not None else "— snt/kWh"
     return f"""    <div class="telemetry-bar">
         <div class="telemetry-inner">
             <div class="telemetry-items">
                 <span class="telemetry-item"><span class="telemetry-status-dot"></span>MARKKINA-ALUE: <strong>FI (NORD POOL)</strong></span>
                 <span class="telemetry-item">SPOT NYT: <strong id="tel-spot">— snt/kWh</strong></span>
-                <span class="telemetry-item">SIIRTO + VERO: <strong id="tel-transfer">— snt/kWh</strong></span>
+                <span class="telemetry-item">SIIRTO + VERO: <strong id="tel-transfer">{transfer_txt}</strong></span>
                 <span class="telemetry-item">TUULIVOIMA: <strong id="tel-wind">— MW</strong></span>
             </div>
             <div>AIKAVYÖHYKE: EUROPE/HELSINKI (ALV 25,5 %)</div>
@@ -117,12 +118,29 @@ def render_footer(prefix: str = "") -> str:
     </footer>"""
 
 
+def render_static_24h_placeholder_rows(general_fixed: float = 6.90, night_fixed: float = 5.78) -> str:
+    rows = []
+    for hr in range(24):
+        h1 = f"{hr:02d}:00"
+        h2 = f"{(hr + 1) % 24:02d}:00"
+        is_night = hr < 7 or hr >= 22
+        period_lbl = "Yöaika (klo 22–07)" if is_night else "Päiväaika (klo 07–22)"
+        fixed_txt = f"{fmt_c(general_fixed)} snt/kWh (yösiirto {fmt_c(night_fixed)}) + spot" if is_night else f"{fmt_c(general_fixed)} snt/kWh + spot"
+        rows.append(
+            f"<tr><td>{h1} - {h2}</td><td>Nord Pool FI (live)</td><td>7 vrk malli</td><td>{fixed_txt}</td><td>{period_lbl}</td></tr>"
+        )
+    return "\n                                ".join(rows)
+
+
 def render_interactive_dashboard_block(
     prefix: str,
     h1_text: str,
     lead_text: str,
     default_postal: str = "00100",
+    general_fixed: float = 6.90,
+    night_fixed: float = 5.78,
 ) -> str:
+    placeholder_rows = render_static_24h_placeholder_rows(general_fixed, night_fixed)
     return f"""        <div class="first-screen-stage">
             <section class="hero-chart-box">
                 <div id="day-tabs" class="day-tabs"></div>
@@ -186,7 +204,7 @@ def render_interactive_dashboard_block(
                                 </tr>
                             </thead>
                             <tbody id="hourly-table-body">
-                                <tr><td colspan="5">Haetaan tuntikohtaista hintataulukkoa...</td></tr>
+                                {placeholder_rows}
                             </tbody>
                         </table>
                     </div>
@@ -648,6 +666,8 @@ def build_dso_page(comp: dict) -> str:
         h1_text=f"{comp['name']} — Siirtohinta, verkkopalvelumaksu, pörssisähkön kokonaishinta ja 7 vrk ennuste",
         lead_text=f"Toiminta-alue: {comp['region_desc']}. Hinnasto 2026: yleissiirto {fmt_c(comp['general_c_kwh'])} snt/kWh (veron kanssa {fmt_c(total_fixed_gen)} snt/kWh), yösiirto klo 22–07 {fmt_c(comp['night_c_kwh'])} snt/kWh ja talviarkipäivä {fmt_c(comp['winter_day_c_kwh'])} snt/kWh.",
         default_postal=sample_postal,
+        general_fixed=total_fixed_gen,
+        night_fixed=total_fixed_night,
     )
 
     return f"""<!DOCTYPE html>
@@ -671,7 +691,7 @@ def build_dso_page(comp: dict) -> str:
     </script>
 </head>
 <body data-preset-dso="{comp['id']}" data-preset-postal="{sample_postal}" data-preset-city="{html.escape(sample_city)}">
-{render_header("../")}
+{render_header("../", transfer_val=total_fixed_gen)}
 
     <main class="container">
 {dashboard_html}
@@ -738,11 +758,10 @@ def build_municipality_page(m: dict) -> str:
     total_fixed = comp["general_c_kwh"] + ELECTRICITY_TAX_INCL_VAT
     total_fixed_night = comp["night_c_kwh"] + ELECTRICITY_TAX_INCL_VAT
 
-    page_title = f"Sähkösopimus & sähkön hinta {m['name']} ({m['postal']}) – Pörssisähkö & siirto | Spotpuls"
+    page_title = f"Pörssisähkö, sähkön hinta & siirtohinta {m['name']} ({m['postal']}) | Spotpuls"
     page_desc = (
-        f"Kilpailuta sähkösopimus ja tarkista sähkön hinta, sähkötarjous ja pörssisähkö paikkakunnalla {display_muni} ({m['postal_range']}). "
-        f"Verkkoyhtiö: {comp['name']}, siirtohinta {fmt_c(comp['general_c_kwh'])} snt/kWh + sähkövero "
-        f"{fmt_c(ELECTRICITY_TAX_INCL_VAT)} snt/kWh (yht. {fmt_c(total_fixed)} snt/kWh)."
+        f"Pörssisähkö, sähkön hinta, siirtohinta ({comp['name']} {fmt_c(comp['general_c_kwh'])} snt/kWh + sähkövero {fmt_c(ELECTRICITY_TAX_INCL_VAT)} snt/kWh) "
+        f"ja sähkösopimus paikkakunnalla {display_muni} ({m['postal_range']}). Katso tuntihinnat ja 7 vrk ennuste."
     )
 
     muni_faqs = [
@@ -776,9 +795,11 @@ def build_municipality_page(m: dict) -> str:
 
     dashboard_html = render_interactive_dashboard_block(
         prefix="../",
-        h1_text=f"Sähkösopimus, pörssisähkö ja sähkön hinta {display_muni} ({m['postal_range']})",
+        h1_text=f"Pörssisähkö, sähkön hinta ja siirtohinta {display_muni} ({m['postal_range']})",
         lead_text=f"Kilpailuta sähkösopimus ja tarkista pörssisähkön kokonaishinta paikkakunnalla {display_muni} ({m['region']}). Jakeluverkkoyhtiö on {comp['name']}.{alt_sentence} Yleissiirron ja sähköveron kiinteä osuus on yhteensä {fmt_c(total_fixed)} snt/kWh pörssisähkön spot-hinnan päälle.",
         default_postal=m["postal"],
+        general_fixed=total_fixed,
+        night_fixed=total_fixed_night,
     )
 
     return f"""<!DOCTYPE html>
@@ -802,7 +823,7 @@ def build_municipality_page(m: dict) -> str:
     </script>
 </head>
 <body data-preset-dso="{comp['id']}" data-preset-postal="{m['postal']}" data-preset-city="{html.escape(m['name'])}">
-{render_header("../")}
+{render_header("../", transfer_val=total_fixed)}
 
     <main class="container">
 {dashboard_html}
@@ -954,17 +975,13 @@ def main():
 
     urls = [f"{SITE_URL}/"]
 
-    os.makedirs(os.path.join(base_dir, "templates"), exist_ok=True)
-    with open(os.path.join(base_dir, "templates", "index.html"), "w", encoding="utf-8") as f:
+    with open(os.path.join(base_dir, "index.html"), "w", encoding="utf-8") as f:
         f.write(build_index_page())
-
-    os.makedirs(os.path.join(base_dir, "templates", "verkkoyhtiot"), exist_ok=True)
-    os.makedirs(os.path.join(base_dir, "templates", "paikkakunnat"), exist_ok=True)
 
     dso_pills = []
     for comp in sorted(DSO_COMPANIES.values(), key=lambda x: x["name"]):
         cslug = slugify(comp["short_name"])
-        out_path = os.path.join(base_dir, "templates", "verkkoyhtiot", f"{cslug}.html")
+        out_path = os.path.join(base_dir, "verkkoyhtiot", f"{cslug}.html")
         with open(out_path, "w", encoding="utf-8") as f:
             f.write(build_dso_page(comp))
         urls.append(f"{SITE_URL}/verkkoyhtiot/{cslug}.html")
@@ -986,7 +1003,7 @@ def main():
     muni_pills = []
     for m in sorted(MUNICIPALITIES, key=lambda x: x["name"]):
         mslug = slugify(m["name"])
-        out_path = os.path.join(base_dir, "templates", "paikkakunnat", f"{mslug}.html")
+        out_path = os.path.join(base_dir, "paikkakunnat", f"{mslug}.html")
         with open(out_path, "w", encoding="utf-8") as f:
             f.write(build_municipality_page(m))
         urls.append(f"{SITE_URL}/paikkakunnat/{mslug}.html")
