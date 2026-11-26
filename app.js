@@ -4293,5 +4293,177 @@
                 }
             }
         });
+
+        // PWA Service Worker + Mobile App & Home-Screen Widget Modal
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js').catch(() => {});
+        }
+
+        let deferredInstallPrompt = null;
+        window.addEventListener('beforeinstallprompt', function (e) {
+            e.preventDefault();
+            deferredInstallPrompt = e;
+        });
+
+        (function initMobileAppAndWidgetUi() {
+            const controlsEl = document.querySelector('.header-market-controls');
+            if (!controlsEl || document.getElementById('open-app-widget-modal-btn')) return;
+
+            const isFi = COUNTRY_ID === 'fi';
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.id = 'open-app-widget-modal-btn';
+            btn.className = 'header-select';
+            btn.textContent = isFi ? 'Sovellus & Widget' : 'App & Widget';
+            btn.style.cssText = 'cursor:pointer; border-color:#ffd000; color:#ffd000; font-weight:700; white-space:nowrap;';
+            controlsEl.appendChild(btn);
+
+            const modal = document.createElement('div');
+            modal.id = 'spotpuls-app-widget-modal';
+            modal.setAttribute('role', 'dialog');
+            modal.setAttribute('aria-modal', 'true');
+            modal.style.cssText = 'display:none; position:fixed; inset:0; z-index:9999; background:rgba(17,18,16,0.78); padding:16px; overflow-y:auto; align-items:center; justify-content:center;';
+            document.body.appendChild(modal);
+
+            function buildScriptableCode(zone) {
+                return `const ZONE = "${zone}";
+const API_URL = "https://spotpuls.app/api/v1/shelly/" + encodeURIComponent(ZONE) + ".json?vat=1";
+const w = new ListWidget();
+w.backgroundColor = new Color("#111210");
+w.setPadding(12, 14, 12, 14);
+w.url = "https://spotpuls.app/?zone=" + encodeURIComponent(ZONE);
+const req = new Request(API_URL);
+const d = await req.loadJSON();
+const c = (l) => l === "cheap" ? new Color("#2ecc71") : l === "high" ? new Color("#ff5722") : new Color("#6ea8fe");
+const f = (v) => v == null ? "—" : Number(v).toFixed(2).replace(".", ",");
+const p = (n) => n == null ? "--" : String(n).padStart(2, "0");
+const hdr = w.addStack();
+const t = hdr.addText("SPOTPULS · " + (d.z || ZONE));
+t.font = Font.boldMonospacedSystemFont(11); t.textColor = new Color("#ffd000");
+w.addSpacer(8);
+const row = w.addStack();
+const s1 = row.addStack(); s1.layoutVertically();
+s1.addText("NYT " + p(d.curHr) + ":00").textColor = new Color("#a5a89e");
+const v1 = s1.addText(f(d.now)); v1.font = Font.boldMonospacedSystemFont(22); v1.textColor = c(d.lvl);
+row.addSpacer();
+const s2 = row.addStack(); s2.layoutVertically();
+s2.addText("SEUR. " + p(d.nextHr) + ":00").textColor = new Color("#a5a89e");
+const v2 = s2.addText(f(d.next)); v2.font = Font.boldMonospacedSystemFont(22); v2.textColor = c(d.nextLvl);
+w.addSpacer(6);
+const ft = w.addText(d.u + " · 24h " + f(d.min24) + "–" + f(d.max24));
+ft.font = Font.monospacedSystemFont(9); ft.textColor = new Color("#a5a89e");
+w.refreshAfterDate = new Date(Math.floor(Date.now() / 3600000) * 3600000 + 3610000);
+if (config.runsInWidget) Script.setWidget(w); else await w.presentSmall();
+Script.complete();`;
+            }
+
+            function renderModal() {
+                const nowMs = Math.floor(Date.now() / 3600000) * 3600000;
+                const curSlot = (state.series || []).find(s => s.epochMs === nowMs) || (state.series && state.series[0]) || null;
+                const nxtSlot = (state.series || []).find(s => s.epochMs === nowMs + 3600000) || (state.series && state.series[1]) || null;
+                const curBr = curSlot ? calculateHourBreakdown(curSlot) : null;
+                const nxtBr = nxtSlot ? calculateHourBreakdown(nxtSlot) : null;
+                const curHr = curSlot ? `${String(curSlot.hour).padStart(2, '0')}:00` : '--:00';
+                const nxtHr = nxtSlot ? `${String(nxtSlot.hour).padStart(2, '0')}:00` : '--:00';
+                const curVal = curBr ? `${formatNum(curBr.spotCents, 2)}` : '—';
+                const nxtVal = nxtBr ? `${formatNum(nxtBr.spotCents, 2)}` : '—';
+                const z = state.activeZone || 'FI';
+                const widgetUrl = `https://spotpuls.app/api/v1/widget/${encodeURIComponent(z)}?theme=dark`;
+                const shellyUrl = `https://spotpuls.app/api/v1/shelly/${encodeURIComponent(z)}.json?vat=1`;
+                const canPrompt = Boolean(deferredInstallPrompt);
+
+                modal.innerHTML = `
+                    <div style="background:#f6f7f3; color:#111210; border:2px solid #111210; max-width:560px; width:100%; margin:auto; padding:18px; box-shadow:6px 6px 0 #111210;">
+                        <div style="display:flex; justify-content:space-between; align-items:center; gap:10px; border-bottom:2px solid #111210; padding-bottom:10px; margin-bottom:14px;">
+                            <strong style="font-family:var(--mono); font-size:14px; text-transform:uppercase;">${isFi ? 'Spotpuls Puhelinsovellus & Aloitusnäytön Widget' : 'Spotpuls Phone App & Home Screen Widget'}</strong>
+                            <button type="button" id="close-app-widget-modal" style="background:#111210; color:#fff; border:none; padding:4px 10px; font-family:var(--mono); cursor:pointer; font-weight:700;">X</button>
+                        </div>
+
+                        <div style="background:#111210; color:#f6f7f3; padding:14px; border:2px solid #111210; margin-bottom:14px; font-family:var(--mono);">
+                            <div style="display:flex; justify-content:space-between; font-size:11px; color:#ffd000; font-weight:700; margin-bottom:10px;">
+                                <span>SPOTPULS · ${z}</span>
+                                <span style="color:#a5a89e;">${isFi ? 'WIDGET-ESIKATSELU' : 'WIDGET PREVIEW'}</span>
+                            </div>
+                            <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+                                <div style="border:1px solid #32352f; border-top:3px solid #2ecc71; padding:8px 10px;">
+                                    <div style="font-size:10px; color:#a5a89e;">${isFi ? 'NYT' : 'NOW'} · ${curHr}</div>
+                                    <div style="font-size:22px; font-weight:700; color:#f6f7f3; margin-top:2px;">${curVal} <span style="font-size:11px; color:#a5a89e;">${UNIT_LABEL}</span></div>
+                                </div>
+                                <div style="border:1px solid #32352f; border-top:3px solid #ffd000; padding:8px 10px;">
+                                    <div style="font-size:10px; color:#a5a89e;">${isFi ? 'SEURAAVA' : 'NEXT'} · ${nxtHr}</div>
+                                    <div style="font-size:22px; font-weight:700; color:#f6f7f3; margin-top:2px;">${nxtVal} <span style="font-size:11px; color:#a5a89e;">${UNIT_LABEL}</span></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="margin-bottom:14px; padding:10px 12px; border:1px solid #111210; background:#fff;">
+                            <div style="font-weight:700; font-size:13px; margin-bottom:6px;">1. ${isFi ? 'Asenna Spotpuls puhelinsovellukseksi (PWA)' : 'Install Spotpuls as a Phone App (PWA)'}</div>
+                            <button type="button" id="pwa-install-trigger-btn" class="btn-primary" style="width:100%; margin-bottom:6px;">${canPrompt ? (isFi ? 'Asenna Spotpuls puhelimeen nyt' : 'Install Spotpuls App Now') : (isFi ? 'Asennusohje puhelimelle' : 'Show Phone Install Steps')}</button>
+                            <div id="pwa-install-hint" style="font-size:12px; color:#3a3e38; line-height:1.5;">
+                                ${isFi ? 'Android (Chrome): valikko ⋮ → <strong>Asenna sovellus</strong> · iPhone (Safari): Jaa-nappi → <strong>Lisää Koti-valikkoon</strong>.' : 'Android (Chrome): Menu ⋮ → <strong>Install app</strong> · iPhone (Safari): Share → <strong>Add to Home Screen</strong>.'}
+                            </div>
+                        </div>
+
+                        <div style="margin-bottom:12px; padding:10px 12px; border:1px solid #111210; background:#fff;">
+                            <div style="font-weight:700; font-size:13px; margin-bottom:6px;">2. ${isFi ? 'Aloitusnäytön Widget: iPhone (iOS Scriptable)' : 'Home Screen Widget: iPhone (iOS Scriptable)'}</div>
+                            <p style="font-size:12px; color:#3a3e38; margin-bottom:8px;">${isFi ? 'Asenna maksuton Scriptable-sovellus App Storesta, liitä skripti ja lisää keskikokoinen/pieni widget aloitusruutuun — näyttää tämän ja seuraavan tunnin hinnan.' : 'Install the free Scriptable app from App Store, paste this script, and add a home screen widget showing current + next hour.'}</p>
+                            <button type="button" id="copy-ios-widget-btn" class="api-copy-btn" style="padding:6px 10px;">${isFi ? 'Kopioi iOS Widget -skripti' : 'Copy iOS Widget Script'}</button>
+                        </div>
+
+                        <div style="padding:10px 12px; border:1px solid #111210; background:#fff;">
+                            <div style="font-weight:700; font-size:13px; margin-bottom:6px;">3. ${isFi ? 'Aloitusnäytön Widget: Android' : 'Home Screen Widget: Android'}</div>
+                            <p style="font-size:12px; color:#3a3e38; margin-bottom:8px;">${isFi ? 'Käytä live-widgettiä suoraan (esim. KWGT / Web Widget / HTTP Shortcuts JSON) tai käännä natiivi Android-sovellus (android-app/).' : 'Use the live dual-hour widget URL (KWGT / Web Widget) or build the native Android app & AppWidget project (android-app/).'}</p>
+                            <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:6px;">
+                                <button type="button" id="copy-android-widget-url" class="api-copy-btn" style="padding:6px 10px;">${isFi ? 'Kopioi Widget URL' : 'Copy Widget URL'}</button>
+                                <button type="button" id="copy-android-json-url" class="api-copy-btn" style="padding:6px 10px;">${isFi ? 'Kopioi JSON API (now + next)' : 'Copy JSON API (now + next)'}</button>
+                                <a href="${widgetUrl}" target="_blank" rel="noopener" style="font-family:var(--mono); font-size:11.5px; align-self:center; font-weight:700;">${isFi ? 'Avaa live-widget →' : 'Open Live Widget →'}</a>
+                            </div>
+                            <code style="display:block; font-size:10.5px; word-break:break-all; color:#4a4f4a;">${shellyUrl}</code>
+                        </div>
+                    </div>
+                `;
+
+                document.getElementById('close-app-widget-modal').addEventListener('click', () => { modal.style.display = 'none'; });
+                document.getElementById('pwa-install-trigger-btn').addEventListener('click', async () => {
+                    if (deferredInstallPrompt) {
+                        deferredInstallPrompt.prompt();
+                        await deferredInstallPrompt.userChoice.catch(() => {});
+                        deferredInstallPrompt = null;
+                    } else {
+                        const hEl = document.getElementById('pwa-install-hint');
+                        if (hEl) hEl.style.background = '#fff3b0';
+                    }
+                });
+                document.getElementById('copy-ios-widget-btn').addEventListener('click', function () {
+                    if (navigator.clipboard) {
+                        navigator.clipboard.writeText(buildScriptableCode(z)).then(() => {
+                            this.textContent = isFi ? 'Kopioitu leikepöydälle!' : 'Copied!';
+                        });
+                    }
+                });
+                document.getElementById('copy-android-widget-url').addEventListener('click', function () {
+                    if (navigator.clipboard) {
+                        navigator.clipboard.writeText(widgetUrl).then(() => {
+                            this.textContent = isFi ? 'Widget URL kopioitu!' : 'Copied!';
+                        });
+                    }
+                });
+                document.getElementById('copy-android-json-url').addEventListener('click', function () {
+                    if (navigator.clipboard) {
+                        navigator.clipboard.writeText(shellyUrl).then(() => {
+                            this.textContent = isFi ? 'JSON URL kopioitu!' : 'Copied!';
+                        });
+                    }
+                });
+            }
+
+            btn.addEventListener('click', function () {
+                renderModal();
+                modal.style.display = 'flex';
+            });
+            modal.addEventListener('click', function (e) {
+                if (e.target === modal) modal.style.display = 'none';
+            });
+        })();
     });
 })();

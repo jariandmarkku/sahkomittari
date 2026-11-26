@@ -1,11 +1,15 @@
 {
+  "id": "/",
   "name": "Spotpuls — Spot Electricity & 7-Day Forecast",
   "short_name": "Spotpuls",
   "description": "Real-time day-ahead electricity spot prices, self-learning 7-day regional hourly forecasts across 40 European bidding zones, grid tariff calculator & open REST API (spotpuls.app).",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
+  "orientation": "portrait-primary",
   "background_color": "#f5f3ec",
   "theme_color": "#111210",
+  "categories": ["utilities", "finance"],
   "icons": [
     {
       "src": "/favicon.svg",
@@ -16,12 +20,31 @@
     {
       "src": "/icon-192.png",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any"
     },
     {
       "src": "/icon-512.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Spot-kaavio nyt",
+      "short_name": "Spot nyt",
+      "url": "/"
+    },
+    {
+      "name": "Siirtohintalaskuri",
+      "short_name": "Siirtohinta",
+      "url": "/#siirtohintalaskuri"
+    },
+    {
+      "name": "Kuorman ajoitus (36 h)",
+      "short_name": "Ajoitus",
+      "url": "/#optimoija"
     }
   ]
 }

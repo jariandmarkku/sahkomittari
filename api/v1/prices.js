@@ -1348,6 +1348,7 @@ export async function buildSpotpulsZoneResponse(query = {}) {
     };
 
     const currentSlot = series.find(s => s.epochMs === nowHourMs) || series[0] || null;
+    const nextSlot = series.find(s => s.epochMs === nowHourMs + 3600000) || series[1] || null;
     const dashboardPath = mkt.path || '/en/';
     const dashboardUrl = `${SITE_URL}${dashboardPath}${mkt.zones && Object.keys(mkt.zones).length > 1 ? `?zone=${encodeURIComponent(zoneCode)}` : ''}`;
 
@@ -1365,6 +1366,7 @@ export async function buildSpotpulsZoneResponse(query = {}) {
         dashboardUrl,
         nowHourMs,
         currentSlot,
+        nextSlot,
         summary,
         automation,
         todaySlots,
@@ -1406,6 +1408,7 @@ export async function buildSpotpulsZoneResponse(query = {}) {
             },
             current: currentSlot,
             currentHour: currentSlot,
+            nextHour: nextSlot,
             summary,
             automation,
             series
@@ -1558,7 +1561,17 @@ function buildEmbedWidgetHtml(result, theme = 'light') {
         }
     });
 
-    const curPrice = result.currentSlot ? result.currentSlot.spotPrice : '—';
+    const cur = result.currentSlot;
+    const nxt = result.nextSlot;
+    const curPrice = cur ? cur.spotPrice : '—';
+    const nxtPrice = nxt ? nxt.spotPrice : '—';
+    const levelColor = (lvl) => (lvl === 'cheap' ? '#009e3d' : (lvl === 'high' ? '#ff3b00' : '#0038ff'));
+    const curColor = levelColor(cur?.level);
+    const nxtColor = levelColor(nxt?.level);
+    const curHrLbl = cur ? `${String(cur.hour).padStart(2, '0')}:00–${String((cur.hour + 1) % 24).padStart(2, '0')}:00` : 'NOW';
+    const nxtHrLbl = nxt ? `${String(nxt.hour).padStart(2, '0')}:00–${String((nxt.hour + 1) % 24).padStart(2, '0')}:00` : 'NEXT';
+    const deltaVal = (cur && nxt) ? Number((nxt.spotPrice - cur.spotPrice).toFixed(2)) : null;
+    const deltaStr = deltaVal !== null ? `${deltaVal > 0 ? '+' : ''}${deltaVal.toFixed(2)} ${result.unitLabel}` : '';
     const wInfo = result.automation.cheapestContiguousWindow;
     const winTxt = wInfo
         ? `${new Date(wInfo.startEpochMs).toISOString().slice(11, 16)}–${new Date(wInfo.endEpochMs).toISOString().slice(11, 16)} UTC (${wInfo.avgSpotPrice} ${result.unitLabel})`
@@ -1569,15 +1582,21 @@ function buildEmbedWidgetHtml(result, theme = 'light') {
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="refresh" content="900">
 <title>Spotpuls ${result.zoneCode} Live Spot Widget</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:${bg};color:${fg};font-family:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,monospace;padding:10px}
 .card{border:1.5px solid ${border};padding:10px 12px;background:${bg}}
-.top{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:6px}
+.top{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:8px}
 .zone{font-size:11px;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;color:${muted}}
-.now{font-size:20px;font-weight:700}
-.unit{font-size:11px;font-weight:600;color:${muted}}
+.dual{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}
+.hbox{border:1px solid ${grid};padding:7px 9px;border-top:3px solid ${curColor}}
+.hbox.next{border-top-color:${nxtColor}}
+.hlbl{font-size:9.5px;font-weight:700;text-transform:uppercase;color:${muted};letter-spacing:0.04em}
+.now{font-size:20px;font-weight:700;line-height:1.15;margin-top:2px}
+.unit{font-size:10.5px;font-weight:600;color:${muted}}
+.delta{font-size:10px;color:${muted};margin-top:2px}
 .meta{display:flex;justify-content:space-between;align-items:center;font-size:10.5px;color:${muted};margin-top:6px;padding-top:6px;border-top:1px solid ${grid}}
 a{color:${fg};text-decoration:none;font-weight:700;border-bottom:1.5px solid #ffd000}
 </style>
@@ -1585,13 +1604,18 @@ a{color:${fg};text-decoration:none;font-weight:700;border-bottom:1.5px solid #ff
 <body>
 <div class="card">
   <div class="top">
-    <div>
-      <div class="zone">SPOTPULS · ${result.zoneCode} (${result.zcfg.exchange || 'DAY-AHEAD'})</div>
+    <div class="zone">SPOTPULS · ${result.zoneCode} (${result.zcfg.exchange || 'DAY-AHEAD'})</div>
+    <div style="font-size:10.5px;color:${muted}">24h: <strong style="color:${fg}">${result.summary.next24hMin ?? '—'}</strong> – <strong style="color:${fg}">${result.summary.next24hMax ?? '—'}</strong></div>
+  </div>
+  <div class="dual">
+    <div class="hbox">
+      <div class="hlbl">NOW · ${curHrLbl}</div>
       <div class="now">${curPrice} <span class="unit">${result.unitLabel}</span></div>
     </div>
-    <div style="text-align:right;font-size:10.5px;color:${muted}">
-      <div>Min 24h: <strong style="color:${fg}">${result.summary.next24hMin ?? '—'}</strong></div>
-      <div>Max 24h: <strong style="color:${fg}">${result.summary.next24hMax ?? '—'}</strong></div>
+    <div class="hbox next">
+      <div class="hlbl">NEXT · ${nxtHrLbl}</div>
+      <div class="now">${nxtPrice} <span class="unit">${result.unitLabel}</span></div>
+      ${deltaStr ? `<div class="delta">&Delta; ${deltaStr}</div>` : ''}
     </div>
   </div>
   <svg viewBox="0 0 ${W} ${H}" width="100%" height="${H}" xmlns="http://www.w3.org/2000/svg" style="display:block">${rects}</svg>
@@ -1652,16 +1676,23 @@ export default async function handler(req, res) {
         // 1. Ultra-compact payload (<500 B) for Shelly Gen2/Gen3, ESPHome, ESP32, Arduino, Tasmota, PLC
         if (fmt === 'compact' || fmt === 'shelly' || fmt === 'esp' || fmt === 'iot') {
             const cur = result.currentSlot;
+            const nxt = result.nextSlot;
             const cw = result.automation.cheapestContiguousWindow;
             const compactPayload = {
                 z: result.zoneCode,
                 u: result.unitLabel,
                 t: Math.floor(result.nowHourMs / 1000),
+                curHr: cur ? cur.hour : null,
                 now: cur ? cur.spotPrice : null,
                 tot: cur ? cur.totalPrice : null,
                 lvl: cur ? cur.level : 'normal',
                 rk: cur ? cur.rank24h : null,
                 fc: cur && cur.isForecast ? 1 : 0,
+                nextHr: nxt ? nxt.hour : null,
+                next: nxt ? nxt.spotPrice : null,
+                nextTot: nxt ? nxt.totalPrice : null,
+                nextLvl: nxt ? nxt.level : 'normal',
+                nextFc: nxt && nxt.isForecast ? 1 : 0,
                 runContig: cw?.activeNow ? 1 : 0,
                 runCheap: result.automation.cheapestHours?.activeNow ? 1 : 0,
                 avoidPeak: result.automation.peakAvoidWindow?.activeNow ? 1 : 0,
@@ -1701,6 +1732,9 @@ export default async function handler(req, res) {
                 ai_summary: result.aiSummary || '',
                 is_forecast: cur ? cur.isForecast : false,
                 price_level: cur ? cur.level : 'normal',
+                next_hour_spot: result.nextSlot ? result.nextSlot.spotPrice : null,
+                next_hour_total: result.nextSlot ? result.nextSlot.totalPrice : null,
+                next_hour_level: result.nextSlot ? result.nextSlot.level : 'normal',
                 rank_24h: cur ? cur.rank24h : null,
                 run_contiguous_now: Boolean(cw?.activeNow),
                 run_cheapest_now: Boolean(result.automation.cheapestHours?.activeNow),
@@ -1823,6 +1857,8 @@ export default async function handler(req, res) {
             const cur = result.currentSlot;
             let outVal = '';
             if (field === 'total') outVal = cur ? String(cur.totalPrice) : '';
+            else if (field === 'next') outVal = result.nextSlot ? String(result.nextSlot.spotPrice) : '';
+            else if (field === 'next_total') outVal = result.nextSlot ? String(result.nextSlot.totalPrice) : '';
             else if (field === 'level') outVal = cur ? String(cur.level) : '';
             else if (field === 'rank') outVal = cur && cur.rank24h ? String(cur.rank24h) : '';
             else if (field === 'run_now' || field === 'run_contiguous') outVal = result.automation.cheapestContiguousWindow?.activeNow ? '1' : '0';
